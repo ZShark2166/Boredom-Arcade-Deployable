@@ -22,19 +22,21 @@ Boredom Arcade is the best proxy out there right now!
 ## Installation
 To run Boredom Arcade locally, follow these steps:
 
-1. Clone the repository:
+1. Open CMD:
+    Navigate to your search bar on your computer, and type in CMD, then click enter.
+2. Clone the repository:
     ```sh
     git clone https://github.com/yourusername/Boredom-Arcade-Deployable.git
     ```
-2. Navigate to the project directory:
+3. Navigate to the project directory:
     ```sh
     cd Boredom-Arcade-Deployable
     ```
-3. Install the dependencies:
+4. Install the dependencies:
     ```sh
     npm install
     ```
-4. Start the development server:
+5. Start the development server:
     ```sh
     npm start
     ```
