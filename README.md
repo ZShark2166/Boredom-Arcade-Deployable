@@ -3,7 +3,6 @@
 Welcome to Boredom Arcade, your go-to website for unblocked games!
 
 ## Deployment
-# Boredom Arcade
 
 [![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?type=git&repository=https://github.com/ZShark2166/Boredom-Arcade-Deployable&branch=main&name=Boredom-Arcade)
 
