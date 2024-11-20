@@ -6,7 +6,7 @@ import express from "express";
 
 const bareServer = createBareServer("/bare/");
 const app = express();
-const PORT = 8080;
+const PORT = 8000;
 
 const __dirname = process.cwd();
 const staticPath = path.join(__dirname, "build");
