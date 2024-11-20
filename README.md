@@ -28,6 +28,7 @@ To run Boredom Arcade locally, follow these steps:
 
 1. Open CMD:
     Navigate to your search bar on your computer, and type in CMD, then click enter.
+    
 2. Clone the repository:
     ```sh
     git clone https://github.com/yourusername/Boredom-Arcade-Deployable.git
@@ -46,7 +47,7 @@ To run Boredom Arcade locally, follow these steps:
     ```
 
 ## Usage
-Open your web browser and go to `http://localhost:8080` to start playing the games. Enjoy and have fun!
+Open your web browser and go to `http://localhost:8000` (or whatever port you used) to start playing the games. Enjoy and have fun!
 
 ## Contributing
 We welcome contributions from the community. If you'd like to contribute, please fork the repository and create a pull request with your changes. Make sure to follow the coding standards and include tests for any new features.
