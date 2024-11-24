@@ -86,7 +86,7 @@ const quotes = [
     "$hit can't go down if there isn't any $hit to go down. - Zeeless",
     "Told her if i die ima die....young. - Hush",
     'When life gives you "this page is blocked", make an unblocked site. - ab.yz',
-    "Lock every door, bar every window - there is always other ways in. - Ben_Da_Builder"
+    "Lock every door, bar every window - there is always other ways in - Ben_Da_Builder"
 ]
 function displayRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
