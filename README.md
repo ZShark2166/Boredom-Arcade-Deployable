@@ -4,7 +4,7 @@ Welcome to Boredom Arcade, your go-to website for unblocked games!
 
 ## Deployment
 
-[[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=boredomarcades&repository=ZShark2166%2FBoredom-Arcade-Deployable&branch=main&build_command=npm+install&run_command=npm+start&instance_type=free)]
+[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=boredomarcades&repository=ZShark2166%2FBoredom-Arcade-Deployable&branch=main&build_command=npm+install&run_command=npm+start&instance_type=free)
 
 
 ## Table of Contents
