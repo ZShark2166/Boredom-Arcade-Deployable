@@ -87,7 +87,8 @@ const quotes = [
     "Told her if i die ima die....young. - Hush",
     'When life gives you "this page is blocked", make an unblocked site. - ab.yz',
     "Lock every door, bar every window - there is always other ways in - Ben_Da_Builder",
-"If you can't walk in a straight line, you're probably gay. - Brock"
+"If you can't walk in a straight line, you're probably gay. - Brock",
+"Big words are inconsequential. - Zeeless"
 ]
 function displayRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -96,5 +97,3 @@ function displayRandomQuote() {
 document.querySelectorAll('.item').forEach((item, index) => {
     item.style.setProperty('--index', index);
 });
-
-
