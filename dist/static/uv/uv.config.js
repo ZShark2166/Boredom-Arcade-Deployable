@@ -1,6 +1,6 @@
 self.__uv$config = {
     prefix: '/static/Bored/',
-    bare:'/bare/',
+    bare:'https://bare.benrogo.net/',
     encodeUrl: Ultraviolet.codec.xor.encode,
     decodeUrl: Ultraviolet.codec.xor.decode,
     handler: '/static/uv/uv.handler.js',
@@ -8,3 +8,4 @@ self.__uv$config = {
     config: '/static/uv/uv.config.js',
     sw: '/static/uv/uv.sw.js',
 };
+// BEN AURAAAA

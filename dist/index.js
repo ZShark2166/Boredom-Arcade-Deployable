@@ -97,3 +97,5 @@ function displayRandomQuote() {
 document.querySelectorAll('.item').forEach((item, index) => {
     item.style.setProperty('--index', index);
 });
+
+
