@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boredom V1</title>
-    <meta name="title" content="Boredom V1">
+    <title>Boredom V2 - The best unblocked games for school students!</title>
+    <meta name="title" content="Boredom V1 - The best unblocked games for school students!">
     <meta name="og:title" content="Boredom V1">
-    <meta name="description" content="Free Unblocked Games for all bored in school!">
+    <meta name="description" content="Play the Best Free Unblocked Games Online - Perfect for School Students!">
     <meta name="og:description" content="Free Unblocked Games for all bored in school!">
-    <link rel="favicon" href="/favicon.ico">
-    <link rel="stylesheet" href="/style.css">
+    <script src="/settings/theme.js"></script>
+    <link rel="stylesheet" href="reading.css">
+    <link rel="stylesheet" href="/index.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2779999647710891"
         crossorigin="anonymous"></script>
     <!-- Google tag (gtag.js) -->
@@ -22,71 +23,41 @@
 
         gtag('config', 'G-XED28RN3H2');
     </script>
+    <script src="reading.js"></script>
 </head>
 
-<body>
-
-    
-    <body onload="displayRandomQuote()">
-        <header class="navbar">
-            <div class="container">
-                <a href="/">
-                    <div class="logo">Boredom Exploration</div>
-                </a>
-                <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-                <ul class="nav-links">
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/math.html">Games</a></li>
-                    <li><a href="/about.html">About</a></li>
-                    <li><a href="/contact.html">Contact</a></li>
-                    <li><a href="/privacypolicy.html">Privacy Policy</a></li>
-                </ul>
-            </div>
-        </header>
-
-        <div class="stars"></div> <!-- Stars div for background -->
-        <div class="shooting-stars"></div> <!-- Shooting stars div -->
-        <!-- Left Ad Container -->
-        <div class="ad-container left-ad">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2779999647710891"
-                crossorigin="anonymous"></script>
-            <!-- Games Sides -->
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2779999647710891" data-ad-slot="1031347425"
-                data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+<body onload="displayRandomQuote()">
+    <nav class="navbar">
+        <a href="/" class="nav-brand">Boredom V2</a>
+        <div class="nav-links">
+            <a href="/" class="search-link">Search</a>
+            <a href="/games">Games</a>
+            <a href="/chat">Chat</a>
+            <a href="/settings" class="settings-link">Settings</a>
         </div>
-        
-        <!-- Right Ad Container -->
-        <div class="ad-container right-ad">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2779999647710891"
-                crossorigin="anonymous"></script>
-            <!-- Games Sides -->
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2779999647710891" data-ad-slot="1031347425"
-                data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-        
-        <div class="content-wrapper">
-            <div class="proxy">
-                <iframe id="proxyIframe" width="100%" height="600px" frameborder="0"></iframe>
-            </div>
-        </div>
-        <div class="game-bar">
-            <button onclick="toggleFullscreenPRX()">Fullscreen</button>
-            <button onclick="refreshIframePRX()">Refresh</button>
-            <button onclick="goBack()">Back</button>
-            <button onclick="goForward()">Forward</button>
+    </nav>
 
+    <div class="stars"></div> <!-- Stars div for background -->
+    <div class="shooting-stars"></div> <!-- Shooting stars div -->
+
+    <div class="content-wrapper">
+        <div class="proxy">
+            <iframe id="proxyIframe" width="100%" height="600px" frameborder="0"></iframe>
         </div>
+    </div>
+    <div class="game-bar">
+        <button class="universal-button" onclick="toggleFullscreenPRX()">Fullscreen</button>
+        <button class="universal-button" onclick="refreshIframePRX()">Refresh</button>
+        <button class="universal-button" onclick="goBack()">Back</button>
+        <button class="universal-button" onclick="goForward()">Forward</button>
+    </div>
 
-        <script src="/index.js"></script>
-        <script src="/stars.js"></script>
-        <script src="/gameloaders/options.js"></script>
-
+    <script src="static/uv/uv.bundle.js"></script>
+    <script src="static/uv/uv.config.js"></script>
+    <script src="static/register-sw.js"></script>
+    <script src="/index.js"></script>
+    <script src="/stars.js"></script>
+    <script src="/gameloaders/options.js"></script>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);

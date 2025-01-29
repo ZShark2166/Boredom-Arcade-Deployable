@@ -1,0 +1,109 @@
+.content-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 20px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 3;
+}
+
+.priv-main-content {
+    background: var(--secondary-bg-color);
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 204, 255, 0.1);
+    box-shadow: 0 0 30px rgba(255, 204, 255, 0.1);
+    margin: 40px auto 0;
+    width: 100%;
+    text-align: left;
+    height: 50vh;
+    overflow-y: auto;
+}
+
+.priv-main-content h1 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    font-size: 2.2rem;
+    text-shadow: 0 0 15px var(--accent-color);
+    text-align: center;
+}
+
+.priv-main-content hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 204, 255, 0.3), 
+        transparent);
+    margin: 1.5rem auto;
+    width: 80%;
+}
+
+.priv-main-content h2 {
+    color: var(--accent-color);
+    font-size: 1.4rem;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 0 10px rgba(255, 204, 255, 0.5);
+}
+
+.priv-main-content p {
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.priv-main-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.priv-main-content a:hover {
+    text-shadow: 0 0 10px var(--accent-color);
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        padding: 100px 15px 20px;
+    }
+
+    .priv-main-content {
+        padding: 1.2rem 1.5rem;
+    }
+
+    .priv-main-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .priv-main-content h2 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-wrapper {
+        padding: 80px 10px 20px;
+    }
+
+    .priv-main-content {
+        padding: 1rem;
+    }
+
+    .priv-main-content h1 {
+        font-size: 1.6rem;
+    }
+
+    .priv-main-content p {
+        font-size: 0.95rem;
+    }
+
+    .priv-main-content h2 {
+        font-size: 1.2rem;
+    }
+}

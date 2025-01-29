@@ -1,0 +1,28 @@
+.games-container {
+    background: var(--secondary-bg-color);
+    position: relative;
+    z-index: 2;
+    width: min(800px, 90%);
+    height: 50vh;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 15px var(--accent-color);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    overflow-y: auto;
+}
+
+.game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
