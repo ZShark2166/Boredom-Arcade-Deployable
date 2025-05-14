@@ -2,8 +2,8 @@
     background: var(--secondary-bg-color);
     position: relative;
     z-index: 2;
-    width: min(800px, 90%);
-    height: 50vh;
+    width: min(900px, 90%);
+    height: 60vh;
     margin: 0 auto;
     padding: 2rem;
     border-radius: 15px;
