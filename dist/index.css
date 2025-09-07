@@ -100,7 +100,13 @@ h1 {
   pointer-events: none;
   z-index: 999;
 }
-
+.below-form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+  position:absolute;
+}
 .shooting-star {
   position: absolute;
   background: #ffffff;
