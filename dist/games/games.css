@@ -18,11 +18,46 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
-    height: 50px;
+    border-radius: 12px;
+    height: 150px;
     width: 100%;
-    text-align: center;
-    padding: 0.5rem;
-    font-size: 1rem;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid var(--accent-color);
+    background: linear-gradient(135deg, rgba(45,0,77,0.8), rgba(26,0,51,0.8));
+    box-shadow: 0 0 15px rgba(255,204,255,0.2);
 }
 
+.game img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.game:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 25px rgba(255, 204, 255, 0.5);
+}
+
+.game:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1) drop-shadow(0 0 8px rgba(255,204,255,0.6));
+}
+
+.game:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow: 0 0 10px rgba(255, 204, 255, 0.3);
+}
+
+@keyframes gameGlow {
+    0%, 100% { box-shadow: 0 0 10px rgba(255,204,255,0.2); }
+    50% { box-shadow: 0 0 25px rgba(255,204,255,0.5); }
+}
+
+.game {
+    animation: gameGlow 3s infinite alternate;
+}
