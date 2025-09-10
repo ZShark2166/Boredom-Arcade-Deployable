@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				win.document.close();
 				win.focus();
 				setTimeout(function () {
-					window.close();
+					window.location.replace('https://classroom.google.com');
 				}, 100);
 			}
 		});
