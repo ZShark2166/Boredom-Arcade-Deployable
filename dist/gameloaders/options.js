@@ -1,15 +1,15 @@
-const Proxy = document.getElementById("proxyIframe");
-const iframe = document.getElementById("game-iframe");
+const Proxyframe = document.getElementById("proxyIframe");
+const iframeg = document.getElementById("game-iframe");
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
-        if (iframe.requestFullscreen) {
-            iframe.requestFullscreen();
-        } else if (iframe.mozRequestFullScreen) {
-            iframe.mozRequestFullScreen();
-        } else if (iframe.webkitRequestFullscreen) {
-            iframe.webkitRequestFullscreen();
-        } else if (iframe.msRequestFullscreen) {
-            iframe.msRequestFullscreen();
+        if (iframeg.requestFullscreen) {
+            iframeg.requestFullscreen();
+        } else if (iframeg.mozRequestFullScreen) {
+            iframeg.mozRequestFullScreen();
+        } else if (iframeg.webkitRequestFullscreen) {
+            iframeg.webkitRequestFullscreen();
+        } else if (iframeg.msRequestFullscreen) {
+            iframeg.msRequestFullscreen();
         }
     } else {
         if (document.exitFullscreen) {
@@ -32,18 +32,16 @@ function refreshIframePRX() {
 
 
 function toggleFullscreenPRX() {
-    const iframe = document.getElementById("proxyIframe");
-
     if (!document.fullscreenElement) {
 
-        if (iframe.requestFullscreen) {
-            iframe.requestFullscreen();
-        } else if (iframe.mozRequestFullScreen) {
-            iframe.mozRequestFullScreen();
-        } else if (iframe.webkitRequestFullscreen) { 
-            iframe.webkitRequestFullscreen();
-        } else if (iframe.msRequestFullscreen) { 
-            iframe.msRequestFullscreen();
+        if (Proxyframe.requestFullscreen) {
+            Proxyframe.requestFullscreen();
+        } else if (Proxyframe.mozRequestFullScreen) {
+            Proxyframe.mozRequestFullScreen();
+        } else if (Proxyframe.webkitRequestFullscreen) { 
+            Proxyframe.webkitRequestFullscreen();
+        } else if (Proxyframe.msRequestFullscreen) { 
+            Proxyframe.msRequestFullscreen();
         }
     } else {
         if (document.exitFullscreen) {
@@ -60,12 +58,12 @@ function toggleFullscreenPRX() {
 
 
 function refreshIframe() {
-    iframe.src = iframe.contentWindow.location.href;
+    iframeg.src = iframeg.contentWindow.location.href;
 }
         function goBack() {
-            Proxy.contentWindow.history.back()
+            Proxyframe.contentWindow.history.back()
         }
 
         function goForward() {
-            Proxy.contentWindow.history.forward()
+            Proxyframe.contentWindow.history.forward()
         }

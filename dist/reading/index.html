@@ -58,7 +58,7 @@
     <script src="/index.js"></script>
     <script src="/stars.js"></script>
     <script src="/gameloaders/options.js"></script>
-
+    
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const encodedUrl = urlParams.get('url');
@@ -68,9 +68,13 @@
 
             const iframe = document.getElementById("proxyIframe");
             iframe.src = encodedUrl;
+            
         } else {
             console.error("No URL found in the query string.");
         }
+
+        
+        
     </script>
 </body>
 

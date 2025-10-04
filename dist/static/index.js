@@ -19,7 +19,7 @@ form.addEventListener("submit", async (event) => {
 
   const url = search(address.value, searchEngine.value);
   const encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
-  window.location.href = `/reading/?url=${encodeURIComponent(encodedUrl)}`;
+  window.location.href = `/reading/?url=${encodeURIComponent(encodedUrl)}&normurl=${encodeURIComponent(url)}`;
 });
 
 function search(value, searchEngine) {

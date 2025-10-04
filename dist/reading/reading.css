@@ -1,13 +1,15 @@
 .content-wrapper {
   width: 100%;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 100px);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
   position: relative;
   z-index: 200;
+  gap: 5px;
 }
 
 .proxy {
@@ -53,7 +55,6 @@
   animation: pulseGlow 2s infinite;
 }
 
-/* Remove the old button styles and use the universal ones */
 .game-bar button {
   padding: 8px 16px;
   font-size: 0.9rem;
@@ -80,4 +81,18 @@
   .content-wrapper {
     height: calc(100vh - 100px);
   }
+}
+
+
+#urlInput {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  background: var(--secondary-bg-color);
+  color: var(--text-color);
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 204, 255, 0.2);
 }
