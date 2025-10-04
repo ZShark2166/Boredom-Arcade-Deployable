@@ -70,6 +70,16 @@ const themes = {
         '--text-color': '#FFFFFF',
         '--star-color': '#EF0072',
         '--star-color-rgb': '239, 0, 114'
+    },
+    spooky: {
+    '--main-bg-color': '#1a0f00',
+    '--main-bg-color-rgb': '26, 15, 0',
+    '--secondary-bg-color': '#331a00',
+    '--secondary-bg-color-rgb': '51, 26, 0',
+    '--accent-color': '#ff9900',
+    '--accent-color-rgb': '255, 153, 0',
+    '--text-color': '#fff5e6',
+    '--star-color': '#ffcc00'
     }
 };
 
@@ -84,7 +94,7 @@ function applyTheme(themeName) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('selectedTheme') || 'default';
+    const savedTheme = localStorage.getItem('selectedTheme') || 'spooky';
     applyTheme(savedTheme);
 
     const themeSelector = document.getElementById('theme');
@@ -100,7 +110,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 (function () {
-    const savedTheme = localStorage.getItem('selectedTheme') || 'default';
+    const savedTheme = localStorage.getItem('selectedTheme') || 'spooky';
     const selectedTheme = themes[savedTheme];
     if (selectedTheme) {
         Object.keys(selectedTheme).forEach(variable => {
