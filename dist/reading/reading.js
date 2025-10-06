@@ -1,5 +1,6 @@
 const Proxy = document.getElementById("proxyIframe");
 const iframe = document.getElementById("game-iframe");
+
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
         if (iframe.requestFullscreen) {

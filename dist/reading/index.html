@@ -10,8 +10,8 @@
     <meta name="description" content="Play the Best Free Educational Games Online - Perfect for School Students!">
     <meta name="og:description" content="Free Educational Games for all bored in school!">
     <script src="/settings/theme.js"></script>
-    <link rel="stylesheet" href="reading.css">
     <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="reading.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2779999647710891"
         crossorigin="anonymous"></script>
     <!-- Google tag (gtag.js) -->
@@ -23,7 +23,6 @@
 
         gtag('config', 'G-XED28RN3H2');
     </script>
-    <script src="reading.js"></script>
 </head>
 
 <body onload="displayRandomQuote()">
@@ -41,6 +40,14 @@
     <div class="shooting-stars"></div> <!-- Shooting stars div -->
 
     <div class="content-wrapper">
+        <div class="tabs">
+            <form id="uv-form">
+            <input id="uv-search-engine" value="https://duckduckgo.com/?q=%s" type="hidden">
+            <input id="uv-address" type="hidden" placeholder="Enter URL here" autocomplete="off"/>
+            <input id="urlInput" type="text" placeholder="Enter URL or search term" autocomplete="off">
+
+            </form>
+        </div>
         <div class="proxy">
             <iframe id="proxyIframe" width="100%" height="600px" frameborder="0"></iframe>
         </div>
@@ -52,29 +59,68 @@
         <button class="universal-button" onclick="goForward()">Forward</button>
     </div>
 
-    <script src="static/uv/uv.bundle.js"></script>
-    <script src="static/uv/uv.config.js"></script>
-    <script src="static/register-sw.js"></script>
+    <script src="/static/uv/uv.bundle.js"></script>
+    <script src="/static/uv/uv.config.js"></script>
+    <script src="/static/register-sw.js"></script>
+    <script src="/static/index.js"></script>
     <script src="/index.js"></script>
     <script src="/stars.js"></script>
     <script src="/gameloaders/options.js"></script>
+    <script src="reading.js"></script>
     
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const encodedUrl = urlParams.get('url');
+        const decodedUrl = urlParams.get('normurl');
+        const urlInput = document.getElementById("urlInput");
+        const iframep = document.getElementById("proxyIframe");
 
         if (encodedUrl) {
-            console.log("Encoded URL from query string:", encodedUrl);
-
-            const iframe = document.getElementById("proxyIframe");
-            iframe.src = encodedUrl;
-            
+            iframep.src = encodedUrl;
+            const decodeTest = __uv$config.decodeUrl(encodedUrl);
+            console.log("Decoded URL:", decodeTest);
         } else {
             console.error("No URL found in the query string.");
         }
 
-        
-        
+        if (decodedUrl) {
+            urlInput.value = decodedUrl;
+        } else if (encodedUrl) {
+            try {
+                const decoded = decodeURIComponent(encodedUrl);
+                urlInput.value = decoded;
+            } catch (e) {
+                console.error("Error decoding URL:", e);
+                urlInput.value = encodedUrl;
+            }
+        }
+        function updateDecodedUrl() {
+            try {
+                const currentEncodedUrl = iframep.contentWindow.location.href
+                    .replace(window.location.origin, "")
+                    .replace("/static/Bored/", "");
+                const currentDecodedUrl = __uv$config.decodeUrl(currentEncodedUrl);
+                urlInput.value = currentDecodedUrl;
+            } catch (err) {
+                console.error("Could not read iframe URL:", err);
+            }
+        }
+
+        iframep.addEventListener("load", updateDecodedUrl);
+
+        setInterval(updateDecodedUrl, 500);
+
+
+        const uvaddress = document.getElementById("uv-address");
+        urlInput.addEventListener("focus", function () {
+            uvaddress.type = "text";
+            urlInput.type = "hidden";
+        });
+        uvaddress.addEventListener("blur", function () {
+            uvaddress.type = "hidden";
+            urlInput.type = "text";
+        });
+
     </script>
 </body>
 

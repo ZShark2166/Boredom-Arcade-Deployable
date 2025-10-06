@@ -86,13 +86,53 @@
 
 #urlInput {
   width: 100%;
-  max-width: 400px;
-  padding: 10px 14px;
-  font-size: 1rem;
-  border: 2px solid var(--accent-color);
-  border-radius: 8px;
-  background: var(--secondary-bg-color);
+  padding: clamp(10px, 2vh, 15px) clamp(15px, 3vw, 20px);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
   color: var(--text-color);
+  background: var(--secondary-bg-color);
+  border: 2px solid var(--accent-color);
+  border-radius: 25px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
   text-align: center;
-  box-shadow: 0 0 10px rgba(255, 204, 255, 0.2);
 }
+
+#uv-address {
+  width: 100%;
+  padding: clamp(10px, 2vh, 15px) clamp(15px, 3vw, 20px);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--text-color);
+  background: var(--secondary-bg-color);
+  border: 2px solid var(--accent-color);
+  border-radius: 25px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#urlInput::placeholder {
+  color: rgba(230, 230, 255, 0.7);
+}
+
+#urlInput:focus {
+  box-shadow: 0 0 15px var(--accent-color);
+  transform: scale(1.02);
+}
+
+.tabs {
+  margin-top: 3vh;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+  display: block;
+  
+}
+
+#uv-form {
+  width: 100%;
+  box-sizing: border-box;
+  
+}
+
