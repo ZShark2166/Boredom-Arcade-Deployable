@@ -70,6 +70,18 @@
     <script src="options.js"></script>
     <script src="../stars.js">
     </script>
+    <script>
+  window.addEventListener("load", () => {
+    const ads = document.querySelectorAll(".adsbygoogle");
+    ads.forEach(ad => {
+      try {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.warn("AdSense ad failed:", e);
+      }
+    });
+  });
+</script>
 </body>
 
 
