@@ -173,3 +173,4 @@ function toggleGameBar() {
         }, 5);
     }
 }
+
