@@ -629,17 +629,21 @@ h1 {
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ad-container-below-suggestions,
 .ad-container-below-suggestions-2 {
-    width: 50%;
-    border: 2px solid var(--accent-color);
-    border-radius: 15px;
+    flex: 1 1 300px;
+    max-width: 500px;
     display: flex;
     justify-content: center;
+    border: 2px solid var(--accent-color);
+    border-radius: 15px;
 }
-
 .game-bar-hamburger button {
   padding: 0.8rem 1.5rem;
   background: linear-gradient(135deg, var(--secondary-bg-color), var(--main-bg-color));
