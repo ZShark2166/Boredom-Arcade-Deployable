@@ -329,7 +329,16 @@ h1 {
   max-width: 120px;
   z-index: 10;
 }
-
+.ad-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 6px 0;
+  z-index: 9999;
+}
 .left-ad {
   left: 0;
 }
@@ -449,7 +458,7 @@ h1 {
 .game-loader {
   width: 100%;
   max-width: 1000px;
-  height: 80%;
+  height: 75vh;
   background: var(--secondary-bg-color);
   border: 2px solid var(--accent-color);
   border-radius: 12px;
@@ -477,7 +486,7 @@ h1 {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
+  display: none;
   gap: 12px;
   padding: 12px 24px;
   background: var(--secondary-bg-color);
@@ -534,4 +543,160 @@ h1 {
   transform: translateY(1px);
   box-shadow: 0 0 10px rgba(255, 204, 255, 0.2);
   transition: none;
+}
+.game-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: min(80px, 10vh) min(20px, 5vw) min(20px, 5vw);
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--main-bg-color);
+  margin-top: auto;
+  position: relative;
+  padding-bottom: 15vh;
+}
+
+.center {
+  text-align: center;
+}
+#suggestions-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: 2rem;
+  z-index: 5;
+  position: relative;
+}
+
+.suggestion-card {
+  width: 160px;
+  height: 220px;
+  cursor: pointer;
+  text-align: center;
+  border: 2px solid var(--accent-color);
+  border-radius: 15px;
+  overflow: hidden;
+  background: var(--secondary-bg-color);
+  box-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.suggestion-card img {
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.suggestion-card p {
+  margin: 0.5rem 0;
+  font-weight: bold;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: var(--text-color);
+  text-shadow: 0 0 5px rgba(var(--accent-color-rgb), 0.3);
+  flex-shrink: 0;
+}
+
+.suggestion-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(var(--accent-color-rgb), 0.5),
+              0 0 40px rgba(var(--accent-color-rgb), 0.3);
+}
+
+@media (max-width: 480px) {
+  .suggestion-card {
+    width: 120px;
+    height: 180px;
+  }
+  .suggestion-card p {
+    font-size: clamp(0.7rem, 3vw, 0.9rem);
+  }
+}
+
+#other-games {
+  margin-top: 1rem;
+}
+
+.ads-below-suggestions-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.ad-container-below-suggestions,
+.ad-container-below-suggestions-2 {
+    width: 50%;
+    border: 2px solid var(--accent-color);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.game-bar-hamburger button {
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, var(--secondary-bg-color), var(--main-bg-color));
+  border: 2px solid var(--accent-color);
+  border-radius: 12px;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  width: 100%;
+  font-size: 2rem;
+}
+
+.game-bar-hamburger button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 204, 255, 0.2), transparent);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.game-bar-hamburger button:hover {
+  background: var(--accent-color);
+  color: var(--main-bg-color);
+  box-shadow: 0 0 20px rgba(255, 204, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.game-bar-hamburger button:hover::before {
+  left: 100%;
+}
+
+.game-bar-hamburger button:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 10px rgba(255, 204, 255, 0.2);
+  transition: none;
+}
+
+.game-bar-hamburger {
+  position: fixed;
+  bottom: 20px;
+  left: 95%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  padding: 12px 24px;
+  z-index: 1000;
+  width: 90px;
+  height: 90px;
 }
