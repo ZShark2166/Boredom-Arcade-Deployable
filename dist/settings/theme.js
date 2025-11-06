@@ -94,7 +94,7 @@ function applyTheme(themeName) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('selectedTheme') || 'spooky';
+    const savedTheme = localStorage.getItem('selectedTheme') || 'default';
     applyTheme(savedTheme);
 
     const themeSelector = document.getElementById('theme');
