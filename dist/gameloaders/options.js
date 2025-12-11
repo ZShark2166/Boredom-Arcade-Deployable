@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function toggleGameBar() {
-    const gameBar = document.getElementById("game-bar");
+    const gameBar = document.querySelector(".game-bar");
 
     if (gameBar.style.display === 'none' || gameBar.style.display === '') {
         gameBar.style.display = 'flex';
