@@ -1,5 +1,6 @@
 const starsContainer = document.querySelector('.stars');
-const numberOfStars = 100;
+const numberOfStars = 300;
+const stars = [];
 
 for (let i = 0; i < numberOfStars; i++) {
     const star = document.createElement('div');
@@ -16,8 +17,46 @@ for (let i = 0; i < numberOfStars; i++) {
     star.style.top = `${yPos}vh`;
     star.style.animationDelay = `${delay}s`;
 
+    stars.push({
+        element: star,
+        x: xPos,
+        y: yPos,
+        size: size
+    });
+
     starsContainer.appendChild(star);
 }
+
+let mouseX = 0;
+let mouseY = 0;
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    stars.forEach(star => {
+        const starX = (star.x / 100) * window.innerWidth;
+        const starY = (star.y / 100) * window.innerHeight;
+        
+        const dx = mouseX - starX;
+        const dy = mouseY - starY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        const repelDistance = 150;
+        
+        if (distance < repelDistance) {
+            const angle = Math.atan2(dy, dx);
+            const force = (repelDistance - distance) / repelDistance;
+            const pushX = -Math.cos(angle) * force * 30;
+            const pushY = -Math.sin(angle) * force * 30;
+            
+            star.element.style.transform = `translate(${pushX}px, ${pushY}px)`;
+            star.element.style.opacity = 0.5 + force * 0.5;
+        } else {
+            star.element.style.transform = 'translate(0, 0)';
+        }
+    });
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     const shootingStarsContainer = document.querySelector('.shooting-stars');
@@ -39,5 +78,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }, parseFloat(duration) * 1000);
     }
 
-    setInterval(createShootingStar, 1000);
+    setInterval(createShootingStar, 700);
 });

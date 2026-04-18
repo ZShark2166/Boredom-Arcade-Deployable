@@ -110,7 +110,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 (function () {
-    const savedTheme = localStorage.getItem('selectedTheme') || 'spooky';
+    const savedTheme = localStorage.getItem('selectedTheme') || 'default';
     const selectedTheme = themes[savedTheme];
     if (selectedTheme) {
         Object.keys(selectedTheme).forEach(variable => {
