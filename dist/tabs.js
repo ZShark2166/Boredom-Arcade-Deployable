@@ -315,6 +315,46 @@ function normalizeInputToUrl(value) {
     return url;
 }
 
+function waitForRegistrationActivation(registration) {
+    if (!registration || registration.active) {
+        return Promise.resolve();
+    }
+
+    const worker = registration.installing || registration.waiting;
+
+    if (!worker) {
+        return Promise.resolve();
+    }
+
+    return new Promise((resolve, reject) => {
+        const timeoutId = window.setTimeout(() => {
+            reject(new Error("Service worker activation timed out."));
+        }, 10000);
+
+        worker.addEventListener("statechange", () => {
+            if (worker.state === "activated") {
+                window.clearTimeout(timeoutId);
+                resolve();
+            }
+        });
+    });
+}
+
+async function ensureProxyReady() {
+    if (typeof registerSW !== "function") {
+        return true;
+    }
+
+    try {
+        const registration = await registerSW();
+        await waitForRegistrationActivation(registration);
+        return true;
+    } catch (error) {
+        console.error("Proxy bootstrap failed:", error);
+        return false;
+    }
+}
+
 function loadActiveTab(url) {
     const activeTab = getActiveTab();
     const iframe = ensureIframeForTab(activeTab);
@@ -349,12 +389,18 @@ function openUrlInActiveTab(url) {
     return true;
 }
 
-browserForm.addEventListener("submit", (event) => {
+browserForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const url = normalizeInputToUrl(browserInput.value);
 
     if (!url) {
+        return;
+    }
+
+    const proxyReady = await ensureProxyReady();
+
+    if (!proxyReady) {
         return;
     }
 
@@ -389,6 +435,20 @@ function goHome() {
     renderTabs();
     syncViewToActiveTab();
 }
+
+window.openProxyTab = async (url) => {
+    if (!url) {
+        return;
+    }
+
+    const proxyReady = await ensureProxyReady();
+
+    if (!proxyReady) {
+        return;
+    }
+
+    loadActiveTab(url);
+};
 
 function refreshIframe() {
     const iframe = getActiveIframe();

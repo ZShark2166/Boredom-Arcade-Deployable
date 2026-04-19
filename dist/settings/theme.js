@@ -80,6 +80,17 @@ const themes = {
     '--accent-color-rgb': '255, 153, 0',
     '--text-color': '#fff5e6',
     '--star-color': '#ffcc00'
+    },
+    blockingbelow: {
+    '--main-bg-color': '#1a0000',
+    '--main-bg-color-rgb': '26, 0, 0',
+    '--secondary-bg-color': '#330000',
+    '--secondary-bg-color-rgb': '51, 0, 0',
+    '--accent-color': '#ff4d4d',
+    '--accent-color-rgb': '255, 77, 77',
+    '--text-color': '#ffe6e6',
+    '--star-color': '#ffcccc'
+
     }
 };
 
