@@ -12,12 +12,22 @@ form.addEventListener("submit", async (event) => {
   try {
     await registerSW();
   } catch (err) {
-    error.textContent = "Failed to register service worker.";
-    errorCode.textContent = err.toString();
+    if (error) {
+      error.textContent = "Failed to register service worker.";
+    }
+    if (errorCode) {
+      errorCode.textContent = err.toString();
+    }
     throw err;
   }
 
   const url = search(address.value, searchEngine.value);
+
+  if (typeof window.openUrlInActiveTab === "function") {
+    window.openUrlInActiveTab(url);
+    return;
+  }
+
   const encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
   window.location.href = `/reading/?url=${encodeURIComponent(encodedUrl)}&normurl=${encodeURIComponent(url)}`;
 });

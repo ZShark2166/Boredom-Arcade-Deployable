@@ -338,6 +338,17 @@ function loadActiveTab(url) {
     }
 }
 
+function openUrlInActiveTab(url) {
+    const normalizedUrl = normalizeInputToUrl(url);
+
+    if (!normalizedUrl) {
+        return false;
+    }
+
+    loadActiveTab(normalizedUrl);
+    return true;
+}
+
 browserForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -412,5 +423,7 @@ function fullscreen() {
         }
     }
 }
+
+window.openUrlInActiveTab = openUrlInActiveTab;
 
 renderTabs();
