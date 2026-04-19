@@ -27,9 +27,16 @@ if (form && address && searchEngine) {
 
     const url = search(address.value, searchEngine.value);
 
-    if (typeof window.openProxyTab === "function" && document.querySelector(".Browser")) {
-      await window.openProxyTab(url);
-      return;
+    if (document.querySelector(".Browser")) {
+      if (typeof window.openProxyTab === "function") {
+        await window.openProxyTab(url);
+        return;
+      }
+
+      if (typeof window.openUrlInActiveTab === "function") {
+        window.openUrlInActiveTab(url);
+        return;
+      }
     }
 
     const encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
