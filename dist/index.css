@@ -243,12 +243,14 @@ h1 {
 
 .nav-brand:hover {
   transform: scale(1.08) rotate(-4deg);
-  box-shadow: 0 0 30px rgba(var(--accent-color-rgb), 0.4),
-              inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 34px rgba(var(--accent-color-rgb), 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  border-color: rgba(var(--accent-color-rgb), 0.45);
 }
 
 .nav-brand:hover::before {
   transform: scale(1.08) rotate(8deg);
+  filter: drop-shadow(0 0 10px rgba(var(--accent-color-rgb), 0.9));
 }
 
 .nav-brand:active {
@@ -275,12 +277,21 @@ h1 {
   width: 48px;
   height: 48px;
   border-radius: 14px;
-  color: rgba(var(--accent-color-rgb), 0.75);
+  color: rgba(var(--accent-color-rgb), 0.7);
   text-decoration: none;
-  transition: background 0.25s var(--ease),
+  /* Background wipe: tinted fill parked off-canvas to the right, slides in on hover */
+  background-image: linear-gradient(90deg,
+    rgba(var(--accent-color-rgb), 0.22) 0%,
+    rgba(var(--accent-color-rgb), 0.06) 55%,
+    transparent 100%);
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  transition: background-position 0.45s var(--ease),
               color 0.25s var(--ease),
-              transform 0.25s var(--ease-snap),
-              box-shadow 0.25s var(--ease);
+              transform 0.22s var(--ease),
+              box-shadow 0.28s var(--ease),
+              filter 0.15s var(--ease);
   overflow: visible;
   padding: 0;
   font-size: 0;
@@ -308,7 +319,7 @@ h1 {
   mask-repeat: no-repeat;
   -webkit-mask-size: contain;
   mask-size: contain;
-  transition: transform 0.35s var(--ease-snap), filter 0.25s var(--ease);
+  transition: transform 0.3s var(--ease), filter 0.25s var(--ease);
 }
 
 /* Icon selectors keyed on href — works regardless of text inside <a> */
@@ -338,58 +349,76 @@ h1 {
           mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z'/><circle cx='12' cy='12' r='3'/></svg>");
 }
 
-/* Hover + active states */
+/* Hover: background wipes in from the right, tile nudges outward, icon brightens */
 .nav-links a:hover,
 .settings-link:hover {
-  background: linear-gradient(135deg,
-    rgba(var(--accent-color-rgb), 0.22),
-    rgba(var(--accent-color-rgb), 0.08));
+  background-position: 0 0;
   color: var(--accent-color);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 24px rgba(var(--accent-color-rgb), 0.25),
-              inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--accent-color-rgb), 0.22),
+    0 0 24px -4px rgba(var(--accent-color-rgb), 0.35);
 }
 
 .nav-links a:hover::before,
 .settings-link:hover::before {
-  transform: scale(1.12);
-  filter: drop-shadow(0 0 8px rgba(var(--accent-color-rgb), 0.8));
+  filter: drop-shadow(0 0 9px rgba(var(--accent-color-rgb), 0.85));
 }
 
-/* settings gear spins slightly on hover */
+/* Settings gear tilts on hover (rotation, no scale) */
 .settings-link:hover::before {
-  transform: rotate(35deg) scale(1.08);
+  transform: rotate(28deg);
 }
 
+/* Press: no scaling — a small downward settle + quick brightness dip + ring sharpens */
 .nav-links a:active,
 .settings-link:active {
-  transform: scale(0.92);
-  transition-duration: 0.08s;
+  filter: brightness(0.85);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--accent-color-rgb), 0.5),
+    inset 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition-duration: 0.08s, 0.08s, 0.08s, 0.08s, 0.08s;
 }
 
-/* Active page indicator: left pill bar via gradient + glow */
+.nav-links a:active::before,
+.settings-link:active::before {
+  filter: drop-shadow(0 0 6px rgba(var(--accent-color-rgb), 1));
+}
+
+/* Active page indicator:
+   Refined editorial "chip" — soft diagonal fill, thin accent ring, and outer glow. */
 .nav-links a.active,
 .settings-link.active {
   color: var(--accent-color);
-  background:
-    linear-gradient(
-      90deg,
-      var(--accent-color) 0 3px,
-      transparent 3px 8px,
-      rgba(var(--accent-color-rgb), 0.28) 8px
-    ),
+  background-image:
     linear-gradient(135deg,
-      rgba(var(--accent-color-rgb), 0.22),
-      rgba(var(--accent-color-rgb), 0.08));
-  box-shadow: 0 0 0 1px rgba(var(--accent-color-rgb), 0.35),
-              0 8px 28px rgba(var(--accent-color-rgb), 0.3),
-              inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  animation: activePop 0.35s var(--ease-snap);
+      rgba(var(--accent-color-rgb), 0.28) 0%,
+      rgba(var(--accent-color-rgb), 0.08) 100%);
+  background-size: 100% 100%;
+  background-position: 0 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--accent-color-rgb), 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 28px -8px rgba(var(--accent-color-rgb), 0.55);
 }
 
 .nav-links a.active::before,
 .settings-link.active::before {
-  filter: drop-shadow(0 0 8px rgba(var(--accent-color-rgb), 0.9));
+  filter: drop-shadow(0 0 9px rgba(var(--accent-color-rgb), 0.95));
+}
+
+/* Active links stay visually fixed under hover. */
+.nav-links a.active:hover,
+.settings-link.active:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--accent-color-rgb), 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 28px -8px rgba(var(--accent-color-rgb), 0.55);
+}
+
+.nav-links a.active:hover::before,
+.settings-link.active:hover::before {
+  filter: drop-shadow(0 0 9px rgba(var(--accent-color-rgb), 0.95));
+  transform: none;
 }
 
 /* Tooltip on hover using data-text */
@@ -429,6 +458,12 @@ h1 {
 .settings-link[data-text]:hover::after {
   opacity: 1;
   transform: translate(0, -50%);
+}
+
+.nav-links a.active[data-text]:hover::after,
+.settings-link.active[data-text]:hover::after {
+  opacity: 0;
+  transform: translate(-6px, -50%);
 }
 
 /* Keep settings-link pinned to bottom (preserve original layout intent) */

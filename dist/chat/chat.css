@@ -3,23 +3,23 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: min(860px, 82%);
-    height: 72vh;
+    width: min(1320px, calc(100vw - var(--nav-width) - 72px));
+    height: min(84vh, 980px);
     text-align: center;
     padding: 0;
     background:
       linear-gradient(180deg,
-        rgba(var(--secondary-bg-color-rgb), 0.92),
-        rgba(var(--main-bg-color-rgb), 0.92));
-    border: 1px solid rgba(var(--accent-color-rgb), 0.3);
-    border-radius: 18px;
+        rgba(var(--secondary-bg-color-rgb), 0.28),
+        rgba(var(--main-bg-color-rgb), 0.16));
+    border: 1px solid rgba(var(--accent-color-rgb), 0.16);
+    border-radius: 24px;
     box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.5),
-      0 0 24px rgba(var(--accent-color-rgb), 0.18),
+      0 20px 60px rgba(0, 0, 0, 0.28),
+      0 0 24px rgba(var(--accent-color-rgb), 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
     overflow: hidden;
     z-index: 9999;
     position: relative;
@@ -38,24 +38,41 @@
         transparent,
         var(--accent-color),
         transparent);
-    opacity: 0.6;
+    opacity: 0.28;
     z-index: 2;
 }
 
 .chat:hover {
-    border-color: rgba(var(--accent-color-rgb), 0.55);
+    border-color: rgba(var(--accent-color-rgb), 0.16);
     box-shadow:
-      0 24px 68px rgba(0, 0, 0, 0.55),
-      0 0 36px rgba(var(--accent-color-rgb), 0.32);
+      0 20px 60px rgba(0, 0, 0, 0.28),
+      0 0 24px rgba(var(--accent-color-rgb), 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .chat iframe,
 .chat widgetbot {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: clamp(10px, 1.25vw, 18px);
+    width: calc(100% - (clamp(10px, 1.25vw, 18px) * 2));
+    height: calc(100% - (clamp(10px, 1.25vw, 18px) * 2));
     border: none;
     background-color: transparent;
+    border-radius: 18px;
+    overflow: hidden;
+    display: block;
+}
+
+.chat widgetbot iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .chat {
+        width: min(100%, calc(100vw - var(--nav-width) - 28px));
+        height: min(80vh, 860px);
+        border-radius: 18px;
+    }
 }
