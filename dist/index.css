@@ -160,7 +160,8 @@ h1 {
   left: 0;
   width: var(--nav-width);
   height: 100%;
-  padding: 18px 0 24px;
+  box-sizing: border-box;
+  padding: 18px 0;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 40%),
     rgba(var(--main-bg-color-rgb), 0.75);
@@ -433,7 +434,7 @@ h1 {
 /* Keep settings-link pinned to bottom (preserve original layout intent) */
 .settings-link {
   margin-top: auto;
-  margin-bottom: 8px;
+  margin-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* @keyframes */
