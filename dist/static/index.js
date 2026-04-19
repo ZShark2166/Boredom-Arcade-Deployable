@@ -6,21 +6,61 @@ const searchEngine = document.getElementById("uv-search-engine");
 const error = document.getElementById("uv-error");
 const errorCode = document.getElementById("uv-error-code");
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
+if (form && address && searchEngine) {
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-  try {
-    await registerSW();
-  } catch (err) {
-    error.textContent = "Failed to register service worker.";
-    errorCode.textContent = err.toString();
-    throw err;
+    try {
+      const registration = await registerSW();
+      await waitForRegistrationActivation(registration);
+    } catch (err) {
+      if (error) {
+        error.textContent = "Failed to register service worker.";
+      }
+
+      if (errorCode) {
+        errorCode.textContent = err.toString();
+      }
+
+      throw err;
+    }
+
+    const url = search(address.value, searchEngine.value);
+
+    if (typeof window.openProxyTab === "function" && document.querySelector(".Browser")) {
+      await window.openProxyTab(url);
+      return;
+    }
+
+    const encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
+    window.location.href = `/reading/?url=${encodeURIComponent(encodedUrl)}&normurl=${encodeURIComponent(url)}`;
+  });
+}
+
+function waitForRegistrationActivation(registration) {
+  if (!registration || registration.active) {
+    return Promise.resolve();
   }
 
-  const url = search(address.value, searchEngine.value);
-  const encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
-  window.location.href = `/reading/?url=${encodeURIComponent(encodedUrl)}&normurl=${encodeURIComponent(url)}`;
-});
+  const worker = registration.installing || registration.waiting;
+
+  if (!worker) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve, reject) => {
+    const timeoutId = window.setTimeout(() => {
+      reject(new Error("Service worker activation timed out."));
+    }, 10000);
+
+    worker.addEventListener("statechange", () => {
+      if (worker.state === "activated") {
+        window.clearTimeout(timeoutId);
+        resolve();
+      }
+    });
+  });
+}
 
 function search(value, searchEngine) {
   let url = value.trim();
