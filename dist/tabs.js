@@ -26,6 +26,7 @@ const tabs = [buildTab(1)];
 
 let activeTabId = tabs[0].id;
 let nextTabId = 2;
+let enteringTabId = null;
 
 if (initialIframe) {
     initialIframe.remove();
@@ -69,21 +70,72 @@ function getDisplayTitle(tab) {
     return "New Tab";
 }
 
-function renderTabs() {
-    const tabMarkup = tabs
-        .map((tab) => {
-            const isActive = tab.id === activeTabId;
-            return `
-                <div class="Browser-tab${isActive ? " active" : ""}" data-tab-id="${tab.id}">
-                    <img src="${escapeHtml(tab.favicon || HOME_FAVICON)}" class="tab-favicon">
-                    <span class="tab-title">${escapeHtml(getDisplayTitle(tab))}</span>
-                    <span class="tab-close" role="button" aria-label="Close tab">&times;</span>
-                </div>
-            `;
-        })
-        .join("");
+function createTabElement(tab) {
+    const tabElement = document.createElement("div");
+    tabElement.className = "Browser-tab";
+    tabElement.dataset.tabId = String(tab.id);
 
-    tabsContainer.innerHTML = `${tabMarkup}<button class="tab-new" type="button">+</button>`;
+    const favicon = document.createElement("img");
+    favicon.className = "tab-favicon";
+    favicon.alt = "";
+
+    const title = document.createElement("span");
+    title.className = "tab-title";
+
+    const close = document.createElement("span");
+    close.className = "tab-close";
+    close.setAttribute("role", "button");
+    close.setAttribute("aria-label", "Close tab");
+    close.innerHTML = "&times;";
+
+    tabElement.append(favicon, title, close);
+    return tabElement;
+}
+
+function syncTabElement(tabElement, tab) {
+    tabElement.dataset.tabId = String(tab.id);
+    tabElement.classList.toggle("active", tab.id === activeTabId);
+    tabElement.classList.toggle("is-entering", tab.id === enteringTabId);
+
+    const favicon = tabElement.querySelector(".tab-favicon");
+    const title = tabElement.querySelector(".tab-title");
+
+    if (favicon) {
+        favicon.src = tab.favicon || HOME_FAVICON;
+    }
+
+    if (title) {
+        title.textContent = getDisplayTitle(tab);
+    }
+}
+
+function renderTabs() {
+    let newTabButton = tabsContainer.querySelector(".tab-new");
+
+    if (!newTabButton) {
+        newTabButton = document.createElement("button");
+        newTabButton.className = "tab-new";
+        newTabButton.type = "button";
+        newTabButton.textContent = "+";
+        tabsContainer.appendChild(newTabButton);
+    }
+
+    const existingTabElements = new Map(
+        Array.from(tabsContainer.querySelectorAll(".Browser-tab")).map((element) => [
+            Number(element.dataset.tabId),
+            element,
+        ])
+    );
+
+    tabs.forEach((tab) => {
+        const tabElement = existingTabElements.get(tab.id) || createTabElement(tab);
+        syncTabElement(tabElement, tab);
+        tabsContainer.insertBefore(tabElement, newTabButton);
+        existingTabElements.delete(tab.id);
+    });
+
+    existingTabElements.forEach((element) => element.remove());
+    enteringTabId = null;
 }
 
 function hideAllIframes() {
@@ -250,6 +302,7 @@ function createNewTab() {
     });
 
     tabs.push(tab);
+    enteringTabId = tab.id;
     activateTab(tab.id);
 }
 

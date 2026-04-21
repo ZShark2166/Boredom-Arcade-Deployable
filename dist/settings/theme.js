@@ -91,6 +91,17 @@ const themes = {
     '--text-color': '#ffe6e6',
     '--star-color': '#ffcccc'
 
+    },
+    void: {
+    '--main-bg-color': '#050505',
+    '--main-bg-color-rgb': '5, 5, 5',
+    '--secondary-bg-color': '#0f0f0f',
+    '--secondary-bg-color-rgb': '15, 15, 15',
+    '--accent-color': '#ffffff',
+    '--accent-color-rgb': '255, 255, 255',
+    '--text-color': '#f0f0f0',
+    '--star-color': '#ffffff'
+
     }
 };
 

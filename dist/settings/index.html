@@ -107,6 +107,7 @@
                         <option value="hush">Hush</option>
                         <option value="spooky">Spooky</option>
                         <option value="blockingbelow">Blocking Below</option>
+                        <option value="void">Void Network</option>
                     </select>
                 </div>
             </div>
@@ -114,7 +115,7 @@
             <div class="settings-section">
                 <h2>About Blank Cloaker</h2>
                 <div class="setting-item">
-                    <label>Auto-cloak on page open — hides your screen from teachers!</label>
+                    <label>Automatically cloak your tab on open. Hides your screen from teachers!</label>
                     <div class="cloaker-row">
                         <label class="cloaker-switch">
                             <input type="checkbox" id="blankcloaker-toggle">
@@ -122,6 +123,19 @@
                         </label>
                         <span id="blankcloaker-status">Off</span>
                     </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h2>Stars</h2>
+                <div class="setting-item">
+                    <div class="setting-label-row">
+                        <label for="star-density">Star Density</label>
+                        <span id="star-density-value" class="setting-value-pill">300</span>
+                    </div>
+                    <div class="slider-shell">
+                        <input type="range" id="star-density" class="setting-input setting-slider" min="0" max="1000" step="0.01" value="300" aria-describedby="star-density-help">
+                    </div>
+                    <p id="star-density-help" class="setting-help">Control how many stars there are in the background. (May affect performance)</p>
                 </div>
             </div>
         </div>
@@ -142,8 +156,6 @@
             function setEnabled(val) {
                 try { localStorage.setItem(STORAGE_KEY, val ? 'true' : 'false'); } catch(e) {}
             }
-
-            // --- Set toggle visual to match saved state ---
             var toggle = document.getElementById('blankcloaker-toggle');
             var status = document.getElementById('blankcloaker-status');
 
@@ -152,13 +164,10 @@
             var enabled = isEnabled();
             toggle.checked = enabled;
             if (status) status.textContent = enabled ? 'On' : 'Off';
-
-            // --- Toggle only saves the preference, never cloaks on the settings page ---
             toggle.addEventListener('change', function () {
                 var on = toggle.checked;
                 setEnabled(on);
                 if (status) status.textContent = on ? 'On' : 'Off';
-                // No openCloaked() here — cloaking happens on OTHER pages on load
             });
         })();
     </script>
