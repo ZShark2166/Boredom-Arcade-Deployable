@@ -75,6 +75,59 @@
             font-size: 13px;
             color: rgba(255,255,255,0.5);
         }
+
+        .closing-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+        .closing-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .closing-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .closing-track {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.15);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .closing-track::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+        .closing-switch input:checked + .closing-track {
+            background: #7c3aed;
+            border-color: #6d28d9;
+        }
+        .closing-switch input:checked + .closing-track::before {
+            transform: translateY(-50%) translateX(24px);
+        }
+        #closing-status {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
     </style>
 </head>
 <body>
@@ -136,6 +189,19 @@
                         <input type="range" id="star-density" class="setting-input setting-slider" min="0" max="1000" step="0.01" value="300" aria-describedby="star-density-help">
                     </div>
                     <p id="star-density-help" class="setting-help">Control how many stars there are in the background. (May affect performance)</p>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h2>Tab Closing Prevention</h2>
+                <div class="setting-item">
+                    <label>Makes it so your tab cannot be closed by teachers.</label>
+                    <div class="closing-row">
+                        <label class="closing-switch">
+                            <input type="checkbox" id="closing-toggle">
+                            <span class="closing-track"></span>
+                        </label>
+                        <span id="closing-status">Off</span>
+                    </div>
                 </div>
             </div>
         </div>
