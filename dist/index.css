@@ -2,7 +2,7 @@ html {
   scroll-behavior: smooth;
   overflow-y: auto;
   overflow-x: hidden;
-  width: 100vw;
+  background: var(--main-bg-color);
 }
 
 :root {
@@ -14,8 +14,6 @@ html {
   --accent-color-rgb: 255, 204, 255;
   --text-color: #e6e6ff;
   --star-color: #ffffff;
-
-  /* refined tokens */
   --nav-width: 72px;
   --radius-sm: 10px;
   --radius-md: 14px;
@@ -26,6 +24,7 @@ html {
 
 * {
   -webkit-tap-highlight-color: transparent;
+  
 }
 
 body {
@@ -135,6 +134,9 @@ h1 {
   display: flex;
   justify-content: center;
   margin-top: 200px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   position: absolute;
 }
 .shooting-star {
@@ -277,7 +279,6 @@ h1 {
   border-radius: 14px;
   color: rgba(var(--accent-color-rgb), 0.7);
   text-decoration: none;
-  /* Background wipe: tinted fill parked off-canvas to the right, slides in on hover */
   background-image: linear-gradient(90deg,
     rgba(var(--accent-color-rgb), 0.22) 0%,
     rgba(var(--accent-color-rgb), 0.06) 55%,
@@ -296,7 +297,6 @@ h1 {
   text-shadow: none;
 }
 
-/* hide legacy markup inside links (text spans and old <img> icons) */
 .nav-links a > span,
 .settings-link > span,
 .nav-links a .nav-icon,
@@ -304,7 +304,6 @@ h1 {
   display: none;
 }
 
-/* SVG icons via mask-image (tintable with currentColor) */
 .nav-links a::before,
 .settings-link::before {
   content: '';
@@ -320,7 +319,6 @@ h1 {
   transition: transform 0.3s var(--ease), filter 0.25s var(--ease);
 }
 
-/* Icon selectors keyed on href — works regardless of text inside <a> */
 .nav-links a[href="/"]::before,
 .nav-links a.search-link::before {
   -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m20 20-3.5-3.5'/></svg>");
@@ -347,7 +345,6 @@ h1 {
           mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z'/><circle cx='12' cy='12' r='3'/></svg>");
 }
 
-/* Hover: background wipes in from the right, tile nudges outward, icon brightens */
 .nav-links a:hover,
 .settings-link:hover {
   background-position: 0 0;
@@ -362,12 +359,10 @@ h1 {
   filter: drop-shadow(0 0 9px rgba(var(--accent-color-rgb), 0.85));
 }
 
-/* Settings gear tilts on hover (rotation, no scale) */
 .settings-link:hover::before {
   transform: rotate(28deg);
 }
 
-/* Press: no scaling — a small downward settle + quick brightness dip + ring sharpens */
 .nav-links a:active,
 .settings-link:active {
   filter: brightness(0.85);
@@ -382,8 +377,6 @@ h1 {
   filter: drop-shadow(0 0 6px rgba(var(--accent-color-rgb), 1));
 }
 
-/* Active page indicator:
-   Refined editorial "chip" — soft diagonal fill, thin accent ring, and outer glow. */
 .nav-links a.active,
 .settings-link.active {
   color: var(--accent-color);
@@ -404,7 +397,6 @@ h1 {
   filter: drop-shadow(0 0 9px rgba(var(--accent-color-rgb), 0.95));
 }
 
-/* Active links stay visually fixed under hover. */
 .nav-links a.active:hover,
 .settings-link.active:hover {
   box-shadow:
@@ -419,7 +411,6 @@ h1 {
   transform: none;
 }
 
-/* Tooltip on hover using data-text */
 .nav-links a[data-text],
 .nav-brand[data-text],
 .settings-link[data-text] {
@@ -464,13 +455,11 @@ h1 {
   transform: translate(-6px, -50%);
 }
 
-/* Keep settings-link pinned to bottom (preserve original layout intent) */
 .settings-link {
   margin-top: auto;
   margin-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* @keyframes */
 @keyframes glow {
   from { text-shadow: 0 0 8px rgba(var(--accent-color-rgb), 0.5), 0 0 16px rgba(var(--accent-color-rgb), 0.3); }
   to   { text-shadow: 0 0 18px rgba(var(--accent-color-rgb), 0.9), 0 0 32px rgba(var(--accent-color-rgb), 0.45); }
@@ -502,7 +491,6 @@ h1 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
 @media (max-height: 600px) {
   body {
     padding-top: min(60px, 8vh);
@@ -652,8 +640,9 @@ h1 {
 .footer {
   position: fixed;
   bottom: 0;
-  left: var(--nav-width);
+  left: 50%;
   width: calc(100% - var(--nav-width));
+  transform: translateX(-50%);
   text-align: center;
   font-size: 0.78rem;
   color: var(--text-color);
@@ -751,7 +740,10 @@ h1 {
   min-height: 100vh;
   width: 100%;
   box-sizing: border-box;
-  background: var(--main-bg-color);
+    background:
+    radial-gradient(ellipse at top left, rgba(var(--accent-color-rgb), 0.08), transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(var(--accent-color-rgb), 0.06), transparent 55%),
+    var(--main-bg-color);
   margin-top: auto;
   position: relative;
   padding-bottom: 15vh;
@@ -964,10 +956,13 @@ h1 {
   min-width: 120px;
   cursor: pointer;
   transition: background 0.2s var(--ease), transform 0.15s var(--ease);
-  animation: fadeInUp 0.25s var(--ease);
 }
 
 .Browser-tab:hover { background: rgba(var(--accent-color-rgb), 0.14); }
+
+.Browser-tab.is-entering {
+  animation: fadeInUp 0.25s var(--ease);
+}
 
 .Browser-tab.active {
   background: rgba(var(--accent-color-rgb), 0.22);
