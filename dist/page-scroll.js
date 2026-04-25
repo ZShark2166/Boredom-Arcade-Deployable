@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    let targetScrollTop = scrollContent.scrollTop;
+    let animationFrame = null;
+
     const syncScrollbar = () => {
         const maxScroll = scrollContent.scrollHeight - scrollContent.clientHeight;
         const trackHeight = scrollbar.clientHeight;
@@ -27,6 +30,44 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollbarThumb.style.transform = `translateY(${thumbY}px)`;
     };
 
+    const clampScrollTop = (scrollTop) => {
+        const maxScroll = scrollContent.scrollHeight - scrollContent.clientHeight;
+        return Math.max(0, Math.min(scrollTop, maxScroll));
+    };
+
+    const normalizeWheelDelta = (event) => {
+        if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) {
+            return event.deltaY * 40;
+        }
+
+        if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
+            return event.deltaY * scrollContent.clientHeight;
+        }
+
+        return event.deltaY;
+    };
+
+    const animateScroll = () => {
+        const distance = targetScrollTop - scrollContent.scrollTop;
+
+        if (Math.abs(distance) < 0.5) {
+            scrollContent.scrollTop = targetScrollTop;
+            animationFrame = null;
+            return;
+        }
+
+        scrollContent.scrollTop += distance * 0.22;
+        animationFrame = requestAnimationFrame(animateScroll);
+    };
+
+    const scrollToTarget = () => {
+        if (animationFrame) {
+            return;
+        }
+
+        animationFrame = requestAnimationFrame(animateScroll);
+    };
+
     const forwardWheelToContent = (event) => {
         if (event.target.closest('.navbar, .footer, .page-scrollbar')) {
             return;
@@ -40,11 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const previousScrollTop = scrollContent.scrollTop;
-        scrollContent.scrollTop += event.deltaY;
+        const previousTargetScrollTop = targetScrollTop;
+        targetScrollTop = clampScrollTop(targetScrollTop + normalizeWheelDelta(event));
 
-        if (scrollContent.scrollTop !== previousScrollTop) {
+        if (targetScrollTop !== previousTargetScrollTop) {
             event.preventDefault();
+            scrollToTarget();
         }
     };
 
@@ -52,6 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     scrollbarThumb.addEventListener('pointerdown', (event) => {
         event.preventDefault();
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+        }
+
+        targetScrollTop = scrollContent.scrollTop;
         scrollbarThumb.setPointerCapture(event.pointerId);
         dragState = {
             startY: event.clientY,
@@ -73,7 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const delta = event.clientY - dragState.startY;
-        scrollContent.scrollTop = dragState.startScrollTop + (delta / maxThumbTravel) * maxScroll;
+        targetScrollTop = clampScrollTop(dragState.startScrollTop + (delta / maxThumbTravel) * maxScroll);
+        scrollContent.scrollTop = targetScrollTop;
     });
 
     const endDrag = () => {
@@ -92,10 +141,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const trackRect = scrollbar.getBoundingClientRect();
         const thumbCenter = scrollbarThumb.offsetHeight / 2;
         const clickRatio = (event.clientY - trackRect.top - thumbCenter) / (scrollbar.clientHeight - scrollbarThumb.offsetHeight);
-        scrollContent.scrollTop = clickRatio * (scrollContent.scrollHeight - scrollContent.clientHeight);
+        targetScrollTop = clampScrollTop(clickRatio * (scrollContent.scrollHeight - scrollContent.clientHeight));
+        scrollContent.scrollTop = targetScrollTop;
     });
 
-    scrollContent.addEventListener('scroll', syncScrollbar, { passive: true });
+    scrollContent.addEventListener('scroll', () => {
+        if (!animationFrame && !dragState) {
+            targetScrollTop = scrollContent.scrollTop;
+        }
+
+        syncScrollbar();
+    }, { passive: true });
     document.addEventListener('wheel', forwardWheelToContent, { passive: false });
     window.addEventListener('resize', syncScrollbar);
     syncScrollbar();
