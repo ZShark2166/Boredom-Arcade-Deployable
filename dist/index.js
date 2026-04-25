@@ -3,17 +3,20 @@ const navLinks = document.querySelectorAll('.nav-links a');
 let lastScrollTop = 0;
 let isDirty = false;
 let allowNavigation = false;
+const disableNavbarAutoHide = document.body.classList.contains('games-page');
 
 window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+    if (!navbar) {
+        return;
+    }
 
-    if (scrollTop > lastScrollTop && scrollTop > 80) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (!disableNavbarAutoHide && scrollTop > lastScrollTop + 12 && scrollTop > 80) {
         navbar.classList.add('navbar-hidden');
     } else {
         navbar.classList.remove('navbar-hidden');
     }
-    
 
     if (scrollTop > 50) {
         navbar.classList.add('scrolled');
