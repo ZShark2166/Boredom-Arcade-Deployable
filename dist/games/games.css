@@ -10,7 +10,7 @@
 .games-container {
     position: relative;
     z-index: 2;
-    width: min(1480px, calc(100vw - var(--nav-width) - 48px));
+    width: min(1480px, calc(100vw - var(--nav-width) - 260px));
     height: calc(100vh - 156px);
     max-height: calc(100vh - 156px);
     margin: 0 auto;
