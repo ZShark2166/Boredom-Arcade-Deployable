@@ -1,4 +1,4 @@
-const Proxy = document.getElementById("proxyIframe");
+const pr = document.getElementById("proxyIframe");
 const iframe = document.getElementById("game-iframe");
 
 function toggleFullscreen() {
@@ -27,8 +27,8 @@ function toggleFullscreen() {
 
 
 function refreshIframePRX() {
-    const proxyIframe = document.getElementById("proxyIframe");
-    proxyIframe.src = proxyIframe.contentWindow.location.href;
+    const pr = document.getElementById("proxyIframe");
+    pr.src = pr.contentWindow.location.href;
 }
 
 
@@ -64,9 +64,9 @@ function refreshIframe() {
     iframe.src = iframe.contentWindow.location.href;
 }
 function goBack() {
-    Proxy.contentWindow.history.back()
+    pr.contentWindow.history.back()
 }
 
 function goForward() {
-    Proxy.contentWindow.history.forward()
+    pr.contentWindow.history.forward()
 }

@@ -6,15 +6,6 @@ Welcome to Boredom Arcade, your go-to website for unblocked games!
 
 [![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?type=git&repository=https://github.com/ZShark2166/Boredom-Arcade-Deployable&branch=main&name=Boredom-Arcade&build-command=npm%20install&run-command=npm%20start)
 
-
-## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Introduction
 Boredom Arcade is the best proxy out there right now!
 

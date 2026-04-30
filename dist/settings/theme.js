@@ -80,6 +80,28 @@ const themes = {
     '--accent-color-rgb': '255, 153, 0',
     '--text-color': '#fff5e6',
     '--star-color': '#ffcc00'
+    },
+    blockingbelow: {
+    '--main-bg-color': '#1a0000',
+    '--main-bg-color-rgb': '26, 0, 0',
+    '--secondary-bg-color': '#330000',
+    '--secondary-bg-color-rgb': '51, 0, 0',
+    '--accent-color': '#ff4d4d',
+    '--accent-color-rgb': '255, 77, 77',
+    '--text-color': '#ffe6e6',
+    '--star-color': '#ffcccc'
+
+    },
+    void: {
+    '--main-bg-color': '#050505',
+    '--main-bg-color-rgb': '5, 5, 5',
+    '--secondary-bg-color': '#0f0f0f',
+    '--secondary-bg-color-rgb': '15, 15, 15',
+    '--accent-color': '#ffffff',
+    '--accent-color-rgb': '255, 255, 255',
+    '--text-color': '#f0f0f0',
+    '--star-color': '#ffffff'
+
     }
 };
 

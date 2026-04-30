@@ -4,9 +4,9 @@
     <link rel="icon" type="image/png" href="/images/boredomlogo.png"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Boredom V2 - The best Educational games for school students!</title>
-    <meta name="title" content="Boredom V2 - The best Educational games for school students!">
-    <meta name="og:title" content="Boredom V2">
+    <title>Boredom V3 - The best Educational games for school students!</title>
+    <meta name="title" content="Boredom V3 - The best Educational games for school students!">
+    <meta name="og:title" content="Boredom V3">
     <meta name="description" content="Play the Best Free Educational Games Online - Perfect for School Students!">
     <meta name="og:description" content="Free Educational Games for all bored in school!">
     <link rel="stylesheet" href="/index.css">
@@ -19,13 +19,120 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-XED28RN3H2');
     </script>
+
+    <style>
+        .cloaker-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+        .cloaker-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .cloaker-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .cloaker-track {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.15);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .cloaker-track::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+        .cloaker-switch input:checked + .cloaker-track {
+            background: #7c3aed;
+            border-color: #6d28d9;
+        }
+        .cloaker-switch input:checked + .cloaker-track::before {
+            transform: translateY(-50%) translateX(24px);
+        }
+        #blankcloaker-status {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .closing-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+        .closing-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .closing-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .closing-track {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.15);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .closing-track::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+        .closing-switch input:checked + .closing-track {
+            background: #7c3aed;
+            border-color: #6d28d9;
+        }
+        .closing-switch input:checked + .closing-track::before {
+            transform: translateY(-50%) translateX(24px);
+        }
+        #closing-status {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
-        <a href="/" class="nav-brand" data-text="Boredom V2"><span>Boredom V2</span></a>
+        <a href="/" class="nav-brand" data-text="Boredom V3"><span>Boredom V3</span></a>
         <div class="nav-links">
             <a href="/" class="search-link" data-text="Search"><span>Search</span></a>
             <a href="/games/" data-text="Games"><span>Games</span></a>
@@ -52,23 +159,84 @@
                         <option value="ben">Ben_Da_Builder</option>
                         <option value="hush">Hush</option>
                         <option value="spooky">Spooky</option>
+                        <option value="blockingbelow">Blocking Below</option>
+                        <option value="void">Void Network</option>
                     </select>
                 </div>
             </div>
-            <!-- placeholder for more sections -->
+
             <div class="settings-section">
                 <h2>About Blank Cloaker</h2>
                 <div class="setting-item">
-                    <label for="aboutblank">Hides your screen for teachers!</label>
-                    <button id="blankcloaker" class="setting-button">Cloak!</button>
+                    <label>Automatically cloak your tab on open. Hides your screen from teachers!</label>
+                    <div class="cloaker-row">
+                        <label class="cloaker-switch">
+                            <input type="checkbox" id="blankcloaker-toggle">
+                            <span class="cloaker-track"></span>
+                        </label>
+                        <span id="blankcloaker-status">Off</span>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h2>Stars</h2>
+                <div class="setting-item">
+                    <div class="setting-label-row">
+                        <label for="star-density">Star Density</label>
+                        <span id="star-density-value" class="setting-value-pill">300</span>
+                    </div>
+                    <div class="slider-shell">
+                        <input type="range" id="star-density" class="setting-input setting-slider" min="0" max="1000" step="0.01" value="300" aria-describedby="star-density-help">
+                    </div>
+                    <p id="star-density-help" class="setting-help">Control how many stars there are in the background. (May affect performance)</p>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h2>Tab Closing Prevention</h2>
+                <div class="setting-item">
+                    <label>Makes it so your tab cannot be closed by teachers.</label>
+                    <div class="closing-row">
+                        <label class="closing-switch">
+                            <input type="checkbox" id="closing-toggle">
+                            <span class="closing-track"></span>
+                        </label>
+                        <span id="closing-status">Off</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="/stars.js"></script>
+    <script src="/index.js"></script>
     <script src="settings.js"></script>
     <script src="theme.js"></script>
+
+    <script>
+        (function () {
+            var STORAGE_KEY = 'aboutBlankCloakerEnabled';
+
+            function isEnabled() {
+                try { return localStorage.getItem(STORAGE_KEY) === 'true'; } catch(e) { return false; }
+            }
+            function setEnabled(val) {
+                try { localStorage.setItem(STORAGE_KEY, val ? 'true' : 'false'); } catch(e) {}
+            }
+            var toggle = document.getElementById('blankcloaker-toggle');
+            var status = document.getElementById('blankcloaker-status');
+
+            if (!toggle) return;
+
+            var enabled = isEnabled();
+            toggle.checked = enabled;
+            if (status) status.textContent = enabled ? 'On' : 'Off';
+            toggle.addEventListener('change', function () {
+                var on = toggle.checked;
+                setEnabled(on);
+                if (status) status.textContent = on ? 'On' : 'Off';
+            });
+        })();
+    </script>
 
     <footer class="footer">
         <div class="footer-links">
