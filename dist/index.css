@@ -515,35 +515,42 @@ h1 {
    ============================================================= */
 
 .ad-container {
-  position: fixed;
-  top: 50%;
-  margin-top: 60px;
-  transform: translateY(-50%);
-  width: 10vw;
-  max-width: 120px;
-  z-index: 10;
-  opacity: 0.85;
-  transition: opacity 0.3s var(--ease);
+    position: fixed;
+    top: 50%;
+    margin-top: 60px;
+    transform: translateY(-50%);
+    width: 160px;
+    height: 600px;
+    z-index: 10;
+    opacity: 0.85;
+    transition: opacity 0.3s var(--ease);
 }
-.ad-container:hover { opacity: 1; }
 
-.ad-sticky {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 6px 0;
-  z-index: 9999;
+.ad-container iframe {
+    width: 160px !important;
+    height: 600px !important;
+    border: none;
+    display: block;
 }
-.left-ad  { left: calc(var(--nav-width) + 8px); }
-.right-ad { right: 8px; }
+
+.ad-container:hover {
+    opacity: 1;
+}
+
+.left-ad {
+    left: calc(var(--nav-width) + 8px);
+}
+
+.right-ad {
+    right: 8px;
+}
 
 @media (max-width: 1100px) {
-  .left-ad, .right-ad { display: none; }
+    .left-ad,
+    .right-ad {
+        display: none;
+    }
 }
-
 /* =============================================================
    SCROLLBAR
    ============================================================= */
@@ -817,18 +824,40 @@ h1 {
 #other-games { margin-top: 1rem; }
 
 .ad-container-below-suggestions {
-  width: 800px;
-  min-height: 60px;
-  border: 1.5px dashed rgba(var(--accent-color-rgb), 0.4);
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  margin: 20px auto 0;
-  max-height: 100px;
+    width: 800px;
+    height: 100px;
+    margin: 20px auto 0;
+    border: 1.5px dashed rgba(var(--accent-color-rgb), 0.4);
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-#below-suggestions-ad { width: 100%; }
+#below-suggestions-ad {
+    width: 900px !important;
+    height: 90px !important;
 
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    margin: 0 auto !important;
+}
+
+#below-suggestions-ad > * {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#below-suggestions-ad iframe {
+    width: 728px !important;
+    height: 90px !important;
+}
 .game-bar-hamburger {
   position: fixed;
   bottom: 20px;
