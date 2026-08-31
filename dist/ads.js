@@ -133,7 +133,7 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
     const script = document.createElement("script");
 
     script.src =
-        "https://www.highrevenueformat.com/" +
+        "https://consciousdunkvastly.com/" +
         key +
         "/invoke.js";
 
