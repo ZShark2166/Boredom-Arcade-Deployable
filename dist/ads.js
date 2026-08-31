@@ -143,7 +143,9 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
     const script = document.createElement("script");
 
     script.src =
-        "invoke.js"
+        "https://consciousdunkvastly.com/" +
+        key +
+        "/invoke.js";
 
     script.onload = () => {
         if (callback) callback();
