@@ -130,14 +130,24 @@ h1 {
   z-index: 999;
 }
 .below-form {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 200px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  position: absolute;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: auto;
+
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+}
+#bottom-ad {
+    width: 728px !important;
+    height: 90px !important;
+    min-width: 728px;
+    max-width: 728px;
+    min-height: 90px;
+    max-height: 90px;
+    flex: 0 0 728px;
+    overflow: hidden;
 }
 .shooting-star {
   position: absolute;

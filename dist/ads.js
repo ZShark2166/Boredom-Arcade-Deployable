@@ -39,13 +39,15 @@ function loadAdSense() {
     script.onload = () => {
         createAdSense("left-ad", "4218046259");
         createAdSense("right-ad", "4218046259");
-        createAdSense("bottom-ad", "7454224896");
-        createAdSense("below-suggestions-ad", "7475241931");
+
+        createAdSense("bottom-ad", "7454224896", 728, 90);
+
+        createAdSense("below-suggestions-ad", "7475241931", 728, 90);
     };
 
     document.head.appendChild(script);
 }
-function createAdSense(containerId, slot) {
+function createAdSense(containerId, slot, width = null, height = null) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -53,14 +55,27 @@ function createAdSense(containerId, slot) {
 
     ad.className = "adsbygoogle";
     ad.style.display = "block";
+
     ad.dataset.adClient = "ca-pub-2779999647710891";
     ad.dataset.adSlot = slot;
-    ad.dataset.adFormat = "auto";
-    ad.dataset.fullWidthResponsive = "true";
+
+    if (width && height) {
+        ad.style.width = width + "px";
+        ad.style.height = height + "px";
+    } else {
+        ad.dataset.adFormat = "auto";
+        ad.dataset.fullWidthResponsive = "true";
+    }
 
     container.appendChild(ad);
 
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    requestAnimationFrame(() => {
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            console.error("AdSense error:", e);
+        }
+    });
 }
 
 
@@ -70,7 +85,6 @@ function createAdSense(containerId, slot) {
 
 function loadAdsterra() {
 
-    // Load LEFT vertical
     loadAdsterraScript(
         "left-ad",
         "f8d14dd00389ac06a38041e78a7bd44c",
@@ -78,7 +92,6 @@ function loadAdsterra() {
         600,
         () => {
 
-            // Load RIGHT vertical
             loadAdsterraScript(
                 "right-ad",
                 "f8d14dd00389ac06a38041e78a7bd44c",
@@ -86,7 +99,6 @@ function loadAdsterra() {
                 600,
                 () => {
 
-                    // Load BOTTOM horizontal
                     loadAdsterraScript(
                         "bottom-ad",
                         "ee87176bd8ca13f3904d1ca630862ad4",
@@ -94,7 +106,6 @@ function loadAdsterra() {
                         90,
                         () => {
 
-                            // Load BELOW-SUGGESTIONS horizontal
                             loadAdsterraScript(
                                 "below-suggestions-ad",
                                 "ee87176bd8ca13f3904d1ca630862ad4",
@@ -121,7 +132,6 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
         return;
     }
 
-    // Exact same configuration Adsterra gives you
     window.atOptions = {
         'key': key,
         'format': 'iframe',
