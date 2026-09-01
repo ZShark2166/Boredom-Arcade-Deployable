@@ -1,27 +1,27 @@
-if (!self.__uv) {
-    __uvHook(self, self.__uv$config, self.__uv$config.bare);
+if (!self.__math) {
+    __mathHook(self, self.__math$config, self.__math$config.bare);
 };
 
-async function __uvHook(window, config = {}, bare = '/bare/') {
-    if ('__uv' in window && window.__uv instanceof Ultraviolet) return false;
+async function __mathHook(window, config = {}, bare = '/bare/') {
+    if ('__math' in window && window.__math instanceof math) return false;
 
     if (window.document && !!window.window) {
-        window.document.querySelectorAll("script[__uv-script]").forEach(node => node.remove())
+        window.document.querySelectorAll("script[__math-script]").forEach(node => node.remove())
     };
 
     const worker = !window.window;
-    const master = '__uv';
-    const methodPrefix = '__uv$';
-    const __uv = new Ultraviolet({
+    const master = '__math';
+    const methodPrefix = '__math$';
+    const __math = new math({
         ...config,
         window,
     });
 
     if (typeof config.construct === 'function') {
-        config.construct(__uv, worker ? 'worker' : 'window');
+        config.construct(__math, worker ? 'worker' : 'window');
     };
 
-    const { client } = __uv;
+    const { client } = __math;
     const {
         HTMLMediaElement,
         HTMLScriptElement,
@@ -40,90 +40,90 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         HTMLSourceElement,
     } = window;
 
-    client.nativeMethods.defineProperty(window, '__uv', {
-        value: __uv,
+    client.nativeMethods.defineProperty(window, '__math', {
+        value: __math,
         enumerable: false,
     });
 
 
-    __uv.meta.origin = location.origin;
-    __uv.location = client.location.emulate(
+    __math.meta.origin = location.origin;
+    __math.location = client.location.emulate(
         (href) => {
             if (href === 'about:srcdoc') return new URL(href);
             if (href.startsWith('blob:')) href = href.slice('blob:'.length);
-            return new URL(__uv.sourceUrl(href));
+            return new URL(__math.sourceUrl(href));
         },
         (href) => {
-            return __uv.rewriteUrl(href);
+            return __math.rewriteUrl(href);
         },
     );
 
-    __uv.cookieStr = window.__uv$cookies || '';
-    __uv.meta.url = __uv.location;
-    __uv.domain = __uv.meta.url.host;
-    __uv.blobUrls = new window.Map();
-    __uv.referrer = '';
-    __uv.cookies = [];
-    __uv.localStorageObj = {};
-    __uv.sessionStorageObj = {};
+    __math.cookieStr = window.__math$cookies || '';
+    __math.meta.url = __math.location;
+    __math.domain = __math.meta.url.host;
+    __math.blobUrls = new window.Map();
+    __math.referrer = '';
+    __math.cookies = [];
+    __math.localStorageObj = {};
+    __math.sessionStorageObj = {};
 
     try {
-        __uv.bare = new URL(bare, window.location.href);
+        __math.bare = new URL(bare, window.location.href);
     } catch(e) {
-        __uv.bare = window.parent.__uv.bare;
+        __math.bare = window.parent.__math.bare;
     };
 
-    if (__uv.location.href === 'about:srcdoc') {
-        __uv.meta = window.parent.__uv.meta;
+    if (__math.location.href === 'about:srcdoc') {
+        __math.meta = window.parent.__math.meta;
     };
 
     if (window.EventTarget) {
-        __uv.addEventListener = window.EventTarget.prototype.addEventListener;
-        __uv.removeListener = window.EventTarget.prototype.removeListener;
-        __uv.dispatchEvent = window.EventTarget.prototype.dispatchEvent;
+        __math.addEventListener = window.EventTarget.prototype.addEventListener;
+        __math.removeListener = window.EventTarget.prototype.removeListener;
+        __math.dispatchEvent = window.EventTarget.prototype.dispatchEvent;
     };
 
     // Storage wrappers
-    client.nativeMethods.defineProperty(client.storage.storeProto, '__uv$storageObj', {
+    client.nativeMethods.defineProperty(client.storage.storeProto, '__math$storageObj', {
         get() {
-            if (this === client.storage.sessionStorage) return __uv.sessionStorageObj;
-            if (this === client.storage.localStorage) return __uv.localStorageObj;
+            if (this === client.storage.sessionStorage) return __math.sessionStorageObj;
+            if (this === client.storage.localStorage) return __math.localStorageObj;
         },
         enumerable: false,
     });
 
     if (window.localStorage) {
         for (const key in window.localStorage) {
-            if (key.startsWith(methodPrefix + __uv.location.origin + '@')) {
-                __uv.localStorageObj[key.slice((methodPrefix + __uv.location.origin + '@').length)] = window.localStorage.getItem(key);
+            if (key.startsWith(methodPrefix + __math.location.origin + '@')) {
+                __math.localStorageObj[key.slice((methodPrefix + __math.location.origin + '@').length)] = window.localStorage.getItem(key);
             };
         };
 
-        __uv.lsWrap = client.storage.emulate(client.storage.localStorage, __uv.localStorageObj);
+        __math.lsWrap = client.storage.emulate(client.storage.localStorage, __math.localStorageObj);
     };
 
     if (window.sessionStorage) {
         for (const key in window.sessionStorage) {
-            if (key.startsWith(methodPrefix + __uv.location.origin + '@')) {
-                __uv.sessionStorageObj[key.slice((methodPrefix + __uv.location.origin + '@').length)] = window.sessionStorage.getItem(key);
+            if (key.startsWith(methodPrefix + __math.location.origin + '@')) {
+                __math.sessionStorageObj[key.slice((methodPrefix + __math.location.origin + '@').length)] = window.sessionStorage.getItem(key);
             };
         };
 
-        __uv.ssWrap = client.storage.emulate(client.storage.sessionStorage, __uv.sessionStorageObj);
+        __math.ssWrap = client.storage.emulate(client.storage.sessionStorage, __math.sessionStorageObj);
     };
 
 
 
     let rawBase = window.document ? client.node.baseURI.get.call(window.document) : window.location.href;
-    let base = __uv.sourceUrl(rawBase);
+    let base = __math.sourceUrl(rawBase);
 
-    client.nativeMethods.defineProperty(__uv.meta, 'base', {
+    client.nativeMethods.defineProperty(__math.meta, 'base', {
         get() {
-            if (!window.document) return __uv.meta.url.href;
+            if (!window.document) return __math.meta.url.href;
 
             if (client.node.baseURI.get.call(window.document) !== rawBase) {
                 rawBase = client.node.baseURI.get.call(window.document);
-                base = __uv.sourceUrl(rawBase);
+                base = __math.sourceUrl(rawBase);
             };
 
             return base;
@@ -131,7 +131,7 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     });
 
 
-    __uv.methods = {
+    __math.methods = {
         setSource: methodPrefix + 'setSource',
         source: methodPrefix + 'source',
         location: methodPrefix + 'location',
@@ -142,24 +142,24 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         top: methodPrefix + 'top',
     };
 
-    __uv.filterKeys = [
+    __math.filterKeys = [
         master,
-        __uv.methods.setSource,
-        __uv.methods.source,
-        __uv.methods.location,
-        __uv.methods.function,
-        __uv.methods.string,
-        __uv.methods.eval,
-        __uv.methods.parent,
-        __uv.methods.top,
+        __math.methods.setSource,
+        __math.methods.source,
+        __math.methods.location,
+        __math.methods.function,
+        __math.methods.string,
+        __math.methods.eval,
+        __math.methods.parent,
+        __math.methods.top,
         methodPrefix + 'protocol',
         methodPrefix + 'storageObj',
         methodPrefix + 'url',
         methodPrefix + 'modifiedStyle',
         methodPrefix + 'config',
         methodPrefix + 'dispatched',
-        'Ultraviolet',
-        '__uvHook',
+        'math',
+        '__mathHook',
     ];
 
 
@@ -167,51 +167,51 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         client.nativeMethods.defineProperty(wrapped, 'name', client.nativeMethods.getOwnPropertyDescriptor(target, 'name'));
         client.nativeMethods.defineProperty(wrapped, 'length', client.nativeMethods.getOwnPropertyDescriptor(target, 'length'));
 
-        client.nativeMethods.defineProperty(wrapped, __uv.methods.string, {
+        client.nativeMethods.defineProperty(wrapped, __math.methods.string, {
             enumerable: false,
             value: client.nativeMethods.fnToString.call(target),
         });
 
-        client.nativeMethods.defineProperty(wrapped, __uv.methods.function, {
+        client.nativeMethods.defineProperty(wrapped, __math.methods.function, {
             enumerable: false,
             value: target,
         });
     });
 
     client.fetch.on('request', event => {
-        event.data.input = __uv.rewriteUrl(event.data.input);
+        event.data.input = __math.rewriteUrl(event.data.input);
     });
 
     client.fetch.on('requestUrl', event => {
-        event.data.value = __uv.sourceUrl(event.data.value);
+        event.data.value = __math.sourceUrl(event.data.value);
     });
 
     client.fetch.on('responseUrl', event => {
-        event.data.value = __uv.sourceUrl(event.data.value);
+        event.data.value = __math.sourceUrl(event.data.value);
     });
 
     // XMLHttpRequest
     client.xhr.on('open', event => {
-        event.data.input = __uv.rewriteUrl(event.data.input);
+        event.data.input = __math.rewriteUrl(event.data.input);
     });
 
     client.xhr.on('responseUrl', event => {
-        event.data.value = __uv.sourceUrl(event.data.value);
+        event.data.value = __math.sourceUrl(event.data.value);
     });
 
 
     // Workers
     client.workers.on('worker', event => {
-        event.data.url = __uv.rewriteUrl(event.data.url);
+        event.data.url = __math.rewriteUrl(event.data.url);
     });
 
     client.workers.on('addModule', event => {
-        event.data.url = __uv.rewriteUrl(event.data.url);
+        event.data.url = __math.rewriteUrl(event.data.url);
     });
 
     client.workers.on('importScripts', event => {
         for (const i in event.data.scripts) {
-            event.data.scripts[i] = __uv.rewriteUrl(event.data.scripts[i]);
+            event.data.scripts[i] = __math.rewriteUrl(event.data.scripts[i]);
         };
     });
 
@@ -221,37 +221,37 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         event.data.origin = '*';
         event.data.message = {
             __data: event.data.message,
-            __origin: __uv.meta.url.origin,
+            __origin: __math.meta.url.origin,
             __to: to,
         };
     });
 
     // Navigator
     client.navigator.on('sendBeacon', event => {
-        event.data.url = __uv.rewriteUrl(event.data.url);
+        event.data.url = __math.rewriteUrl(event.data.url);
     });
 
     // Cookies
     client.document.on('getCookie', event => {
-        event.data.value = __uv.cookieStr;
+        event.data.value = __math.cookieStr;
     });
 
     client.document.on('setCookie', event => {
-        Promise.resolve(__uv.cookie.setCookies(event.data.value, __uv.db, __uv.meta)).then(() => {
-            __uv.cookie.db().then(db => {
-                __uv.cookie.getCookies(db).then(cookies => {
-                    __uv.cookieStr = __uv.cookie.serialize(cookies, __uv.meta, true);
+        Promise.resolve(__math.cookie.setCookies(event.data.value, __math.db, __math.meta)).then(() => {
+            __math.cookie.db().then(db => {
+                __math.cookie.getCookies(db).then(cookies => {
+                    __math.cookieStr = __math.cookie.serialize(cookies, __math.meta, true);
                 });
             });
         });
-        const cookie = __uv.cookie.setCookie(event.data.value)[0];
+        const cookie = __math.cookie.setCookie(event.data.value)[0];
 
         if (!cookie.path) cookie.path = '/';
-        if (!cookie.domain) cookie.domain = __uv.meta.url.hostname;
+        if (!cookie.domain) cookie.domain = __math.meta.url.hostname;
 
-        if (__uv.cookie.validateCookie(cookie, __uv.meta, true)) {
-            if (__uv.cookieStr.length) __uv.cookieStr += '; ';
-            __uv.cookieStr += `${cookie.name}=${cookie.value}`;
+        if (__math.cookie.validateCookie(cookie, __math.meta, true)) {
+            if (__math.cookieStr.length) __math.cookieStr += '; ';
+            __math.cookieStr += `${cookie.name}=${cookie.value}`;
         };
 
         event.respondWith(event.data.value);
@@ -261,88 +261,88 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     client.element.on('setInnerHTML', event => {
         switch (event.that.tagName) {
             case 'SCRIPT':
-                event.data.value = __uv.js.rewrite(event.data.value);
+                event.data.value = __math.js.rewrite(event.data.value);
                 break;
             case 'STYLE':
-                event.data.value = __uv.rewriteCSS(event.data.value);
+                event.data.value = __math.rewriteCSS(event.data.value);
                 break;
             default:
-                event.data.value = __uv.rewriteHtml(event.data.value);
+                event.data.value = __math.rewriteHtml(event.data.value);
         };
     });
 
     client.element.on('getInnerHTML', event => {
         switch (event.that.tagName) {
             case 'SCRIPT':
-                event.data.value = __uv.js.source(event.data.value);
+                event.data.value = __math.js.source(event.data.value);
                 break;
             default:
-                event.data.value = __uv.sourceHtml(event.data.value);
+                event.data.value = __math.sourceHtml(event.data.value);
         };
     });
 
     client.element.on('setOuterHTML', event => {
-        event.data.value = __uv.rewriteHtml(event.data.value, { document: event.that.tagName === 'HTML' });
+        event.data.value = __math.rewriteHtml(event.data.value, { document: event.that.tagName === 'HTML' });
     });
 
     client.element.on('getOuterHTML', event => {
         switch (event.that.tagName) {
             case 'HEAD':
-                event.data.value = __uv.sourceHtml(
+                event.data.value = __math.sourceHtml(
                     event.data.value.replace(/<head(.*)>(.*)<\/head>/s, '<op-head$1>$2</op-head>')
                 ).replace(/<op-head(.*)>(.*)<\/op-head>/s, '<head$1>$2</head>');
                 break;
             case 'BODY':
-                event.data.value = __uv.sourceHtml(
+                event.data.value = __math.sourceHtml(
                     event.data.value.replace(/<body(.*)>(.*)<\/body>/s, '<op-body$1>$2</op-body>')
                 ).replace(/<op-body(.*)>(.*)<\/op-body>/s, '<body$1>$2</body>');
                 break;
             default:
-                event.data.value = __uv.sourceHtml(event.data.value, { document: event.that.tagName === 'HTML' });
+                event.data.value = __math.sourceHtml(event.data.value, { document: event.that.tagName === 'HTML' });
                 break;
         };
 
-        //event.data.value = __uv.sourceHtml(event.data.value, { document: event.that.tagName === 'HTML' });
+        //event.data.value = __math.sourceHtml(event.data.value, { document: event.that.tagName === 'HTML' });
     });
 
     client.document.on('write', event => {
         if (!event.data.html.length) return false;
-        event.data.html = [__uv.rewriteHtml(event.data.html.join(''))];
+        event.data.html = [__math.rewriteHtml(event.data.html.join(''))];
     });
 
     client.document.on('writeln', event => {
         if (!event.data.html.length) return false;
-        event.data.html = [__uv.rewriteHtml(event.data.html.join(''))];
+        event.data.html = [__math.rewriteHtml(event.data.html.join(''))];
     });
 
     client.element.on('insertAdjacentHTML', event => {
-        event.data.html = __uv.rewriteHtml(event.data.html);
+        event.data.html = __math.rewriteHtml(event.data.html);
     });
 
     // EventSource
 
     client.eventSource.on('construct', event => {
-        event.data.url = __uv.rewriteUrl(event.data.url);
+        event.data.url = __math.rewriteUrl(event.data.url);
     });
 
 
     client.eventSource.on('url', event => {
-        event.data.url = __uv.rewriteUrl(event.data.url);
+        event.data.url = __math.rewriteUrl(event.data.url);
     });
 
     // History
     client.history.on('replaceState', event => {
-        if (event.data.url) event.data.url = __uv.rewriteUrl(event.data.url, '__uv' in event.that ? event.that.__uv.meta : __uv.meta);
+        if (event.data.url) event.data.url = __math.rewriteUrl(event.data.url, '__math' in event.that ? event.that.__math.meta : __math.meta);
     });
     client.history.on('pushState', event => {
-        if (event.data.url) event.data.url = __uv.rewriteUrl(event.data.url, '__uv' in event.that ? event.that.__uv.meta : __uv.meta);
+        if (event.data.url) event.data.url = __math.rewriteUrl(event.data.url, '__math' in event.that ? event.that.__math.meta : __math.meta);
     });
 
     // Element get set attribute methods
     client.element.on('getAttribute', event => {
-        if (client.element.hasAttribute.call(event.that, __uv.attributePrefix + '-attr-' + event.data.name)) {
+        if (client.element.hasAttribute.call(event.that, __math.attributePrefix + '-attr-' + event.data.name)) {
             event.respondWith(
-                event.target.call(event.that, __uv.attributePrefix + '-attr-' + event.data.name)
+                event.target.call(event.that, __math.attributePrefix + '-attr-' + event.data.name)
             );
         };
     });
@@ -350,17 +350,17 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     // Message
     client.message.on('postMessage', event => {
         let to = event.data.origin;
-        let call = __uv.call;
+        let call = __math.call;
 
 
         if (event.that) {
-            call = event.that.__uv$source.call;
+            call = event.that.__math$source.call;
         };
 
         event.data.origin = '*';
         event.data.message = {
             __data: event.data.message,
-            __origin: (event.that || event.target).__uv$source.location.origin,
+            __origin: (event.that || event.target).__math$source.location.origin,
             __to: to,
         };
 
@@ -388,117 +388,117 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
 
     client.overrideDescriptor(window, 'origin', {
         get: (target, that) => {
-            return __uv.location.origin;
+            return __math.location.origin;
         },
     });
 
     client.node.on('baseURI', event => {
-        if (event.data.value.startsWith(window.location.origin)) event.data.value = __uv.sourceUrl(event.data.value);
+        if (event.data.value.startsWith(window.location.origin)) event.data.value = __math.sourceUrl(event.data.value);
     });
 
     client.element.on('setAttribute', event => {
         if (event.that instanceof HTMLMediaElement && event.data.name === 'src' && event.data.value.startsWith('blob:')) {
-            event.target.call(event.that, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.blobUrls.get(event.data.value);
+            event.target.call(event.that, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.blobUrls.get(event.data.value);
             return;
         };
 
-        if (__uv.attrs.isUrl(event.data.name)) {
-            event.target.call(event.that, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.rewriteUrl(event.data.value);
+        if (__math.attrs.isUrl(event.data.name)) {
+            event.target.call(event.that, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.rewriteUrl(event.data.value);
         };
 
-        if (__uv.attrs.isStyle(event.data.name)) {
-            event.target.call(event.that, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.rewriteCSS(event.data.value, { context: 'declarationList' });
+        if (__math.attrs.isStyle(event.data.name)) {
+            event.target.call(event.that, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.rewriteCSS(event.data.value, { context: 'declarationList' });
         };
 
-        if (__uv.attrs.isHtml(event.data.name)) {
-            event.target.call(event.that, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.rewriteHtml(event.data.value, {...__uv.meta, document: true, injectHead:__uv.createHtmlInject(__uv.handlerScript, __uv.bundleScript, __uv.configScript, __uv.cookieStr, window.location.href) });
+        if (__math.attrs.isHtml(event.data.name)) {
+            event.target.call(event.that, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.rewriteHtml(event.data.value, {...__math.meta, document: true, injectHead:__math.createHtmlInject(__math.handlerScript, __math.bundleScript, __math.configScript, __math.cookieStr, window.location.href) });
         };
 
-        if (__uv.attrs.isSrcset(event.data.name)) {
-            event.target.call(event.that, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.html.wrapSrcset(event.data.value);
+        if (__math.attrs.isSrcset(event.data.name)) {
+            event.target.call(event.that, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.html.wrapSrcset(event.data.value);
         };
 
-        if (__uv.attrs.isForbidden(event.data.name)) {
-            event.data.name = __uv.attributePrefix + '-attr-' + event.data.name;
+        if (__math.attrs.isForbidden(event.data.name)) {
+            event.data.name = __math.attributePrefix + '-attr-' + event.data.name;
         };
     });
 
     client.element.on('audio', event => {
-        event.data.url = __uv.rewriteUrl(event.data.url);
+        event.data.url = __math.rewriteUrl(event.data.url);
     });
 
     // Element Property Attributes
     client.element.hookProperty([HTMLAnchorElement, HTMLAreaElement, HTMLLinkElement, HTMLBaseElement], 'href', {
         get: (target, that) => {
-            return __uv.sourceUrl(
+            return __math.sourceUrl(
                 target.call(that)
             );
         },
         set: (target, that, [val]) => {
-            client.element.setAttribute.call(that, __uv.attributePrefix + '-attr-href', val)
-            target.call(that, __uv.rewriteUrl(val));
+            client.element.setAttribute.call(that, __math.attributePrefix + '-attr-href', val)
+            target.call(that, __math.rewriteUrl(val));
         },
     }); 
 
     client.element.hookProperty([HTMLScriptElement, HTMLAudioElement, HTMLVideoElement,  HTMLMediaElement, HTMLImageElement, HTMLInputElement, HTMLEmbedElement, HTMLIFrameElement, HTMLTrackElement, HTMLSourceElement], 'src', {
         get: (target, that) => {
-            return __uv.sourceUrl(
+            return __math.sourceUrl(
                 target.call(that)
             );
         },
         set: (target, that, [val]) => {
             if (new String(val).toString().trim().startsWith('blob:') && that instanceof HTMLMediaElement) {
-                client.element.setAttribute.call(that, __uv.attributePrefix + '-attr-src', val)
-                return target.call(that, __uv.blobUrls.get(val) || val);
+                client.element.setAttribute.call(that, __math.attributePrefix + '-attr-src', val)
+                return target.call(that, __math.blobUrls.get(val) || val);
             };
 
-            client.element.setAttribute.call(that, __uv.attributePrefix + '-attr-src', val)
-            target.call(that, __uv.rewriteUrl(val));
+            client.element.setAttribute.call(that, __math.attributePrefix + '-attr-src', val)
+            target.call(that, __math.rewriteUrl(val));
         },
     });
 
     client.element.hookProperty([HTMLFormElement], 'action', {
         get: (target, that) => {
-            return __uv.sourceUrl(
+            return __math.sourceUrl(
                 target.call(that)
             );
         },
         set: (target, that, [val]) => {
-            client.element.setAttribute.call(that, __uv.attributePrefix + '-attr-action', val)
-            target.call(that, __uv.rewriteUrl(val));
+            client.element.setAttribute.call(that, __math.attributePrefix + '-attr-action', val)
+            target.call(that, __math.rewriteUrl(val));
         },
     });
 
     client.element.hookProperty([HTMLImageElement], 'srcset', {
         get: (target, that) => {
-            return client.element.getAttribute.call(that, __uv.attributePrefix + '-attr-srcset') || target.call(that);
+            return client.element.getAttribute.call(that, __math.attributePrefix + '-attr-srcset') || target.call(that);
         },
         set: (target, that, [val]) => {
-            client.element.setAttribute.call(that, __uv.attributePrefix + '-attr-srcset', val)
-            target.call(that, __uv.html.wrapSrcset(val));
+            client.element.setAttribute.call(that, __math.attributePrefix + '-attr-srcset', val)
+            target.call(that, __math.html.wrapSrcset(val));
         },
     });
 
     client.element.hookProperty(HTMLScriptElement, 'integrity', {
         get: (target, that) => {
-            return client.element.getAttribute.call(that, __uv.attributePrefix + '-attr-integrity');
+            return client.element.getAttribute.call(that, __math.attributePrefix + '-attr-integrity');
         },
         set: (target, that, [val]) => {
-            client.element.setAttribute.call(that, __uv.attributePrefix + '-attr-integrity', val);
+            client.element.setAttribute.call(that, __math.attributePrefix + '-attr-integrity', val);
         },
     });
 
     client.element.hookProperty(HTMLIFrameElement, 'sandbox', {
         get: (target, that) => {
-            return client.element.getAttribute.call(that, __uv.attributePrefix + '-attr-sandbox') || target.call(that);
+            return client.element.getAttribute.call(that, __math.attributePrefix + '-attr-sandbox') || target.call(that);
         },
         set: (target, that, [val]) => {
-            client.element.setAttribute.call(that, __uv.attributePrefix + '-attr-sandbox', val);
+            client.element.setAttribute.call(that, __math.attributePrefix + '-attr-sandbox', val);
         },
     });
 
@@ -506,7 +506,7 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         get: (target, that) => {
             const win = target.call(that);
             try {
-                if (!win.__uv) __uvHook(win, config, bare);
+                if (!win.__math) __mathHook(win, config, bare);
                 return win;
             } catch (e) {
                 return win;
@@ -519,7 +519,7 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
             const doc = target.call(that);
             try {
                 const win = doc.defaultView
-                if (!win.__uv) __uvHook(win, config, bare);
+                if (!win.__math) __mathHook(win, config, bare);
                 return doc;
             } catch (e) {
                 return win;
@@ -529,25 +529,25 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
 
     client.element.hookProperty(HTMLIFrameElement, 'srcdoc', {
         get: (target, that) => {
-            return client.element.getAttribute.call(that, __uv.attributePrefix + '-attr-srcdoc') || target.call(that);
+            return client.element.getAttribute.call(that, __math.attributePrefix + '-attr-srcdoc') || target.call(that);
         },
         set: (target, that, [val]) => {
-            target.call(that, __uv.rewriteHtml(val, {
+            target.call(that, __math.rewriteHtml(val, {
                 document: true,
-                injectHead: __uv.createHtmlInject(__uv.handlerScript, __uv.bundleScript, __uv.configScript, __uv.cookieStr, window.location.href)
+                injectHead: __math.createHtmlInject(__math.handlerScript, __math.bundleScript, __math.configScript, __math.cookieStr, window.location.href)
             }))
         },
     });
 
     client.node.on('getTextContent', event => {
         if (event.that.tagName === 'SCRIPT') {
-            event.data.value = __uv.js.source(event.data.value);
+            event.data.value = __math.js.source(event.data.value);
         };
     });
 
     client.node.on('setTextContent', event => {
         if (event.that.tagName === 'SCRIPT') {
-            event.data.value = __uv.js.rewrite(event.data.value);
+            event.data.value = __math.js.rewrite(event.data.value);
         };
     });
 
@@ -559,56 +559,56 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
 
     // Document
     client.document.on('getDomain', event => {
-        event.data.value = __uv.domain;
+        event.data.value = __math.domain;
     });
     client.document.on('setDomain', event => {
-        if (!event.data.value.toString().endsWith(__uv.meta.url.hostname.split('.').slice(-2).join('.'))) return event.respondWith('');
-        event.respondWith(__uv.domain = event.data.value);
+        if (!event.data.value.toString().endsWith(__math.meta.url.hostname.split('.').slice(-2).join('.'))) return event.respondWith('');
+        event.respondWith(__math.domain = event.data.value);
     })
 
     client.document.on('url', event => {
-        event.data.value = __uv.location.href;
+        event.data.value = __math.location.href;
     });
 
     client.document.on('documentURI', event => {
-        event.data.value = __uv.location.href;
+        event.data.value = __math.location.href;
     });
 
     client.document.on('referrer', event => {
-        event.data.value = __uv.referrer || __uv.sourceUrl(event.data.value);
+        event.data.value = __math.referrer || __math.sourceUrl(event.data.value);
     });
 
     client.document.on('parseFromString', event => {
         if (event.data.type !== 'text/html') return false;
-        event.data.string = __uv.rewriteHtml(event.data.string, {...__uv.meta, document: true, });
+        event.data.string = __math.rewriteHtml(event.data.string, {...__math.meta, document: true, });
     });
 
     // Attribute (node.attributes)
     client.attribute.on('getValue', event => {
-        if (client.element.hasAttribute.call(event.that.ownerElement, __uv.attributePrefix + '-attr-' + event.data.name)) {
-            event.data.value = client.element.getAttribute.call(event.that.ownerElement, __uv.attributePrefix + '-attr-' + event.data.name);
+        if (client.element.hasAttribute.call(event.that.ownerElement, __math.attributePrefix + '-attr-' + event.data.name)) {
+            event.data.value = client.element.getAttribute.call(event.that.ownerElement, __math.attributePrefix + '-attr-' + event.data.name);
         };
     });
 
     client.attribute.on('setValue', event => {
-        if (__uv.attrs.isUrl(event.data.name)) {
-            client.element.setAttribute.call(event.that.ownerElement, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.rewriteUrl(event.data.value);
+        if (__math.attrs.isUrl(event.data.name)) {
+            client.element.setAttribute.call(event.that.ownerElement, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.rewriteUrl(event.data.value);
         };
 
-        if (__uv.attrs.isStyle(event.data.name)) {
-            client.element.setAttribute.call(event.that.ownerElement, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.rewriteCSS(event.data.value, { context: 'declarationList' });
+        if (__math.attrs.isStyle(event.data.name)) {
+            client.element.setAttribute.call(event.that.ownerElement, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.rewriteCSS(event.data.value, { context: 'declarationList' });
         };
 
-        if (__uv.attrs.isHtml(event.data.name)) {
-            client.element.setAttribute.call(event.that.ownerElement, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.rewriteHtml(event.data.value, {...__uv.meta, document: true, injectHead:__uv.createHtmlInject(__uv.handlerScript, __uv.bundleScript, __uv.configScript, __uv.cookieStr, window.location.href) });
+        if (__math.attrs.isHtml(event.data.name)) {
+            client.element.setAttribute.call(event.that.ownerElement, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.rewriteHtml(event.data.value, {...__math.meta, document: true, injectHead:__math.createHtmlInject(__math.handlerScript, __math.bundleScript, __math.configScript, __math.cookieStr, window.location.href) });
         };
 
-        if (__uv.attrs.isSrcset(event.data.name)) {
-            client.element.setAttribute.call(event.that.ownerElement, __uv.attributePrefix + '-attr-' + event.data.name, event.data.value);
-            event.data.value = __uv.html.wrapSrcset(event.data.value);
+        if (__math.attrs.isSrcset(event.data.name)) {
+            client.element.setAttribute.call(event.that.ownerElement, __math.attributePrefix + '-attr-' + event.data.name, event.data.value);
+            event.data.value = __math.html.wrapSrcset(event.data.value);
         };
 
     });
@@ -617,8 +617,8 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     client.url.on('createObjectURL', event => {
         let url = event.target.call(event.that, event.data.object);
         if (url.startsWith('blob:' + location.origin)) {
-            let newUrl = 'blob:' + (__uv.meta.url.href !== 'about:blank' ?  __uv.meta.url.origin : window.parent.__uv.meta.url.origin) + url.slice('blob:'.length + location.origin.length);
-            __uv.blobUrls.set(newUrl, url);
+            let newUrl = 'blob:' + (__math.meta.url.href !== 'about:blank' ?  __math.meta.url.origin : window.parent.__math.meta.url.origin) + url.slice('blob:'.length + location.origin.length);
+            __math.blobUrls.set(newUrl, url);
             event.respondWith(newUrl);
         } else {
             event.respondWith(url);
@@ -626,69 +626,69 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     });
 
     client.url.on('revokeObjectURL', event => {
-        if (__uv.blobUrls.has(event.data.url)) {
+        if (__math.blobUrls.has(event.data.url)) {
             const old = event.data.url;
-            event.data.url = __uv.blobUrls.get(event.data.url);
-            __uv.blobUrls.delete(old);
+            event.data.url = __math.blobUrls.get(event.data.url);
+            __math.blobUrls.delete(old);
         };
     });
 
     client.storage.on('get', event => {
-        event.data.name = methodPrefix + __uv.meta.url.origin + '@' + event.data.name;
+        event.data.name = methodPrefix + __math.meta.url.origin + '@' + event.data.name;
     });
 
     client.storage.on('set', event => {
-        if (event.that.__uv$storageObj) {
-            event.that.__uv$storageObj[event.data.name] = event.data.value;
+        if (event.that.__math$storageObj) {
+            event.that.__math$storageObj[event.data.name] = event.data.value;
         };
-        event.data.name = methodPrefix + __uv.meta.url.origin + '@' + event.data.name;
+        event.data.name = methodPrefix + __math.meta.url.origin + '@' + event.data.name;
     });
 
     client.storage.on('delete', event => {
-        if (event.that.__uv$storageObj) {
-            delete event.that.__uv$storageObj[event.data.name];
+        if (event.that.__math$storageObj) {
+            delete event.that.__math$storageObj[event.data.name];
         };
-        event.data.name = methodPrefix + __uv.meta.url.origin + '@' + event.data.name;
+        event.data.name = methodPrefix + __math.meta.url.origin + '@' + event.data.name;
     });
 
     client.storage.on('getItem', event => {
-        event.data.name = methodPrefix + __uv.meta.url.origin + '@' + event.data.name;
+        event.data.name = methodPrefix + __math.meta.url.origin + '@' + event.data.name;
     });
 
     client.storage.on('setItem', event => {
-        if (event.that.__uv$storageObj) {
-            event.that.__uv$storageObj[event.data.name] = event.data.value;
+        if (event.that.__math$storageObj) {
+            event.that.__math$storageObj[event.data.name] = event.data.value;
         };
-        event.data.name = methodPrefix + __uv.meta.url.origin + '@' + event.data.name;
+        event.data.name = methodPrefix + __math.meta.url.origin + '@' + event.data.name;
     });
 
     client.storage.on('removeItem', event => {
-        if (event.that.__uv$storageObj) {
-            delete event.that.__uv$storageObj[event.data.name];
+        if (event.that.__math$storageObj) {
+            delete event.that.__math$storageObj[event.data.name];
         };
-        event.data.name = methodPrefix + __uv.meta.url.origin + '@' + event.data.name;
+        event.data.name = methodPrefix + __math.meta.url.origin + '@' + event.data.name;
     });
 
     client.storage.on('clear', event => {
-        if (event.that.__uv$storageObj) {
-            for (const key of client.nativeMethods.keys.call(null, event.that.__uv$storageObj)) {
-                delete event.that.__uv$storageObj[key];
-                client.storage.removeItem.call(event.that, methodPrefix + __uv.meta.url.origin + '@' + key);
+        if (event.that.__math$storageObj) {
+            for (const key of client.nativeMethods.keys.call(null, event.that.__math$storageObj)) {
+                delete event.that.__math$storageObj[key];
+                client.storage.removeItem.call(event.that, methodPrefix + __math.meta.url.origin + '@' + key);
                 event.respondWith();
             };
         };
     });
 
     client.storage.on('length', event => {
-        if (event.that.__uv$storageObj) {
-            event.respondWith(client.nativeMethods.keys.call(null, event.that.__uv$storageObj).length);
+        if (event.that.__math$storageObj) {
+            event.respondWith(client.nativeMethods.keys.call(null, event.that.__math$storageObj).length);
         };
     });
 
     client.storage.on('key', event => {
-        if (event.that.__uv$storageObj) {
+        if (event.that.__math$storageObj) {
             event.respondWith(
-                (client.nativeMethods.keys.call(null, event.that.__uv$storageObj)[event.data.index] || null)
+                (client.nativeMethods.keys.call(null, event.that.__math$storageObj)[event.data.index] || null)
             );
         };
     });
@@ -703,7 +703,7 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
 
         const headers = {
             Host: url.host,
-            Origin: __uv.meta.url.origin,
+            Origin: __math.meta.url.origin,
             Pragma: 'no-cache',
             'Cache-Control': 'no-cache',
             Upgrade: 'websocket',
@@ -711,7 +711,7 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
             'Connection': 'Upgrade',
         };
 
-        const cookies = __uv.cookie.serialize(__uv.cookies, { url }, false);
+        const cookies = __math.cookie.serialize(__math.cookies, { url }, false);
 
         if (cookies) headers.Cookie = cookies;
         const protocols = [...event.data.protocols];
@@ -725,10 +725,10 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
 
         if (protocols.length) headers['Sec-WebSocket-Protocol'] = protocols.join(', ');
 
-        event.data.url =  (__uv.bare.protocol === 'https:' ? 'wss://' : 'ws://') + __uv.bare.host + __uv.bare.pathname + 'v1/';
+        event.data.url =  (__math.bare.protocol === 'https:' ? 'wss://' : 'ws://') + __math.bare.host + __math.bare.pathname + 'v1/';
         event.data.protocols = [
             'bare',
-            __uv.encodeProtocol(JSON.stringify({
+            __math.encodeProtocol(JSON.stringify({
                 remote,
                 headers,
                 forward_headers: [
@@ -755,31 +755,31 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     });
 
     client.websocket.on('url', event => {
-        if ('__uv$url' in event.that) {
-            event.data.value = event.that.__uv$url;
+        if ('__math$url' in event.that) {
+            event.data.value = event.that.__math$url;
         };
     });
 
     client.websocket.on('protocol', event => {
-        if ('__uv$protocol' in event.that) {
-            event.data.value = event.that.__uv$protocol;
+        if ('__math$protocol' in event.that) {
+            event.data.value = event.that.__math$protocol;
         };
     });
 
     client.function.on('function', event => {
-        event.data.script = __uv.rewriteJS(event.data.script);
+        event.data.script = __math.rewriteJS(event.data.script);
     });
 
     client.function.on('toString', event => {
-        if (__uv.methods.string in event.that) event.respondWith(event.that[__uv.methods.string]);
+        if (__math.methods.string in event.that) event.respondWith(event.that[__math.methods.string]);
     });
 
     client.object.on('getOwnPropertyNames', event => {
-        event.data.names = event.data.names.filter(element => !(__uv.filterKeys.includes(element)));
+        event.data.names = event.data.names.filter(element => !(__math.filterKeys.includes(element)));
     });
 
     client.object.on('getOwnPropertyDescriptors', event => {
-        for (const forbidden of __uv.filterKeys) {
+        for (const forbidden of __math.filterKeys) {
             delete event.data.descriptors[forbidden];
         };
 
@@ -787,9 +787,9 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
 
     client.style.on('setProperty', event => {
         if (client.style.dashedUrlProps.includes(event.data.property)) {
-            event.data.value = __uv.rewriteCSS(event.data.value, {
+            event.data.value = __math.rewriteCSS(event.data.value, {
                 context: 'value',
-                ...__uv.meta
+                ...__math.meta
             })
         };
     });
@@ -797,11 +797,11 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     client.style.on('getPropertyValue', event => {
         if (client.style.dashedUrlProps.includes(event.data.property)) {
             event.respondWith(
-                __uv.sourceCSS(
+                __math.sourceCSS(
                     event.target.call(event.that, event.data.property),
                     {
                         context: 'value',
-                        ...__uv.meta
+                        ...__math.meta
                     }
                 )
             );
@@ -812,20 +812,20 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         for (const key of client.style.urlProps) {
             client.overrideDescriptor(window.CSS2Properties.prototype, key, {
                 get: (target, that) => {
-                    return __uv.sourceCSS(
+                    return __math.sourceCSS(
                         target.call(that),
                         {
                             context: 'value',
-                            ...__uv.meta
+                            ...__math.meta
                         }
                     )
                 },
                 set: (target, that, val) => {
                     target.call(
                         that,
-                        __uv.rewriteCSS(val, {
+                        __math.rewriteCSS(val, {
                             context: 'value',
-                            ...__uv.meta
+                            ...__math.meta
                         })
                     );
                 }
@@ -847,20 +847,20 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
                                 configurable: true,
                                 get() {
                                     const value = client.style.getPropertyValue.call(this, key) || '';
-                                    return __uv.sourceCSS(
+                                    return __math.sourceCSS(
                                         value,
                                         {
                                             context: 'value',
-                                            ...__uv.meta
+                                            ...__math.meta
                                         }
                                     )
                                 },
                                 set(val) {
                                     client.style.setProperty.call(this, 
                                         (client.style.propToDashed[key] || key),
-                                        __uv.rewriteCSS(val, {
+                                        __math.rewriteCSS(val, {
                                             context: 'value',
-                                            ...__uv.meta
+                                            ...__math.meta
                                         })    
                                     )
                                 }
@@ -878,33 +878,33 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     };
 
     client.style.on('setCssText', event => {
-        event.data.value = __uv.rewriteCSS(event.data.value, {
+        event.data.value = __math.rewriteCSS(event.data.value, {
             context: 'declarationList',
-            ...__uv.meta
+            ...__math.meta
         });
     });
 
     client.style.on('getCssText', event => {
-        event.data.value = __uv.sourceCSS(event.data.value, {
+        event.data.value = __math.sourceCSS(event.data.value, {
             context: 'declarationList',
-            ...__uv.meta
+            ...__math.meta
         });
     });
 
     // Proper hash emulation.
     if (!!window.window) {
-        __uv.addEventListener.call(window, 'hashchange', event => {
-            if (event.__uv$dispatched) return false;
+        __math.addEventListener.call(window, 'hashchange', event => {
+            if (event.__math$dispatched) return false;
             event.stopImmediatePropagation();
             const hash = window.location.hash;
             client.history.replaceState.call(window.history, '', '', event.oldURL);
-            __uv.location.hash = hash;
+            __math.location.hash = hash;
         });
     };
 
     client.location.on('hashchange', (oldUrl, newUrl, ctx) => {
         if (ctx.HashChangeEvent && client.history.replaceState) {
-            client.history.replaceState.call(window.history, '', '', __uv.rewriteUrl(newUrl));
+            client.history.replaceState.call(window.history, '', '', __math.rewriteUrl(newUrl));
 
             const event = new ctx.HashChangeEvent('hashchange', { newURL: newUrl, oldURL: oldUrl });
 
@@ -913,7 +913,7 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
                 enumerable: false,
             }); 
 
-            __uv.dispatchEvent.call(window, event);
+            __math.dispatchEvent.call(window, event);
         };
     });
 
@@ -964,18 +964,18 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     client.function.overrideToString();
     client.location.overrideWorkerLocation(
         (href) => {
-            return new URL(__uv.sourceUrl(href));
+            return new URL(__math.sourceUrl(href));
         }
     );
 
     client.overrideDescriptor(window, 'localStorage', {
         get: (target, that) => {
-            return (that || window).__uv.lsWrap;
+            return (that || window).__math.lsWrap;
         },
     });
     client.overrideDescriptor(window, 'sessionStorage', {
         get: (target, that) => {
-            return (that || window).__uv.ssWrap;
+            return (that || window).__math.ssWrap;
         },
     });
 
@@ -984,58 +984,58 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         if (!args.length) return target.apply(that, args);
         let [url] = args;
 
-        url = __uv.rewriteUrl(url);
+        url = __math.rewriteUrl(url);
 
         return target.call(that, url);
     });
 
-    __uv.$wrap = function(name) {
-        if (name === 'location') return __uv.methods.location;
-        if (name === 'eval') return __uv.methods.eval;
+    __math.$wrap = function(name) {
+        if (name === 'location') return __math.methods.location;
+        if (name === 'eval') return __math.methods.eval;
         return name;
     };
 
 
-    __uv.$get = function(that) {
-        if (that === window.location) return __uv.location;
-        if (that === window.eval) return __uv.eval;
+    __math.$get = function(that) {
+        if (that === window.location) return __math.location;
+        if (that === window.eval) return __math.eval;
         if (that === window.parent) {
-            return window.__uv$parent;
+            return window.__math$parent;
         };
         if (that === window.top) {
-            return window.__uv$top;
+            return window.__math$top;
         };
         return that;
     };
 
-    __uv.eval = client.wrap(window, 'eval', (target, that, args) => {
+    __math.eval = client.wrap(window, 'eval', (target, that, args) => {
         if (!args.length || typeof args[0] !== 'string') return target.apply(that, args);
         let [script] = args;
 
-        script = __uv.rewriteJS(script);
+        script = __math.rewriteJS(script);
         return target.call(that, script);
     });
 
-    __uv.call = function(target, args, that) {
+    __math.call = function(target, args, that) {
         return that ? target.apply(that, args) : target(...args);
     };
 
-    __uv.call$ = function(obj, prop, args = []) {
+    __math.call$ = function(obj, prop, args = []) {
         return obj[prop].apply(obj, args);
     };
 
     client.nativeMethods.defineProperty(window.Object.prototype, master, {
         get: () => {
-            return __uv;
+            return __math;
         },
         enumerable: false
     });
 
-    client.nativeMethods.defineProperty(window.Object.prototype, __uv.methods.setSource, {
+    client.nativeMethods.defineProperty(window.Object.prototype, __math.methods.setSource, {
         value: function(source) {
             if (!client.nativeMethods.isExtensible(this)) return this;
 
-            client.nativeMethods.defineProperty(this, __uv.methods.source, {
+            client.nativeMethods.defineProperty(this, __math.methods.source, {
                 value: source,
                 writable: true,
                 enumerable: false
@@ -1046,34 +1046,34 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         enumerable: false,
     });
 
-    client.nativeMethods.defineProperty(window.Object.prototype, __uv.methods.source, {
-        value: __uv,
+    client.nativeMethods.defineProperty(window.Object.prototype, __math.methods.source, {
+        value: __math,
         writable: true,
         enumerable: false
     });
 
-    client.nativeMethods.defineProperty(window.Object.prototype, __uv.methods.location, {
+    client.nativeMethods.defineProperty(window.Object.prototype, __math.methods.location, {
         configurable: true,
         get() {
-            return (this === window.document || this === window) ? __uv.location : this.location;
+            return (this === window.document || this === window) ? __math.location : this.location;
         },
         set(val) {
             if (this === window.document || this === window) {
-                __uv.location.href = val;
+                __math.location.href = val;
             } else {
                 this.location = val;
             };
         },
     });
 
-    client.nativeMethods.defineProperty(window.Object.prototype, __uv.methods.parent, {
+    client.nativeMethods.defineProperty(window.Object.prototype, __math.methods.parent, {
         configurable: true,
         get() {
             const val = this.parent;
 
             if (this === window) {
                 try {
-                    return '__uv' in val ? val : this;
+                    return '__math' in val ? val : this;
                 } catch (e) {
                     return this;
                 };
@@ -1085,22 +1085,22 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
         },
     });
 
-    client.nativeMethods.defineProperty(window.Object.prototype, __uv.methods.top, {
+    client.nativeMethods.defineProperty(window.Object.prototype, __math.methods.top, {
         configurable: true,
         get() {
             const val = this.top;
 
             if (this === window) {
-                if (val === this.parent) return this[__uv.methods.parent];
+                if (val === this.parent) return this[__math.methods.parent];
                 try {
-                    if (!('__uv' in val)) {
+                    if (!('__math' in val)) {
                         let current = this;
 
                         while (current.parent !== val) {
                             current = current.parent
                         };
 
-                        return '__uv' in current ? current : this;
+                        return '__math' in current ? current : this;
 
                     } else {
                         return val;
@@ -1117,10 +1117,10 @@ async function __uvHook(window, config = {}, bare = '/bare/') {
     });
 
 
-    client.nativeMethods.defineProperty(window.Object.prototype, __uv.methods.eval, {
+    client.nativeMethods.defineProperty(window.Object.prototype, __math.methods.eval, {
         configurable: true,
         get() {
-            return this === window ? __uv.eval : this.eval;
+            return this === window ? __math.eval : this.eval;
         },
         set(val) {
             this.eval = val;

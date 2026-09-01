@@ -58,7 +58,7 @@ h1 {
   font-weight: 700;
 }
 
-#uv-form {
+#math-form {
   position: absolute;
   z-index: 2;
   width: min(600px, 90%);
@@ -70,7 +70,7 @@ h1 {
   top: 50%;
 }
 
-#uv-address {
+#math-address {
   width: 100%;
   padding: clamp(12px, 2.2vh, 16px) clamp(18px, 3vw, 22px);
   font-size: clamp(0.95rem, 2vw, 1.1rem);

@@ -59,8 +59,8 @@
         <button class="universal-button" onclick="goForward()">Forward</button>
     </div>
 
-    <script src="/static/uv/uv.bundle.js"></script>
-    <script src="/static/uv/uv.config.js"></script>
+    <script src="/static/math/math.bundle.js"></script>
+    <script src="/static/math/math.config.js"></script>
     <script src="/static/register-sw.js"></script>
     <script src="/static/index.js"></script>
     <script src="/index.js"></script>
@@ -77,7 +77,7 @@
 
         if (encodedUrl) {
             iframep.src = encodedUrl;
-            const decodeTest = __uv$config.decodeUrl(encodedUrl);
+            const decodeTest = __math$config.decodeUrl(encodedUrl);
             console.log("Decoded URL:", decodeTest);
         } else {
             console.error("No URL found in the query string.");
@@ -99,7 +99,7 @@
                 const currentEncodedUrl = iframep.contentWindow.location.href
                     .replace(window.location.origin, "")
                     .replace("/static/Bored/", "");
-                const currentDecodedUrl = __uv$config.decodeUrl(currentEncodedUrl);
+                const currentDecodedUrl = __math$config.decodeUrl(currentEncodedUrl);
                 urlInput.value = currentDecodedUrl;
             } catch (err) {
                 console.error("Could not read iframe URL:", err);

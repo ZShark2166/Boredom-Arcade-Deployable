@@ -1,8 +1,14 @@
-importScripts('/static/uv/uv.bundle.js');
-importScripts('/static/uv/uv.config.js');
-importScripts('/static/uv/uv.sw.js');
+importScripts('/static/math/math.sw.js');
 importScripts('https://arc.io/arc-sw-core.js');
 
-const sw = new UVServiceWorker();
+const sw = new MathServiceWorker();
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
+});
 
 self.addEventListener('fetch', (event) => event.respondWith(sw.fetch(event)));

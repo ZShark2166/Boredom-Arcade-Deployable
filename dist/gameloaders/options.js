@@ -1,4 +1,4 @@
-const Proxyframe = document.getElementById("proxyIframe");
+const englishframe = document.getElementById("englishIframe");
 const iframeg = document.getElementById("game-iframe");
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
@@ -26,22 +26,22 @@ function toggleFullscreen() {
 
 
 function refreshIframePRX() {
-    const proxyIframe = document.getElementById("proxyIframe");
-    proxyIframe.src = proxyIframe.contentWindow.location.href;
+    const englishIframe = document.getElementById("englishIframe");
+    englishIframe.src = englishIframe.contentWindow.location.href;
 }
 
 
 function toggleFullscreenPRX() {
     if (!document.fullscreenElement) {
 
-        if (Proxyframe.requestFullscreen) {
-            Proxyframe.requestFullscreen();
-        } else if (Proxyframe.mozRequestFullScreen) {
-            Proxyframe.mozRequestFullScreen();
-        } else if (Proxyframe.webkitRequestFullscreen) { 
-            Proxyframe.webkitRequestFullscreen();
-        } else if (Proxyframe.msRequestFullscreen) { 
-            Proxyframe.msRequestFullscreen();
+        if (englishframe.requestFullscreen) {
+            englishframe.requestFullscreen();
+        } else if (englishframe.mozRequestFullScreen) {
+            englishframe.mozRequestFullScreen();
+        } else if (englishframe.webkitRequestFullscreen) { 
+            englishframe.webkitRequestFullscreen();
+        } else if (englishframe.msRequestFullscreen) { 
+            englishframe.msRequestFullscreen();
         }
     } else {
         if (document.exitFullscreen) {
@@ -61,11 +61,11 @@ function refreshIframe() {
     iframeg.src = iframeg.contentWindow.location.href;
 }
         function goBack() {
-            Proxyframe.contentWindow.history.back()
+            englishframe.contentWindow.history.back()
         }
 
         function goForward() {
-            Proxyframe.contentWindow.history.forward()
+            englishframe.contentWindow.history.forward()
         }
 
 

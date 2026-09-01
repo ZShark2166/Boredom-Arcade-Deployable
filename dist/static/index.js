@@ -1,10 +1,10 @@
 "use strict";
 
-const form = document.getElementById("uv-form");
-const address = document.getElementById("uv-address");
-const searchEngine = document.getElementById("uv-search-engine");
-const error = document.getElementById("uv-error");
-const errorCode = document.getElementById("uv-error-code");
+const form = document.getElementById("math-form");
+const address = document.getElementById("math-address");
+const searchEngine = document.getElementById("math-form-se");
+const error = document.getElementById("math-error");
+const errorCode = document.getElementById("math-error-code");
 
 if (form && address && searchEngine) {
   form.addEventListener("submit", async (event) => {
@@ -39,7 +39,7 @@ if (form && address && searchEngine) {
       }
     }
 
-    const encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
+    const encodedUrl = __math$config.prefix + __math$config.encodeUrl(url);
     window.location.href = `/reading/?url=${encodeURIComponent(encodedUrl)}&normurl=${encodeURIComponent(url)}`;
   });
 }

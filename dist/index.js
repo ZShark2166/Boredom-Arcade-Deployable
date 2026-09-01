@@ -46,28 +46,41 @@ setActiveLink();
         try { return localStorage.getItem(STORAGE_KEY) === 'true'; } catch(e) { return false; }
     }
 
-    function setEnabled(val) {
-        try { localStorage.setItem(STORAGE_KEY, val ? 'true' : 'false'); } catch(e) {}
-        isDirty = val;
+    function syncState(enabled) {
+        isDirty = !!enabled;
+
+        var toggle = document.getElementById('closing-toggle');
+        var status = document.getElementById('closing-status');
+
+        if (toggle) {
+            toggle.checked = isDirty;
+        }
+
+        if (status) {
+            status.textContent = isDirty ? 'On' : 'Off';
+        }
     }
 
-    var enabled = isEnabled();
-    isDirty = enabled;
+    function setEnabled(val) {
+        var enabled = !!val;
+        try { localStorage.setItem(STORAGE_KEY, enabled ? 'true' : 'false'); } catch(e) {}
+        syncState(enabled);
+    }
+
+    syncState(isEnabled());
 
     var toggle = document.getElementById('closing-toggle');
-    var status = document.getElementById('closing-status');
-
     if (toggle) {
-        toggle.checked = enabled;
-
-        if (status) status.textContent = enabled ? 'On' : 'Off';
-
         toggle.addEventListener('change', function () {
             var on = toggle.checked;
             setEnabled(on);
-            if (status) status.textContent = on ? 'On' : 'Off';
         });
     }
+
+    window.addEventListener('storage', function (event) {
+        if (!event.key || event.key !== STORAGE_KEY) return;
+        syncState(event.newValue === 'true');
+    });
 })();
 
 document.addEventListener('mousedown', function (e) {

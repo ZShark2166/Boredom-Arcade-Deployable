@@ -1,8 +1,8 @@
-importScripts('/static/uv/uv.bundle.js');
-importScripts('/static/uv/uv.config.js');
+importScripts('/static/math/math.bundle.js');
+importScripts('/static/math/math.config.js');
 
-class UVServiceWorker extends EventEmitter {     
-    constructor(config = __uv$config) {
+class MathServiceWorker extends EventEmitter {     
+    constructor(config = __math$config) {
         super();
         if (!config.bare) config.bare = '/bare/';
         this.addresses = typeof config.bare === 'string' ? [ new URL(config.bare, location) ] : config.bare.map(str => new URL(str, location));
@@ -44,7 +44,7 @@ class UVServiceWorker extends EventEmitter {
             ],
         };  
         this.config = config;
-        this.browser = Ultraviolet.Bowser.getParser(self.navigator.userAgent).getBrowserName();
+        this.browser = math.Bowser.getParser(self.navigator.userAgent).getBrowserName();
 
         if (this.browser === 'Firefox') {
             this.headers.forward.push('user-agent');
@@ -57,41 +57,41 @@ class UVServiceWorker extends EventEmitter {
         };
         try {
 
-            const ultraviolet = new Ultraviolet(this.config);
+            const mathProxy = new math(this.config);
 
             if (typeof this.config.construct === 'function') {
-                this.config.construct(ultraviolet, 'service');
+                this.config.construct(mathProxy, 'service');
             };
 
-            const db = await ultraviolet.cookie.db();
+            const db = await mathProxy.cookie.db();
 
-            ultraviolet.meta.origin = location.origin;
-            ultraviolet.meta.base = ultraviolet.meta.url = new URL(ultraviolet.sourceUrl(request.url));
+            mathProxy.meta.origin = location.origin;
+            mathProxy.meta.base = mathProxy.meta.url = new URL(mathProxy.sourceUrl(request.url));
 
             const requestCtx = new RequestContext(
                 request, 
                 this, 
-                ultraviolet, 
+                mathProxy, 
                 !this.method.empty.includes(request.method.toUpperCase()) ? await request.blob() : null
             );
 
-            if (ultraviolet.meta.url.protocol === 'blob:') {
+            if (mathProxy.meta.url.protocol === 'blob:') {
                 requestCtx.blob = true;
                 requestCtx.base = requestCtx.url = new URL(requestCtx.url.pathname);
             };
 
             if (request.referrer && request.referrer.startsWith(location.origin)) {
-                const referer = new URL(ultraviolet.sourceUrl(request.referrer));
+                const referer = new URL(mathProxy.sourceUrl(request.referrer));
 
-                if (requestCtx.headers.origin || ultraviolet.meta.url.origin !== referer.origin && request.mode === 'cors') {
+                if (requestCtx.headers.origin || mathProxy.meta.url.origin !== referer.origin && request.mode === 'cors') {
                     requestCtx.headers.origin = referer.origin;
                 };
 
                 requestCtx.headers.referer = referer.href;
             };
 
-            const cookies = await ultraviolet.cookie.getCookies(db) || [];
-            const cookieStr = ultraviolet.cookie.serialize(cookies, ultraviolet.meta, false);
+            const cookies = await mathProxy.cookie.getCookies(db) || [];
+            const cookieStr = mathProxy.cookie.serialize(cookies, mathProxy.meta, false);
 
             if (this.browser === 'Firefox' && !(request.destination === 'iframe' || request.destination === 'document')) {
                 requestCtx.forward.shift();
@@ -123,16 +123,16 @@ class UVServiceWorker extends EventEmitter {
             }; 
             
             if (responseCtx.headers.location) {
-                responseCtx.headers.location = ultraviolet.rewriteUrl(responseCtx.headers.location);
+                responseCtx.headers.location = mathProxy.rewriteUrl(responseCtx.headers.location);
             };
 
             if (responseCtx.headers['set-cookie']) {
-                Promise.resolve(ultraviolet.cookie.setCookies(responseCtx.headers['set-cookie'], db, ultraviolet.meta)).then(() => {
+                Promise.resolve(mathProxy.cookie.setCookies(responseCtx.headers['set-cookie'], db, mathProxy.meta)).then(() => {
                     self.clients.matchAll().then(function (clients){
                         clients.forEach(function(client){
                             client.postMessage({
                                 msg: 'updateCookies',
-                                url: ultraviolet.meta.url.href,
+                                url: mathProxy.meta.url.href,
                             });
                         });
                     });
@@ -144,28 +144,28 @@ class UVServiceWorker extends EventEmitter {
                 switch(request.destination) {
                     case 'script':
                     case 'worker':
-                        responseCtx.body = `if (!self.__uv && self.importScripts) importScripts('${__uv$config.bundle}', '${__uv$config.config}', '${__uv$config.handler}');\n`;
-                        responseCtx.body += ultraviolet.js.rewrite(
+                        responseCtx.body = `if (!self.__math && self.importScripts) importScripts('${__math$config.bundle}', '${__math$config.config}', '${__math$config.handler}');\n`;
+                        responseCtx.body += mathProxy.js.rewrite(
                             await response.text()
                         );
                         break;
                     case 'style':
-                        responseCtx.body = ultraviolet.rewriteCSS(
+                        responseCtx.body = mathProxy.rewriteCSS(
                             await response.text()
                         ); 
                         break;
                 case 'iframe':
                 case 'document':
-                        if (isHtml(ultraviolet.meta.url, (responseCtx.headers['content-type'] || ''))) {
-                            responseCtx.body = ultraviolet.rewriteHtml(
+                        if (isHtml(mathProxy.meta.url, (responseCtx.headers['content-type'] || ''))) {
+                            responseCtx.body = mathProxy.rewriteHtml(
                                 await response.text(), 
                                 { 
                                     document: true ,
-                                    injectHead: ultraviolet.createHtmlInject(
+                                    injectHead: mathProxy.createHtmlInject(
                                         this.config.handler, 
                                         this.config.bundle, 
                                         this.config.config,
-                                        ultraviolet.cookie.serialize(cookies, ultraviolet.meta, true), 
+                                        mathProxy.cookie.serialize(cookies, mathProxy.meta, true), 
                                         request.referrer
                                     )
                                 }
@@ -211,10 +211,10 @@ class UVServiceWorker extends EventEmitter {
     get address() {
         return this.addresses[Math.floor(Math.random() * this.addresses.length)];
     };
-    static Ultraviolet = Ultraviolet;
+    static math = math;
 };
 
-self.UVServiceWorker = UVServiceWorker;
+self.MathServiceWorker = MathServiceWorker;
 
 
 class ResponseContext {
@@ -227,7 +227,7 @@ class ResponseContext {
         };
         this.request = request;
         this.raw = response;
-        this.ultraviolet = request.ultraviolet;
+        this.math = request.math;
         this.headers = headers;
         this.status = status;
         this.statusText = statusText;
@@ -245,8 +245,8 @@ class ResponseContext {
 };
 
 class RequestContext {
-    constructor(request, worker, ultraviolet, body = null) {
-        this.ultraviolet = ultraviolet;
+    constructor(request, worker, math, body = null) {
+        this.math = math;
         this.request = request;
         this.headers = Object.fromEntries([...request.headers.entries()]);
         this.method = request.method;
@@ -276,21 +276,21 @@ class RequestContext {
         });
     };
     get url() {
-        return this.ultraviolet.meta.url;
+        return this.math.meta.url;
     };
     set url(val) {
-        this.ultraviolet.meta.url = val;
+        this.math.meta.url = val;
     };
     get base() {
-        return this.ultraviolet.meta.base;
+        return this.math.meta.base;
     };
     set base(val) {
-        this.ultraviolet.meta.base = val;
+        this.math.meta.base = val;
     };
 }
 
 function isHtml(url, contentType = '') {
-    return (Ultraviolet.mime.contentType((contentType  || url.pathname)) || 'text/html').split(';')[0] === 'text/html';
+    return (math.mime.contentType((contentType  || url.pathname)) || 'text/html').split(';')[0] === 'text/html';
 };
 
 class HookEvent {

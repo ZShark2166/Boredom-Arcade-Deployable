@@ -3,7 +3,9 @@ const prContainer = document.getElementById("pr-container");
 const initialIframe = document.getElementById("prIframe");
 const browserForm = document.getElementById("browser-form");
 const browserInput = document.getElementById("browser-input");
-const searchEngineInput = document.getElementById("uv-search-engine");
+const searchEngineInput =
+    document.getElementById("math-form-se") ||
+    document.getElementById("uv-search-engine");
 const tabsContainer = document.querySelector(".Browser-tabs");
 
 const HOME_TITLE = "Boredom V3";
@@ -215,10 +217,10 @@ function decodeSourceUrl(proxiedUrl) {
     }
 
     try {
-        const originPrefix = `${window.location.origin}${__uv$config.prefix}`;
+        const originPrefix = `${window.location.origin}${__math$config.prefix}`;
         if (proxiedUrl.startsWith(originPrefix)) {
             const encodedUrl = proxiedUrl.slice(originPrefix.length);
-            return __uv$config.decodeUrl(encodedUrl);
+            return __math$config.decodeUrl(encodedUrl);
         }
     } catch (error) {
         return "";
@@ -361,7 +363,8 @@ function normalizeInputToUrl(value) {
         if (url.includes(".")) {
             url = "https://" + url;
         } else {
-            url = searchEngineInput.value.replace("%s", encodeURIComponent(url));
+            const searchTemplate = searchEngineInput?.value || "https://duckduckgo.com/?q=%s";
+            url = searchTemplate.replace("%s", encodeURIComponent(url));
         }
     }
 
@@ -393,7 +396,7 @@ function waitForRegistrationActivation(registration) {
     });
 }
 
-async function ensureProxyReady() {
+async function ensurehistoryReady() {
     if (typeof registerSW !== "function") {
         return true;
     }
@@ -403,7 +406,7 @@ async function ensureProxyReady() {
         await waitForRegistrationActivation(registration);
         return true;
     } catch (error) {
-        console.error("Proxy bootstrap failed:", error);
+        console.error("history bootstrap failed:", error);
         return false;
     }
 }
@@ -413,7 +416,7 @@ function loadActiveTab(url) {
     const iframe = ensureIframeForTab(activeTab);
 
     activeTab.url = url;
-    activeTab.iframeSrc = __uv$config.prefix + __uv$config.encodeUrl(url);
+    activeTab.iframeSrc = __math$config.prefix + __math$config.encodeUrl(url);
     activeTab.isHome = false;
 
     try {
@@ -451,9 +454,9 @@ browserForm.addEventListener("submit", async (event) => {
         return;
     }
 
-    const proxyReady = await ensureProxyReady();
+    const historyReady = await ensurehistoryReady();
 
-    if (!proxyReady) {
+    if (!historyReady) {
         return;
     }
 
@@ -489,14 +492,14 @@ function goHome() {
     syncViewToActiveTab();
 }
 
-window.openProxyTab = async (url) => {
+window.openhistoryTab = async (url) => {
     if (!url) {
         return;
     }
 
-    const proxyReady = await ensureProxyReady();
+    const historyReady = await ensurehistoryReady();
 
-    if (!proxyReady) {
+    if (!historyReady) {
         return;
     }
 

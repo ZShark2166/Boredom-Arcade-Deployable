@@ -1,8 +1,6 @@
 "use strict";
-/**
- * Distributed with Ultraviolet and compatible with most configurations.
- */
-const stockSW = "/static/uv-sw.js";
+
+const stockSW = "/static/math-sw.js";
 
 /**
  * List of hostnames that are allowed to run serviceworkers on http:
@@ -23,8 +21,13 @@ async function registerSW() {
   if (!navigator.serviceWorker)
     throw new Error("Your browser doesn't support service workers.");
 
-  // Ultraviolet has a stock `sw.js` script.
-  await navigator.serviceWorker.register(stockSW, {
-    scope: __uv$config.prefix,
+  const config = globalThis.__math$config;
+
+  if (!config)
+    throw new Error("Proxy config is not loaded.");
+
+  return navigator.serviceWorker.register(stockSW, {
+    scope: config.prefix,
+    updateViaCache: "none",
   });
 }
