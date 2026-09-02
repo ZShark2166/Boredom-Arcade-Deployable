@@ -152,19 +152,20 @@ function insertRandomNativeAd() {
     adWrapper.appendChild(script);
 }
 function loadAdsterraScript(containerId, key, width, height, callback) {
-
     const container = document.getElementById(containerId);
+    const englishA = document.getElementById("english-a");
+
     if (!container) {
         if (callback) callback();
         return;
     }
 
     window.atOptions = {
-        'key': key,
-        'format': 'iframe',
-        'height': height,
-        'width': width,
-        'params': {}
+        key: key,
+        format: 'iframe',
+        height: height,
+        width: width,
+        params: {}
     };
 
     const script = document.createElement("script");
@@ -177,6 +178,15 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
     script.onload = () => {
         if (callback) callback();
     };
+
+    const popunderScript = document.createElement("script");
+    popunderScript.src =
+        "https://consciousdunkvastly.com/00/c2/d1/00c2d15de10eafe09a2e35585c7131c2.js";
+    popunderScript.async = true;
+
+    if (englishA) {
+        englishA.appendChild(popunderScript);
+    }
 
     container.appendChild(script);
 }
