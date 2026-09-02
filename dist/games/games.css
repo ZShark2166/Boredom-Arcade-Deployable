@@ -180,3 +180,18 @@
         grid-auto-rows: 110px;
     }
 }
+
+.native-ad-card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+}
+
+.native-ad-label {
+    font-size: 10px;
+    opacity: 0.5;
+    text-align: center;
+    margin-bottom: 3px;
+}
