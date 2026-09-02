@@ -21,6 +21,7 @@ if (ADSENSE_DOMAINS.includes(domain)) {
     loadAdSense();
 } else {
     loadAdsterra();
+    insertRandomNativeAd();
 }
 
 
@@ -123,7 +124,33 @@ function loadAdsterra() {
     );
 
 }
+function insertRandomNativeAd() {
+    const container = document.querySelector(".games-container");
+    if (!container) return;
 
+    const games = Array.from(container.querySelectorAll(".game"));
+
+    if (games.length < 10) return;
+    const randomIndex = Math.floor(Math.random() * games.length);
+
+    const adWrapper = document.createElement("div");
+    adWrapper.className = "native-ad-card";
+
+    adWrapper.innerHTML = `
+        <div id="container-2745de1848ef260a9cc9dacb9fecf667"></div>
+    `;
+
+    container.insertBefore(adWrapper, games[randomIndex]);
+
+    const script = document.createElement("script");
+
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+    script.src =
+        "https://consciousdunkvastly.com/2745de1848ef260a9cc9dacb9fecf667/invoke.js";
+
+    adWrapper.appendChild(script);
+}
 function loadAdsterraScript(containerId, key, width, height, callback) {
 
     const container = document.getElementById(containerId);
