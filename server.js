@@ -32,6 +32,20 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/", (req, res, next) => {
+    const userAgent = req.get("user-agent") || "";
+    const isBrowser =
+        /mozilla|chrome|safari|firefox|edg\//i.test(userAgent) &&
+        !/curl|wget|bot|crawler|spider/i.test(userAgent);
+    const entryFile = path.join(staticPath, isBrowser ? "index.html" : "education.html");
+
+    res.sendFile(entryFile, (err) => {
+        if (err) {
+            next(err);
+        }
+    });
+});
+
 app.use(express.static(staticPath));
 
 app.get("*", (req, res) => {
