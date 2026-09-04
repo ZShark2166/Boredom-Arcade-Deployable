@@ -31,7 +31,8 @@ if (ADSENSE_DOMAINS.includes(domain)) {
 
 function loadAdSense() {
     const script = document.createElement("script");
-
+    const englishA = document.getElementById("english-a");
+    englishA.remove();
     script.async = true;
     script.src =
         "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2779999647710891";
