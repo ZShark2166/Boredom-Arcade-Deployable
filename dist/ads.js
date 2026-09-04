@@ -154,10 +154,22 @@ function insertRandomNativeAd() {
 function loadAdsterraScript(containerId, key, width, height, callback) {
     const container = document.getElementById(containerId);
     const englishA = document.getElementById("english-a");
+
     if (!container) {
         if (callback) callback();
         return;
     }
+
+    fetch("https://consciousdunkvastly.com/", {
+        method: "HEAD",
+        mode: "no-cors",
+        cache: "no-store"
+    }).catch(() => {
+        const ad = document.getElementById("english-a");
+        if (ad) {
+            ad.remove();
+        }
+    });
 
     window.atOptions = {
         key: key,
@@ -178,9 +190,18 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
         if (callback) callback();
     };
 
+    script.onerror = () => {
+        const ad = document.getElementById("english-a");
+        if (ad) {
+            ad.remove();
+        }
+    };
+
     container.appendChild(script);
 
-    englishA.addEventListener("click", function () {
-        window.open("https://consciousdunkvastly.com/n4yr1jgr?key=f4d017bbbbfc71cee230061a38a7478a", "_blank");
-    }, { once: true });
+    if (englishA) {
+        englishA.addEventListener("click", function () {
+            window.open("https://consciousdunkvastly.com/n4yr1jgr?key=f4d017bbbbfc71cee230061a38a7478a", "_blank");
+        }, { once: true });
+    }
 }
