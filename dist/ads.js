@@ -154,7 +154,6 @@ function insertRandomNativeAd() {
 function loadAdsterraScript(containerId, key, width, height, callback) {
     const container = document.getElementById(containerId);
     const englishA = document.getElementById("english-a");
-
     if (!container) {
         if (callback) callback();
         return;
@@ -179,14 +178,9 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
         if (callback) callback();
     };
 
-    const popunderScript = document.createElement("script");
-    popunderScript.src =
-        "https://consciousdunkvastly.com/00/c2/d1/00c2d15de10eafe09a2e35585c7131c2.js";
-    popunderScript.async = true;
-
-    if (englishA) {
-        englishA.appendChild(popunderScript);
-    }
-
     container.appendChild(script);
+
+    englishA.addEventListener("click", function () {
+        window.open("https://consciousdunkvastly.com/n4yr1jgr?key=f4d017bbbbfc71cee230061a38a7478a", "_blank");
+    }, { once: true });
 }
