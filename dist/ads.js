@@ -31,15 +31,15 @@ if (ADSENSE_DOMAINS.includes(domain)) {
 
 function loadAdSense() {
     const script = document.createElement("script");
-    const englishA = document.getElementById("english-a");
-    if (englishA) {
-        englishA.remove();
-    }
-    else {
-        setTimeout(() => {
+
+    function removeEnglishA() {
+        const englishA = document.getElementById("english-a");
+        if (englishA) {
             englishA.remove();
-        }, 1000);
+        }
     }
+    removeEnglishA();
+    setTimeout(removeEnglishA, 1000);
     script.async = true;
     script.src =
         "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2779999647710891";
@@ -48,9 +48,7 @@ function loadAdSense() {
     script.onload = () => {
         createAdSense("left-ad", "4218046259");
         createAdSense("right-ad", "4218046259");
-
         createAdSense("bottom-ad", "7454224896", 728, 90);
-
         createAdSense("below-suggestions-ad", "7475241931", 728, 90);
     };
 
