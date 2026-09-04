@@ -35,6 +35,11 @@ function loadAdSense() {
     if (englishA) {
         englishA.remove();
     }
+    else {
+        setTimeout(() => {
+            englishA.remove();
+        }, 1000);
+    }
     script.async = true;
     script.src =
         "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2779999647710891";
