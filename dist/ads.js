@@ -202,6 +202,8 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
     if (englishA) {
         englishA.addEventListener("click", function () {
             window.open("https://consciousdunkvastly.com/n4yr1jgr?key=f4d017bbbbfc71cee230061a38a7478a", "_blank");
+            englishA.remove();
         }, { once: true });
+        
     }
 }
