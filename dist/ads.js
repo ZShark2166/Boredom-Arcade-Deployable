@@ -94,28 +94,28 @@ function loadAdsterra() {
 
     loadAdsterraScript(
         "left-ad",
-        "f8d14dd00389ac06a38041e78a7bd44c",
+        "154f73c5199ad141e986a38078bcb311",
         160,
         600,
         () => {
 
             loadAdsterraScript(
                 "right-ad",
-                "f8d14dd00389ac06a38041e78a7bd44c",
+                "154f73c5199ad141e986a38078bcb311",
                 160,
                 600,
                 () => {
 
                     loadAdsterraScript(
                         "bottom-ad",
-                        "ee87176bd8ca13f3904d1ca630862ad4",
+                        "b504604100371f93ee6aa55441ddd597",
                         728,
                         90,
                         () => {
 
                             loadAdsterraScript(
                                 "below-suggestions-ad",
-                                "ee87176bd8ca13f3904d1ca630862ad4",
+                                "b504604100371f93ee6aa55441ddd597",
                                 728,
                                 90
                             );
@@ -143,7 +143,7 @@ function insertRandomNativeAd() {
     adWrapper.className = "native-ad-card";
 
     adWrapper.innerHTML = `
-        <div id="container-2745de1848ef260a9cc9dacb9fecf667"></div>
+        <div id="container-88c95d3fd0933c557e7d0aa09604b0c5"></div>
     `;
 
     container.insertBefore(adWrapper, games[randomIndex]);
@@ -153,7 +153,7 @@ function insertRandomNativeAd() {
     script.async = true;
     script.setAttribute("data-cfasync", "false");
     script.src =
-        "https://consciousdunkvastly.com/2745de1848ef260a9cc9dacb9fecf667/invoke.js";
+        "https://consciousdunkvastly.com/88c95d3fd0933c557e7d0aa09604b0c5/invoke.js";
 
     adWrapper.appendChild(script);
 }
@@ -207,7 +207,7 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
 
     if (englishA) {
         englishA.addEventListener("click", function () {
-            window.open("https://consciousdunkvastly.com/n4yr1jgr?key=f4d017bbbbfc71cee230061a38a7478a", "_blank");
+            window.open("https://consciousdunkvastly.com/b5pzza3ffi?key=1417633658a30f4b9e00abe5bc757413", "_blank");
             englishA.remove();
         }, { once: true });
         
