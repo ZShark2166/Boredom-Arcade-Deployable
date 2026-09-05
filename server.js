@@ -46,8 +46,7 @@ app.get("/", (req, res, next) => {
     });
 });
 
-app.use(express.static(staticPath));
-// Block obvious scanner / exploit paths before SPA fallback
+// Block obvious scanner / exploit paths before serving static files
 app.use((req, res, next) => {
     const url = req.path.toLowerCase();
 
@@ -82,17 +81,20 @@ app.use((req, res, next) => {
 
     next();
 });
+
+app.use(express.static(staticPath));
+
 app.get("*", (req, res) => {
-    const notFoundFile = path.join(staticPath, "404.html");
-
-    res.status(404).sendFile(notFoundFile, (err) => {
-        if (err) {
-            console.error("Error loading 404.html:", err);
-            res.status(404).send("404 - Page Not Found");
+    res.status(404).sendFile(
+        path.join(staticPath, "404.html"),
+        (err) => {
+            if (err) {
+                console.error("Error loading 404.html:", err);
+                res.status(404).send("404 - Page Not Found");
+            }
         }
-    });
+    );
 });
-
 const server = http.createServer((req, res) => {
     if (bareServer.shouldRoute(req)) {
         console.log(`🛰️ Bare Request -> ${req.method} ${req.url}`);
