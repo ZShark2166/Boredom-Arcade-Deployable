@@ -4,45 +4,244 @@
     <link rel="icon" type="image/png" href="/images/boredomlogo.png"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-    <title>Math Error</title>
+    <title>404 - Page Not Found | Boredom</title>
     <meta name="googlebot" content="noindex, nofollow, nosnippet" />
     <base href="/" />
     <script src="/settings/theme.js"></script>
     <link rel="stylesheet" href="index.css" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XED28RN3H2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
+    <style>
+      :root {
+        --error-glow: rgba(var(--accent-color-rgb), 0.42);
+      }
 
-      gtag('config', 'G-XED28RN3H2');
-    </script>
+      body.error-page {
+        min-height: 100vh;
+        height: auto;
+        padding: 0 24px 88px calc(var(--nav-width) + 24px);
+        display: block;
+        overflow-x: hidden;
+      }
+
+      .error-page .stars,
+      .error-page .shooting-stars {
+        z-index: 0;
+      }
+
+      .error-page .navbar {
+        z-index: 10;
+      }
+
+      .error-stage {
+        position: relative;
+        z-index: 2;
+        width: min(900px, 100%);
+        min-height: calc(100vh - 88px);
+        margin: 0 auto;
+        display: grid;
+        place-items: center;
+      }
+
+      .error-console {
+        width: min(680px, 100%);
+        padding: clamp(28px, 6vw, 64px);
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, 0.1), transparent 38%),
+          linear-gradient(180deg, rgba(var(--secondary-bg-color-rgb), 0.84), rgba(var(--main-bg-color-rgb), 0.9));
+        border: 1px solid rgba(var(--accent-color-rgb), 0.3);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4), 0 0 45px var(--error-glow), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        animation: error-arrive 0.7s var(--ease) both;
+      }
+
+      .error-console::before,
+      .error-console::after {
+        content: '';
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .error-console::after {
+        inset: 14px;
+        border: 1px solid rgba(var(--accent-color-rgb), 0.08);
+        border-radius: calc(var(--radius-lg) - 6px);
+      }
+
+      .error-kicker,
+      .error-copy,
+      .error-actions,
+      .error-readout {
+        position: relative;
+        z-index: 1;
+      }
+
+      .error-kicker {
+        margin: 0 0 12px;
+        color: var(--accent-color);
+        font-family: Consolas, 'Courier New', monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .error-code {
+        margin: 0;
+        color: var(--accent-color);
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: clamp(6.5rem, 22vw, 13rem);
+        font-weight: 400;
+        line-height: 0.8;
+        letter-spacing: 0.04em;
+        text-shadow: 0 0 12px var(--error-glow), 0 0 42px var(--error-glow);
+        animation: error-flicker 4s ease-in-out infinite;
+      }
+
+      .error-title {
+        margin: 24px 0 10px;
+        color: var(--text-color);
+        font-size: clamp(1.5rem, 4vw, 2.35rem);
+        letter-spacing: 0.02em;
+      }
+
+      .error-copy {
+        max-width: 470px;
+        margin: 0 auto;
+        color: rgba(var(--accent-color-rgb), 0.76);
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .error-readout {
+        width: fit-content;
+        max-width: 100%;
+        margin: 28px auto 0;
+        padding: 9px 14px;
+        overflow: hidden;
+        color: rgba(var(--accent-color-rgb), 0.68);
+        background: rgba(var(--main-bg-color-rgb), 0.46);
+        border: 1px solid rgba(var(--accent-color-rgb), 0.16);
+        border-radius: 6px;
+        font-family: Consolas, 'Courier New', monospace;
+        font-size: 0.76rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .error-actions {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .error-action {
+        min-width: 150px;
+        padding: 12px 18px;
+        color: var(--text-color);
+        background: rgba(var(--accent-color-rgb), 0.1);
+        border: 1px solid rgba(var(--accent-color-rgb), 0.36);
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.92rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.25s var(--ease-snap), background 0.25s var(--ease), box-shadow 0.25s var(--ease);
+      }
+
+      .error-action.primary {
+        color: var(--main-bg-color);
+        background: var(--accent-color);
+        box-shadow: 0 0 22px rgba(var(--accent-color-rgb), 0.25);
+      }
+
+      .error-action:hover,
+      .error-action:focus-visible {
+        transform: translateY(-3px);
+        background: rgba(var(--accent-color-rgb), 0.2);
+        box-shadow: 0 8px 26px rgba(var(--accent-color-rgb), 0.2);
+        outline: none;
+      }
+
+      .error-action.primary:hover,
+      .error-action.primary:focus-visible {
+        background: var(--accent-color);
+      }
+
+      @keyframes error-arrive {
+        from { opacity: 0; transform: translateY(18px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      @keyframes error-flicker {
+        0%, 14%, 16%, 18%, 40%, 100% { opacity: 1; }
+        15%, 17% { opacity: 0.72; }
+        41% { opacity: 0.86; }
+      }
+
+      @media (max-width: 600px) {
+        body.error-page {
+          padding: 0 16px 76px;
+        }
+
+        .error-stage {
+          min-height: calc(100vh - 34px);
+        }
+
+        .error-console {
+          padding: 38px 20px;
+        }
+
+        .error-readout {
+          max-width: 90%;
+        }
+      }
+    </style>
     
   </head>
 
-  <body>
-    <div class="stars"></div> <!-- Stars div for background -->
-    <div class="shooting-stars"></div> <!-- Shooting stars div -->
-    <div class="desc left-margin">
-      <p>Please Register Service Worker Below And Reload The Page</p>
-      <p id="math-error"></p>
-      <code id="math-error-code"></code>
-      <button id="math-register-sw" value="Register service worker">
-        Register ServiceWorker
-      </button>
-    </div>
+  <body class="error-page">
+    <div class="stars"></div>
+    <div class="shooting-stars"></div>
+
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="/" class="nav-brand" data-text="Boredom V3" aria-label="Boredom Arcade home">
+        <img src="/images/boredomlogo.png" alt="">
+      </a>
+      <div class="nav-links">
+        <a href="/" data-text="Search" aria-label="Search"><img src="/images/world-wide-web.png" class="nav-icon" alt=""></a>
+        <a href="/games/" data-text="Games" aria-label="Games"><img src="/images/console.png" class="nav-icon" alt=""></a>
+        <a href="/chat/" data-text="Chat" aria-label="Chat"><img src="/images/message.png" class="nav-icon" alt=""></a>
+      </div>
+      <a href="/settings/" class="settings-link" data-text="Settings" aria-label="Settings">
+        <img src="/images/gear.png" class="nav-icon" alt="">
+      </a>
+    </nav>
+
+    <main class="error-stage">
+      <section class="error-console" aria-labelledby="error-title">
+        <p class="error-code" aria-hidden="true">404</p>
+        <h1 class="error-title" id="error-title">Page not found.</h1>
+        <p class="error-copy">The page you were looking for isn't in the website anymore. It may have moved, been unplugged, or simply wandered off for a snack.</p>
+        <div class="error-actions">
+          <a class="error-action primary" href="/games/">Browse games</a>
+          <button class="error-action" type="button" onclick="history.back()">Go back</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="/shoutouts/">Shoutouts</a>
+        <a href="/privacypolicy/">Privacy Policy</a>
+        <a href="/contact/">Contact</a>
+        <a target="_blank" rel="noopener" href="https://discord.gg/Fm8JTbyftC">Discord</a>
+      </div>
+    </footer>
     <script src="stars.js"></script>
-    <script src="/static/math/math.bundle.js"></script>
-    <script src="/static/math/math.config.js"></script>
-    <script src="/static/register-sw.js"></script>
-    <script src="/static/error.js"></script>
-<footer class="footer">
-  <div class="footer-links">
-    <a href="/privacypolicy/">Privacy Policy</a>
-    <a href="/contact/">Contact</a>
-    <a target="_blank" href="https://discord.gg/Fm8JTbyftC">Discord</a>
-  </div>
-</footer>
   </body>
 </html>

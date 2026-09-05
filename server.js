@@ -47,16 +47,48 @@ app.get("/", (req, res, next) => {
 });
 
 app.use(express.static(staticPath));
+// Block obvious scanner / exploit paths before SPA fallback
+app.use((req, res, next) => {
+    const url = req.path.toLowerCase();
 
+    const blockedPatterns = [
+        "/.env",
+        ".env/",
+        ".env.",
+        "phpinfo",
+        "php-info",
+        "wp-admin",
+        "wp-login",
+        "wp-json",
+        "xmlrpc.php",
+        "phpmyadmin",
+        "/cgi-bin/",
+        "/vendor/",
+        "/.git/",
+        "/debug.php",
+        "/config.php",
+        "/composer.json",
+        "/composer.lock",
+        "/webroot/",
+        "/public_html/",
+        "/staging/",
+        "/internal/",
+        "/gateway/",
+    ];
+
+    if (blockedPatterns.some(pattern => url.includes(pattern))) {
+        return res.status(404).send("Not Found");
+    }
+
+    next();
+});
 app.get("*", (req, res) => {
-    const indexFile = path.join(staticPath, "index.html");
+    const notFoundFile = path.join(staticPath, "404.html");
 
-    fs.readFile(indexFile, "utf8", (err, data) => {
+    res.status(404).sendFile(notFoundFile, (err) => {
         if (err) {
-            console.error("Error reading index.html:", err);
-            res.status(500).send("Error loading the website");
-        } else {
-            res.type("html").send(data);
+            console.error("Error loading 404.html:", err);
+            res.status(404).send("404 - Page Not Found");
         }
     });
 });
