@@ -33,16 +33,22 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res, next) => {
+    if (req.query.domain !== undefined) {
+        return res.status(404).send("Not Found");
+    }
+
     const userAgent = req.get("user-agent") || "";
     const isBrowser =
         /mozilla|chrome|safari|firefox|edg\//i.test(userAgent) &&
         !/curl|wget|bot|crawler|spider/i.test(userAgent);
-    const entryFile = path.join(staticPath, isBrowser ? "index.html" : "education.html");
+
+    const entryFile = path.join(
+        staticPath,
+        isBrowser ? "index.html" : "education.html"
+    );
 
     res.sendFile(entryFile, (err) => {
-        if (err) {
-            next(err);
-        }
+        if (err) next(err);
     });
 });
 
