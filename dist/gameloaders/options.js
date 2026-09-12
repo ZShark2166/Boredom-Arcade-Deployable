@@ -1,5 +1,51 @@
 const englishframe = document.getElementById("englishIframe");
 const iframeg = document.getElementById("game-iframe");
+
+const GAME_AD_SELECTOR = [
+    'ins[id^="gpt_unit_"]',
+    'iframe[id="goog_plcm_frame"]',
+    'iframe[id^="google_ads_iframe_"]',
+    'iframe[src*="doubleclick.net"]',
+    'iframe[src*="googlesyndication.com"]',
+    'iframe[aria-label="Advertisement"]'
+].join(",");
+
+function removeGameAds(gameDocument) {
+    gameDocument.querySelectorAll(GAME_AD_SELECTOR).forEach((element) => {
+        element.remove();
+    });
+}
+
+function installGameAdBlocker(gameDocument) {
+    removeGameAds(gameDocument);
+
+    const observer = new MutationObserver(() => {
+        removeGameAds(gameDocument);
+    });
+
+    observer.observe(gameDocument.documentElement, {
+        childList: true,
+        subtree: true
+    });
+}
+
+function attachGameAdBlocker() {
+    if (!iframeg) return;
+
+    try {
+        const gameDocument = iframeg.contentDocument;
+        if (gameDocument) {
+            installGameAdBlocker(gameDocument);
+        }
+    } catch (error) {
+        // Cross-origin game frames cannot be inspected by the loader.
+    }
+}
+
+if (iframeg) {
+    iframeg.addEventListener("load", attachGameAdBlocker);
+}
+
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
         if (iframeg.requestFullscreen) {
