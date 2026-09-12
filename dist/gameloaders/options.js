@@ -16,11 +16,39 @@ function removeGameAds(gameDocument) {
     });
 }
 
+const observedGameDocuments = new WeakSet();
+
+function attachNestedFrameBlockers(gameDocument) {
+    gameDocument.querySelectorAll("iframe").forEach((frame) => {
+        try {
+            if (frame.contentDocument) {
+                installGameAdBlocker(frame.contentDocument);
+            }
+            frame.addEventListener("load", () => {
+                try {
+                    if (frame.contentDocument) {
+                        installGameAdBlocker(frame.contentDocument);
+                    }
+                } catch (error) {
+                    // Cross-origin frames cannot be inspected by the loader.
+                }
+            }, { once: true });
+        } catch (error) {
+            // Cross-origin frames cannot be inspected by the loader.
+        }
+    });
+}
+
 function installGameAdBlocker(gameDocument) {
+    if (!gameDocument || observedGameDocuments.has(gameDocument)) return;
+    observedGameDocuments.add(gameDocument);
+
     removeGameAds(gameDocument);
+    attachNestedFrameBlockers(gameDocument);
 
     const observer = new MutationObserver(() => {
         removeGameAds(gameDocument);
+        attachNestedFrameBlockers(gameDocument);
     });
 
     observer.observe(gameDocument.documentElement, {
@@ -44,6 +72,8 @@ function attachGameAdBlocker() {
 
 if (iframeg) {
     iframeg.addEventListener("load", attachGameAdBlocker);
+    const blockerInterval = window.setInterval(attachGameAdBlocker, 250);
+    window.setTimeout(() => window.clearInterval(blockerInterval), 15000);
 }
 
 function toggleFullscreen() {
