@@ -703,7 +703,7 @@ h1 {
 
 .game-loader {
   width: 100%;
-  max-width: 1000px;
+  max-width: calc(1000px - var(--nav-width));
   height: 75vh;
   background: var(--secondary-bg-color);
   border: 1.5px solid rgba(var(--accent-color-rgb), 0.5);
@@ -776,6 +776,9 @@ h1 {
   margin-top: 2rem;
   z-index: 5;
   position: relative;
+  max-width: calc(1000px - var(--nav-width));
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .suggestion-card {

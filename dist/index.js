@@ -4,6 +4,10 @@ let lastScrollTop = 0;
 let isDirty = false;
 let allowNavigation = false;
 
+window.allowPageNavigation = () => {
+    allowNavigation = true;
+};
+
 window.addEventListener('scroll', () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Game Hub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #ccc;
+    }
+    header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 { font-size: 18px; color: #fff; }
+    #status {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: #111;
+      color: #555;
+    }
+    #status.ok { color: #4ade80; background: #052e16; }
+    #status.err { color: #f87171; background: #2a0a0a; }
+    #games { padding: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Game Hub</h1>
+    <span id="status">connecting...</span>
+  </header>
+
+  <div id="games"></div>
+
+  <script src="https://cdn.jsdelivr.net/gh/luminsdk/script@latest/lumin.min.js"></script>
+  <script>
+    const status = document.getElementById('status');
+
+    Lumin.init({
+      container: '#games',
+      theme: 'dark',
+      columns: 8,
+      rows: 4,
+      showSearch: true,
+      showRandom: true,
+
+      onReady: () => {
+        status.textContent = 'connected';
+        status.className = 'ok';
+      },
+
+      onGameStart: (game) => console.log('Playing:', game.name),
+      onGameEnd: () => console.log('Game closed'),
+
+      onError: (err) => {
+        status.textContent = err.message;
+        status.className = 'err';
+      },
+    });
+  </script>
+</body>
+</html>

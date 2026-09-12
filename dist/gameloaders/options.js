@@ -58,7 +58,8 @@ function toggleFullscreenPRX() {
 
 
 function refreshIframe() {
-    iframeg.src = iframeg.contentWindow.location.href;
+    if (!iframeg) return;
+    iframeg.src = iframeg.src;
 }
         function goBack() {
             englishframe.contentWindow.history.back()
@@ -130,10 +131,10 @@ function refreshIframe() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('suggestions-container');
-  if (!container) return;
+    if (!container || document.body.classList.contains('lumin-loader-page')) return;
 
   const shuffled = games.sort(() => 0.5 - Math.random());
-  const randomGames = shuffled.slice(0, 6);
+  const randomGames = shuffled.slice(0, 5);
 
   randomGames.forEach(game => {
     const card = document.createElement('div');

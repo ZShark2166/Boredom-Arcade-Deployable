@@ -131,7 +131,7 @@ function loadAdsterra() {
 
 }
 function insertRandomNativeAd() {
-    const container = document.querySelector(".games-container");
+    const container = document.querySelector(".learning-container");
     if (!container) return;
 
     const games = Array.from(container.querySelectorAll(".game"));
