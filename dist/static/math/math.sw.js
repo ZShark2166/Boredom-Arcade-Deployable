@@ -58,6 +58,19 @@ class MathServiceWorker extends EventEmitter {
         try {
 
             const mathProxy = new math(this.config);
+        const sourceUrl = new URL(mathProxy.sourceUrl(request.url));
+        const blockedAdHosts = [
+          'doubleclick.net',
+          'googlesyndication.com',
+          'googleadservices.com',
+          'google-analytics.com'
+        ];
+
+        if (blockedAdHosts.some((host) =>
+          sourceUrl.hostname === host || sourceUrl.hostname.endsWith(`.${host}`)
+        )) {
+          return new Response('', { status: 204 });
+        }
 
             if (typeof this.config.construct === 'function') {
                 this.config.construct(mathProxy, 'service');
