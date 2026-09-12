@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boredom V3 - Loading Game</title>
+    <script src="/settings/theme.js"></script>
     <link rel="stylesheet" href="/index.css">
     <style>
         .lumin-loader-status {
@@ -12,14 +13,14 @@
             min-height: 100%;
             place-items: center;
             padding: 2rem;
-            color: rgba(255, 255, 255, 0.72);
+            color: rgba(var(--text-color-rgb, 230, 230, 255), 0.72);
             text-align: center;
         }
 
         .lumin-loader-status strong {
             display: block;
             margin-bottom: 0.45rem;
-            color: #fff;
+            color: var(--accent-color);
             font-size: 1.15rem;
         }
 
