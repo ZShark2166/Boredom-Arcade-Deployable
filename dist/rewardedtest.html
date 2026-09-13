@@ -1,42 +1,94 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <title>GAM Ad Test</title>
+    <title>GAM Rewarded Ad Test</title>
 
-    <script async
-        src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
-        crossorigin="anonymous"></script>
+```
+<script async
+    src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
+    crossorigin="anonymous"></script>
 
-    <script>
-        window.googletag = window.googletag || {cmd: []};
+<script>
+    window.googletag = window.googletag || { cmd: [] };
 
-        googletag.cmd.push(function() {
-            googletag.defineSlot(
-                '/23375553075/game-interstitial',
-                [300, 250],
-                'div-gpt-ad-1789265601581-0'
-            ).addService(googletag.pubads());
+    googletag.cmd.push(function () {
 
-            googletag.pubads().enableSingleRequest();
-            googletag.enableServices();
-        });
-    </script>
+        const rewardedSlot = googletag.defineOutOfPageSlot(
+            '/23375553075/game-rewarded',
+            googletag.enums.OutOfPageFormat.REWARDED
+        );
+
+        if (!rewardedSlot) {
+            console.log('Rewarded ads are not supported on this page.');
+            return;
+        }
+
+        rewardedSlot.addService(googletag.pubads());
+
+        googletag.pubads().addEventListener(
+            'rewardedSlotReady',
+            function (event) {
+
+                console.log('Rewarded ad is ready!');
+
+                const button = document.getElementById('show-ad');
+
+                button.disabled = false;
+                button.textContent = 'Watch Ad';
+
+                button.onclick = function () {
+                    event.makeRewardedVisible();
+                };
+            }
+        );
+
+        googletag.pubads().addEventListener(
+            'rewardedSlotGranted',
+            function (event) {
+                console.log('Reward granted!', event.payload);
+
+                document.getElementById('status').textContent =
+                    'Reward granted!';
+            }
+        );
+
+        googletag.pubads().addEventListener(
+            'rewardedSlotClosed',
+            function () {
+                console.log('Rewarded ad closed.');
+
+                document.getElementById('status').textContent =
+                    'Ad closed.';
+
+                googletag.destroySlots([rewardedSlot]);
+            }
+        );
+
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+
+        googletag.display(rewardedSlot);
+    });
+</script>
+```
+
 </head>
 
 <body>
 
-    <h1>Ad Test</h1>
+```
+<h1>GAM Rewarded Ad Test</h1>
 
-    <!-- /23375553075/game-interstitial -->
-    <div id="div-gpt-ad-1789265601581-0"
-         style="min-width:300px; min-height:250px;">
-        <script>
-            googletag.cmd.push(function() {
-                googletag.display('div-gpt-ad-1789265601581-0');
-            });
-        </script>
-    </div>
+<p id="status">Loading rewarded ad...</p>
+
+<button id="show-ad" disabled>
+    Loading Ad...
+</button>
+```
 
 </body>
+
 </html>
