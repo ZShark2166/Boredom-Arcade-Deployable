@@ -1,190 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <link rel="icon" type="image/png" href="/images/boredomlogo.png">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boredom V3 - Loading Game</title>
-    <script src="/settings/theme.js"></script>
-    <link rel="stylesheet" href="/index.css">
-    <style>
-        .lumin-loader-status {
-            display: grid;
-            min-height: 100%;
-            place-items: center;
-            padding: 2rem;
-            color: rgba(var(--text-color-rgb, 230, 230, 255), 0.72);
-            text-align: center;
-        }
+    <title>GAM Ad Test</title>
 
-        .lumin-loader-status strong {
-            display: block;
-            margin-bottom: 0.45rem;
-            color: var(--accent-color);
-            font-size: 1.15rem;
-        }
+    <script async
+        src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
+        crossorigin="anonymous"></script>
 
-        .lumin-game-suggestions {
-            width: min(100%, 1200px);
-            margin-top: 1.5rem;
-        }
-
-        .lumin-game-suggestions #suggestions-container {
-            width: 100%;
-        }
-    </style>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XED28RN3H2"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+        window.googletag = window.googletag || {cmd: []};
 
-        gtag('config', 'G-XED28RN3H2');
-    </script>
-    <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
-<script>
-  window.googletag = window.googletag || {cmd: []};
-  googletag.cmd.push(function() {
-    googletag.defineSlot('/23375553075/game-interstitial', [300, 250], 'div-gpt-ad-1789266168759-0').addService(googletag.pubads());
-    googletag.pubads().enableSingleRequest();
-    googletag.enableServices();
-  });
-</script>
-</head>
-<body class="lumin-loader-page">
-    <nav class="navbar">
-        <a href="/" class="nav-brand" data-text="Boredom V3"><span>Boredom V3</span></a>
-        <div class="nav-links">
-            <a href="/" class="search-link" data-text="Search"><span>Search</span></a>
-            <a href="/games/" data-text="Games"><span>Games</span></a>
-            <a href="/chat/" data-text="Chat"><span>Chat</span></a>
-            <a href="/settings/" class="settings-link" data-text="Settings"><span>Settings</span></a>
-        </div>
-    </nav>
-    <!-- /23375553075/game-interstitial -->
-<div id='div-gpt-ad-1789266168759-0' style='min-width: 300px; min-height: 250px;'>
-  <script>
-    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1789266168759-0'); });
-  </script>
-</div>
-    <div class="ad-container left-ad" id="left-ad">
-        
-        <!-- Games Sides -->
-        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2779999647710891"
-            data-ad-slot="1031347425" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+        googletag.cmd.push(function() {
+            googletag.defineSlot(
+                '/23375553075/game-interstitial',
+                [300, 250],
+                'div-gpt-ad-1789265601581-0'
+            ).addService(googletag.pubads());
 
-    </div>
-
-    <!-- Right Ad Container -->
-    <div class="ad-container right-ad" id="right-ad">
-        
-        <!-- Games Sides -->
-        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2779999647710891"
-            data-ad-slot="1031347425" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
-
-    </div>
-    <div class="stars"></div>
-    <div class="shooting-stars"></div>
-
-    <div class="game-page-wrapper">
-        <div class="game-loader">
-            <iframe id="game-iframe" title="Game" allow="autoplay; fullscreen; pointer-lock; gamepad" allowfullscreen></iframe>
-            <div class="lumin-loader-status" id="lumin-status">
-                <p><strong>Loading game...</strong>Please wait while the game starts.</p>
-            </div>
-        </div>
-
-        <div class="game-suggestions lumin-game-suggestions">
-            <h1 class="center" id="other-games">Other Games You Might Like</h1>
-            <div id="suggestions-container"></div>
-            <div class="ad-container-below-suggestions">
-                <div id="below-suggestions-ad"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="game-bar-hamburger">
-        <button type="button" onclick="toggleGameBar()" aria-label="Open game controls">☰</button>
-    </div>
-
-    <div class="game-bar">
-        <button type="button" onclick="toggleFullscreen()">Fullscreen</button>
-        <button type="button" onclick="refreshIframe()">Refresh</button>
-    </div>
-    
-    <script src="/static/math/math.bundle.js"></script>
-    <script src="/static/math/math.config.js"></script>
-    <script src="/static/register-sw.js"></script>
-    <script src="../index.js"></script>
-    <script src="options.js"></script>
-    <script src="../stars.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/luminsdk/script@latest/lumin.min.js"></script>
-    <script src="/ads.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const status = document.getElementById('lumin-status');
-            const gameId = new URLSearchParams(window.location.search).get('id');
-
-            if (!gameId) {
-                status.innerHTML = '<p><strong>Game unavailable</strong>Return to the games page and choose a game.</p>';
-                return;
-            }
-
-            try {
-                await Lumin.init({ headless: true });
-                const result = await Lumin.getGameUrl(gameId);
-                const registration = await registerSW();
-                if (registration.installing || registration.waiting) {
-                    await new Promise((resolve) => {
-                        const worker = registration.installing || registration.waiting;
-                        worker.addEventListener('statechange', () => {
-                            if (worker.state === 'activated') resolve();
-                        });
-                    });
-                }
-                const iframe = document.getElementById('game-iframe');
-                iframe.title = result.meta?.name || 'Game';
-                iframe.src = __math$config.prefix + __math$config.encodeUrl(result.url);
-                document.title = `Home | Classroom`;
-                await renderLuminSuggestions(gameId);
-                status.remove();
-            } catch (error) {
-                console.error('Lumin loader error:', error);
-                status.innerHTML = '<p><strong>Game could not be loaded</strong>Return to the games page and try again.</p>';
-            }
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
         });
-
-        async function renderLuminSuggestions(currentGameId) {
-            const container = document.getElementById('suggestions-container');
-            const result = await Lumin.getGames({ page: 1, limit: 100 });
-            const games = result.games
-                .filter((game) => game.id !== currentGameId)
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 5);
-            const imageUrls = await Promise.all(
-                games.map((game) => Lumin.getImageUrl(game.image_token))
-            );
-
-            container.replaceChildren();
-            games.forEach((game, index) => {
-                const link = document.createElement('a');
-                link.className = 'suggestion-card';
-                link.href = `/gameloaders/lumin.html?id=${encodeURIComponent(game.id)}`;
-                link.setAttribute('aria-label', `Play ${game.name}`);
-
-                const image = document.createElement('img');
-                image.src = imageUrls[index];
-                image.alt = game.name;
-                image.loading = 'lazy';
-
-                const name = document.createElement('p');
-                name.textContent = game.name;
-
-                link.append(image, name);
-                container.appendChild(link);
-            });
-        }
     </script>
+</head>
+
+<body>
+
+    <h1>Ad Test</h1>
+
+    <!-- /23375553075/game-interstitial -->
+    <div id="div-gpt-ad-1789265601581-0"
+         style="min-width:300px; min-height:250px;">
+        <script>
+            googletag.cmd.push(function() {
+                googletag.display('div-gpt-ad-1789265601581-0');
+            });
+        </script>
+    </div>
+
 </body>
 </html>
