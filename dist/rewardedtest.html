@@ -34,86 +34,58 @@
     </style>
 
     <script async
-        src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
-        crossorigin="anonymous"></script>
+    src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
+    crossorigin="anonymous"></script>
 
-    <script>
-        window.googletag = window.googletag || { cmd: [] };
+<script>
+window.googletag = window.googletag || { cmd: [] };
 
-        let rewardedSlot;
+googletag.cmd.push(function () {
 
-        googletag.cmd.push(function () {
+    const rewardedSlot = googletag.defineOutOfPageSlot(
+        '/23375553075/game-rewarded',
+        googletag.enums.OutOfPageFormat.REWARDED
+    );
 
-            rewardedSlot = googletag.defineOutOfPageSlot(
-                '/23375553075/game-rewarded',
-                googletag.enums.OutOfPageFormat.REWARDED
-            );
+    if (!rewardedSlot) {
+        console.log('defineOutOfPageSlot returned null');
+        return;
+    }
 
-            if (!rewardedSlot) {
-                document.getElementById('status').textContent =
-                    'Rewarded ads are not supported in this browser.';
-                return;
+    rewardedSlot.addService(googletag.pubads());
+
+    googletag.pubads().addEventListener(
+        'rewardedSlotReady',
+        function (event) {
+            console.log('REWARDED AD READY');
+
+            if (confirm('Watch the rewarded ad?')) {
+                event.makeRewardedVisible();
+            } else {
+                googletag.destroySlots([rewardedSlot]);
             }
+        }
+    );
 
-            rewardedSlot.addService(googletag.pubads());
+    googletag.pubads().addEventListener(
+        'rewardedSlotGranted',
+        function (event) {
+            console.log('REWARD GRANTED:', event.payload);
+        }
+    );
 
-            googletag.pubads().addEventListener(
-                'rewardedSlotReady',
-                function (event) {
+    googletag.pubads().addEventListener(
+        'rewardedSlotClosed',
+        function (event) {
+            console.log('REWARDED AD CLOSED');
+            googletag.destroySlots([rewardedSlot]);
+        }
+    );
 
-                    if (event.slot !== rewardedSlot) return;
-
-                    console.log('Rewarded ad is ready!');
-
-                    document.getElementById('status').textContent =
-                        'Rewarded ad is ready!';
-
-                    document.getElementById('watch-ad').disabled = false;
-
-                    document.getElementById('watch-ad').onclick = function () {
-                        event.makeRewardedVisible();
-
-                        document.getElementById('watch-ad').disabled = true;
-
-                        document.getElementById('status').textContent =
-                            'Showing rewarded ad...';
-                    };
-                }
-            );
-
-            googletag.pubads().addEventListener(
-                'rewardedSlotGranted',
-                function (event) {
-
-                    if (event.slot !== rewardedSlot) return;
-
-                    console.log('REWARD GRANTED:', event.payload);
-
-                    document.getElementById('status').textContent =
-                        'Reward granted!';
-
-                    document.getElementById('result').textContent =
-                        '✅ REWARDED AD COMPLETED';
-                }
-            );
-
-            googletag.pubads().addEventListener(
-                'rewardedSlotClosed',
-                function (event) {
-
-                    if (event.slot !== rewardedSlot) return;
-
-                    console.log('Rewarded ad closed.');
-
-                    googletag.destroySlots([rewardedSlot]);
-                }
-            );
-
-            googletag.enableServices();
-
-            googletag.display(rewardedSlot);
-        });
-    </script>
+    googletag.enableServices();
+    googletag.display(rewardedSlot);
+});
+</script>
 </head>
 
 <body>
