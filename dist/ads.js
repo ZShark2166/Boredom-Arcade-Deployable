@@ -49,15 +49,15 @@ function loadAdSense() {
     script.onload = () => {
         createAdSense("left-ad", "4218046259");
         createAdSense("right-ad", "4218046259");
-        createAdSense("bottom-ad", "7454224896", 728, 90);
-        createAdSense("below-suggestions-ad", "7475241931", 728, 90);
+        createAdSense("bottom-ad", "7454224896");
+        createAdSense("below-suggestions-ad", "7475241931");
     };
 
     document.head.appendChild(script);
 }
 function createAdSense(containerId, slot, width = null, height = null) {
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container || container.querySelector(".adsbygoogle")) return;
 
     const ad = document.createElement("ins");
 
@@ -134,6 +134,8 @@ function loadAdsterra() {
 function insertRandomNativeAd() {
     const container = document.querySelector(".learning-container");
     if (!container) return;
+
+    if (container.querySelector(".native-ad-card")) return;
 
     const games = Array.from(container.querySelectorAll(".game"));
 

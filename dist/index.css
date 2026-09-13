@@ -140,13 +140,13 @@ h1 {
     margin-top: 200px;
 }
 #bottom-ad {
-    width: 728px !important;
+    width: min(728px, 100%) !important;
     height: 90px !important;
-    min-width: 728px;
+    min-width: 0;
     max-width: 728px;
     min-height: 90px;
     max-height: 90px;
-    flex: 0 0 728px;
+    flex: 0 1 728px;
     overflow: hidden;
 }
 .shooting-star {
@@ -837,7 +837,7 @@ h1 {
 #other-games { margin-top: 1rem; }
 
 .ad-container-below-suggestions {
-    width: 800px;
+    width: min(800px, calc(100vw - var(--nav-width) - 32px));
     height: 100px;
     margin: 20px auto 0;
     border: 1.5px dashed rgba(var(--accent-color-rgb), 0.4);
@@ -852,7 +852,7 @@ h1 {
 }
 
 #below-suggestions-ad {
-    width: 900px !important;
+    width: min(728px, 100%) !important;
     height: 90px !important;
 
     display: flex !important;
@@ -868,8 +868,28 @@ h1 {
 }
 
 #below-suggestions-ad iframe {
-    width: 728px !important;
+    width: min(728px, 100%) !important;
     height: 90px !important;
+}
+
+@media (max-width: 760px) {
+    .below-form {
+        width: calc(100% - var(--nav-width) - 32px);
+        left: var(--nav-width);
+        right: auto;
+        margin-top: 180px;
+    }
+
+    #bottom-ad,
+    #below-suggestions-ad,
+    #below-suggestions-ad iframe {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .ad-container-below-suggestions {
+        width: calc(100vw - var(--nav-width) - 32px);
+    }
 }
 .game-bar-hamburger {
   position: fixed;
