@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 card.append(image, title);
                 card.addEventListener('click', () => {
                     window.allowPageNavigation?.();
-                    window.location.href = `/gameloaders/lumin.html?id=${encodeURIComponent(game.id)}`;
+                    window.location.href = `/gameloaders/education.html?id=${encodeURIComponent(game.id)}`;
                 });
                 grid.appendChild(card);
             });
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (result.games.length) {
                 const game = result.games[Math.floor(Math.random() * result.games.length)];
                 window.allowPageNavigation?.();
-                window.location.href = `/gameloaders/lumin.html?id=${encodeURIComponent(game.id)}`;
+                window.location.href = `/gameloaders/education.html?id=${encodeURIComponent(game.id)}`;
             }
         } catch (error) {
             console.error('Lumin random game error:', error);

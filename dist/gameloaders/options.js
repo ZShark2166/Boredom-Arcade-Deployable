@@ -207,7 +207,7 @@ function refreshIframe() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('suggestions-container');
-    if (!container || document.body.classList.contains('lumin-loader-page')) return;
+    if (!container || document.body.classList.contains('education-loader-page')) return;
 
   const shuffled = games.sort(() => 0.5 - Math.random());
   const randomGames = shuffled.slice(0, 5);
