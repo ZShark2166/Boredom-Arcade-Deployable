@@ -118,19 +118,8 @@
 
             try {
                 await Lumin.init({ headless: true });
-                const result = await Lumin.getGameUrl(gameId);
-                const registration = await registerSW();
-                if (registration.installing || registration.waiting) {
-                    await new Promise((resolve) => {
-                        const worker = registration.installing || registration.waiting;
-                        worker.addEventListener('statechange', () => {
-                            if (worker.state === 'activated') resolve();
-                        });
-                    });
-                }
                 const iframe = document.getElementById('game-iframe');
-                iframe.title = result.meta?.name || 'Game';
-                iframe.src = __math$config.prefix + __math$config.encodeUrl(result.url);
+                iframe.src = `/gameloaders/lumin-ad.html?id=${encodeURIComponent(gameId)}`;
                 document.title = `Home | Classroom`;
                 await renderLuminSuggestions(gameId);
                 status.remove();
