@@ -33,15 +33,25 @@
             width: 100%;
         }
         .pre-game-ad {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            padding: 24px;
-            min-height: 400px;
-            text-align: center;
-        }
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        width: 100%;
+        min-height: 500px;
+        padding: 40px 20px;
+        box-sizing: border-box;
+    }
+
+    .pre-game-ad-slot {
+        width: min(100%, 600px);
+    }
+
+    .pre-game-ad-slot .adsbygoogle {
+        display: block;
+        width: 100%;
+    }
 
         .pre-game-ad .ad-label {
             font-size: 12px;
@@ -119,18 +129,22 @@
 
     <div class="pre-game-ad" id="pre-game-ad" style="display:none;">
 
-        <div class="ad-label">Advertisement</div>
+    <div class="ad-label">Advertisement</div>
 
+    <div class="pre-game-ad-slot">
         <ins class="adsbygoogle"
-             style="display:inline-block;width:300px;height:250px"
+             style="display:block"
              data-ad-client="ca-pub-2779999647710891"
-             data-ad-slot="7789523895"></ins>
-
-        <button type="button" id="continue-game" disabled>
-            Continue to game
-        </button>
-
+             data-ad-slot="7789523895"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
     </div>
+
+    <button type="button" id="continue-game" disabled>
+        Continue to game
+    </button>
+
+</div>
 
     <iframe
         id="game-iframe"
