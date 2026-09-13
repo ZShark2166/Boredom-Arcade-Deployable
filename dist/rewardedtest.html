@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boredom Arcade - Rewarded Ad Test</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        button {
+            padding: 14px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+        }
+
+        #status {
+            margin-top: 20px;
+            color: #aaa;
+        }
+    </style>
+
+    <script async
+        src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
+        crossorigin="anonymous"></script>
+
+    <script>
+        window.googletag = window.googletag || { cmd: [] };
+
+        let rewardedSlot;
+
+        googletag.cmd.push(function () {
+
+            rewardedSlot = googletag.defineOutOfPageSlot(
+                '/23375553075/game-rewarded',
+                googletag.enums.OutOfPageFormat.REWARDED
+            );
+
+            if (!rewardedSlot) {
+                document.getElementById('status').textContent =
+                    'Rewarded ads are not supported in this browser.';
+                return;
+            }
+
+            rewardedSlot.addService(googletag.pubads());
+
+            googletag.pubads().addEventListener(
+                'rewardedSlotReady',
+                function (event) {
+
+                    if (event.slot !== rewardedSlot) return;
+
+                    console.log('Rewarded ad is ready!');
+
+                    document.getElementById('status').textContent =
+                        'Rewarded ad is ready!';
+
+                    document.getElementById('watch-ad').disabled = false;
+
+                    document.getElementById('watch-ad').onclick = function () {
+                        event.makeRewardedVisible();
+
+                        document.getElementById('watch-ad').disabled = true;
+
+                        document.getElementById('status').textContent =
+                            'Showing rewarded ad...';
+                    };
+                }
+            );
+
+            googletag.pubads().addEventListener(
+                'rewardedSlotGranted',
+                function (event) {
+
+                    if (event.slot !== rewardedSlot) return;
+
+                    console.log('REWARD GRANTED:', event.payload);
+
+                    document.getElementById('status').textContent =
+                        'Reward granted!';
+
+                    document.getElementById('result').textContent =
+                        '✅ REWARDED AD COMPLETED';
+                }
+            );
+
+            googletag.pubads().addEventListener(
+                'rewardedSlotClosed',
+                function (event) {
+
+                    if (event.slot !== rewardedSlot) return;
+
+                    console.log('Rewarded ad closed.');
+
+                    googletag.destroySlots([rewardedSlot]);
+                }
+            );
+
+            googletag.enableServices();
+
+            googletag.display(rewardedSlot);
+        });
+    </script>
+</head>
+
+<body>
+
+    <h1>Rewarded Ad Test</h1>
+
+    <p>
+        This page tests the Boredom Arcade rewarded ad unit.
+    </p>
+
+    <button id="watch-ad" disabled>
+        Loading ad...
+    </button>
+
+    <div id="status">
+        Waiting for rewarded ad...
+    </div>
+
+    <h2 id="result"></h2>
+
+</body>
+</html>
