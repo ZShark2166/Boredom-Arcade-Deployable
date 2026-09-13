@@ -85,9 +85,14 @@
                 adBreak({
                     type: 'preroll',
                     name: `lumin-game-${gameId}`,
+
                     adBreakDone: (placementInfo) => {
-                        console.log('H5 ad finished:', placementInfo);
+                        console.log("========== H5 AD RESULT ==========");
+                        console.log(placementInfo);
+                        console.log("===================================");
+
                         document.title = result.meta?.name || 'Game';
+
                         window.location.replace(
                             __math$config.prefix + __math$config.encodeUrl(result.url)
                         );
