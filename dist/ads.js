@@ -16,8 +16,9 @@ const ADSENSE_DOMAINS = [
 ];
 
 const domain = window.location.hostname.toLowerCase();
+window.adsenseEnabled = ADSENSE_DOMAINS.includes(domain);
 
-if (ADSENSE_DOMAINS.includes(domain)) {
+if (window.adsenseEnabled) {
     loadAdSense();
 } else {
     loadAdsterra();

@@ -201,27 +201,29 @@
                 document.title = `Home | Classroom`;
 
                 status.remove();
-                preGameAd.style.display = 'flex';
-
-                // Request the AdSense ad
-                try {
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (error) {
-                    console.error('AdSense error:', error);
-                }
-
-                // Give the ad a moment to request before allowing the user onward.
-                // This does NOT require the ad to fill.
-                setTimeout(() => {
-                    continueButton.disabled = false;
-                }, 1500);
-
-                continueButton.addEventListener('click', () => {
+                const startGame = () => {
                     preGameAd.remove();
 
                     iframe.style.display = 'block';
                     iframe.src = gameUrl;
-                });
+                };
+
+                if (window.adsenseEnabled) {
+                    preGameAd.style.display = 'flex';
+
+                    try {
+                        (window.adsbygoogle = window.adsbygoogle || []).push({});
+                    } catch (error) {
+                        console.error('AdSense error:', error);
+                    }
+                    setTimeout(() => {
+                        continueButton.disabled = false;
+                    }, 1500);
+
+                    continueButton.addEventListener('click', startGame);
+                } else {
+                    startGame();
+                }
 
                 await renderLuminSuggestions(gameId);
             } catch (error) {
