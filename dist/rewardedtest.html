@@ -1,63 +1,42 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAM 300x250 Test</title>
+    <title>GAM Ad Test</title>
 
-<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
-<script>
-  window.googletag = window.googletag || {cmd: []};
-  googletag.cmd.push(function() {
-    googletag.defineSlot('/23375553075/game-interstitial', [300, 250], 'div-gpt-ad-1789265601581-0').addService(googletag.pubads());
-    googletag.pubads().enableSingleRequest();
-    googletag.enableServices();
-  });
-</script>
+    <script async
+        src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
+        crossorigin="anonymous"></script>
 
-<style>
-    body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: Arial, sans-serif;
-        background: #111;
-        color: white;
-    }
+    <script>
+        window.googletag = window.googletag || {cmd: []};
 
-    #ad-wrapper {
-        width: 300px;
-        height: 250px;
-        background: white;
-    }
+        googletag.cmd.push(function() {
+            googletag.defineSlot(
+                '/23375553075/game-interstitial',
+                [300, 250],
+                'div-gpt-ad-1789265601581-0'
+            ).addService(googletag.pubads());
 
-    h1 {
-        margin-bottom: 25px;
-    }
-</style>
-
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
 </head>
 
 <body>
 
-<h1>Ad Test</h1>
+    <h1>Ad Test</h1>
 
-<div id="ad-wrapper">
-    <div id="div-gpt-ad-game"
-         style="width:300px;height:250px;">
+    <!-- /23375553075/game-interstitial -->
+    <div id="div-gpt-ad-1789265601581-0"
+         style="min-width:300px; min-height:250px;">
+        <script>
+            googletag.cmd.push(function() {
+                googletag.display('div-gpt-ad-1789265601581-0');
+            });
+        </script>
     </div>
-</div>
-
-<!-- /23375553075/game-interstitial -->
-<div id='div-gpt-ad-1789265601581-0' style='min-width: 300px; min-height: 250px;'>
-  <script>
-    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1789265601581-0'); });
-  </script>
-</div>
 
 </body>
 </html>
