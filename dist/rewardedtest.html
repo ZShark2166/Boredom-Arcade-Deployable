@@ -1,165 +1,74 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boredom Arcade - Gaming Interstitial Test</title>
+    <title>GAM 300x250 Test</title>
 
-    <script async
-        src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
-        crossorigin="anonymous"></script>
+```
+<script async
+    src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
+    crossorigin="anonymous"></script>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: white;
-            text-align: center;
-            padding: 40px;
-        }
+<script>
+    window.googletag = window.googletag || { cmd: [] };
 
-        button {
-            padding: 14px 24px;
-            font-size: 18px;
-            cursor: pointer;
-            border: 0;
-            border-radius: 8px;
-        }
+    googletag.cmd.push(function () {
+        googletag.defineSlot(
+            '/23375553075/game-interstitial',
+            [300, 250],
+            'div-gpt-ad-game'
+        ).addService(googletag.pubads());
 
-        #status {
-            margin: 25px auto;
-            max-width: 800px;
-            padding: 20px;
-            background: #222;
-            border-radius: 8px;
-            text-align: left;
-            white-space: pre-wrap;
-        }
-    </style>
+        googletag.enableServices();
+    });
+</script>
+
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: white;
+    }
+
+    #ad-wrapper {
+        width: 300px;
+        height: 250px;
+        background: white;
+    }
+
+    h1 {
+        margin-bottom: 25px;
+    }
+</style>
+```
+
 </head>
 
 <body>
 
-    <h1>Gaming Interstitial Test</h1>
+```
+<h1>Ad Test</h1>
 
-    <p>
-        This page tests Google's Game Manual Interstitial format
-        using Boredom Arcade's GAM network.
-    </p>
+<div id="ad-wrapper">
+    <div id="div-gpt-ad-game"
+         style="width:300px;height:250px;">
+    </div>
+</div>
 
-    <button id="testButton">
-        Request Gaming Interstitial
-    </button>
-
-    <div id="status">Waiting for test...</div>
-
-    <script>
-        window.googletag = window.googletag || { cmd: [] };
-
-        const status = document.getElementById("status");
-        const button = document.getElementById("testButton");
-
-        function log(message) {
-            console.log(message);
-            status.textContent += "\n" + message;
-        }
-
-        googletag.cmd.push(function () {
-
-            log("GPT loaded.");
-
-            /*
-             * Create the Game Manual Interstitial slot.
-             *
-             * This is the important part we're testing.
-             */
-            const gamingInterstitialSlot =
-                googletag.defineOutOfPageSlot(
-                    "/23375553075/game-rewarded",
-                    googletag.enums.OutOfPageFormat.GAME_MANUAL_INTERSTITIAL
-                );
-
-            /*
-             * Google returns null if this format isn't supported
-             * in the current environment.
-             */
-            if (!gamingInterstitialSlot) {
-
-                log("");
-                log("❌ GAMING INTERSTITIAL SLOT = NULL");
-                log("");
-                log("Google did not create the Game Manual Interstitial slot.");
-                log("This means the format is not currently available/supported.");
-                return;
-            }
-
-            log("");
-            log("✅ GAMING INTERSTITIAL SLOT CREATED!");
-            log("");
-            log("The browser supports the format and GPT accepted the slot.");
-
-            gamingInterstitialSlot.addService(
-                googletag.pubads()
-            );
-
-            /*
-             * Fired when Google has an interstitial ready to display.
-             */
-            googletag.pubads().addEventListener(
-                "gameManualInterstitialSlotReady",
-                function (event) {
-
-                    log("");
-                    log("🎯 GAME MANUAL INTERSTITIAL READY!");
-
-                    /*
-                     * Display the interstitial.
-                     */
-                    event.makeGameManualInterstitialVisible();
-
-                    log("Ad display requested.");
-                }
-            );
-
-            /*
-             * Fired when the user closes the interstitial.
-             */
-            googletag.pubads().addEventListener(
-                "gameManualInterstitialSlotClosed",
-                function (event) {
-
-                    log("");
-                    log("✅ INTERSTITIAL CLOSED!");
-                    log("");
-                    log("This is where we would load the game iframe.");
-                }
-            );
-
-            googletag.enableServices();
-
-            log("");
-            log("Requesting ad...");
-
-            /*
-             * Trigger the request.
-             */
-            googletag.display(gamingInterstitialSlot);
-        });
-
-        button.addEventListener("click", function () {
-
-            /*
-             * The slot is automatically requested above when the
-             * page loads. This button is only here as a visual
-             * indicator that the test page has loaded.
-             */
-            log("");
-            log("Button clicked.");
-            log("Check the console for Google's GPT response.");
-        });
-    </script>
+<script>
+    googletag.cmd.push(function () {
+        googletag.display('div-gpt-ad-game');
+    });
+</script>
+```
 
 </body>
 </html>
-```
