@@ -14,7 +14,7 @@ const ADSENSE_DOMAINS = [
     "bopraelnjbf.global.ssl.fastly.net",
     "boredomss.a.ssl.fastly.net"
 ];
-
+const ADSTERRA_KEY = "154f73c5199ad141e986a38078bcb311";
 const domain = window.location.hostname.toLowerCase();
 window.adsenseEnabled = ADSENSE_DOMAINS.includes(domain);
 
@@ -91,46 +91,35 @@ function createAdSense(containerId, slot, width = null, height = null) {
 // ADSTERRA
 // ============================
 
-function loadAdsterra() {
 
+function loadAdsterra() {
     loadAdsterraScript(
         "left-ad",
-        "154f73c5199ad141e986a38078bcb311",
+        ADSTERRA_KEY,
         160,
         600,
         () => {
-
             loadAdsterraScript(
                 "right-ad",
-                "154f73c5199ad141e986a38078bcb311",
+                ADSTERRA_KEY,
                 160,
                 600,
                 () => {
-
-                    loadAdsterraScript(
-                        "bottom-ad",
-                        "b504604100371f93ee6aa55441ddd597",
-                        728,
-                        90,
-                        () => {
-
-                            loadAdsterraScript(
-                                "below-suggestions-ad",
-                                "b504604100371f93ee6aa55441ddd597",
-                                728,
-                                90
-                            );
-
-                        }
-                    );
-
+                    removeAd("bottom-ad");
+                    removeAd("below-suggestions-ad");
                 }
             );
-
         }
     );
-
 }
+
+function removeAd(containerId) {
+    const container = document.getElementById(containerId);
+    if (container) {
+        container.innerHTML = "";
+    }
+}
+
 function insertRandomNativeAd() {
     const container = document.querySelector(".learning-container");
     if (!container) return;
@@ -138,8 +127,8 @@ function insertRandomNativeAd() {
     if (container.querySelector(".native-ad-card")) return;
 
     const games = Array.from(container.querySelectorAll(".game"));
-
     if (games.length < 10) return;
+
     const randomIndex = Math.floor(Math.random() * games.length);
 
     const adWrapper = document.createElement("div");
@@ -152,7 +141,6 @@ function insertRandomNativeAd() {
     container.insertBefore(adWrapper, games[randomIndex]);
 
     const script = document.createElement("script");
-
     script.async = true;
     script.setAttribute("data-cfasync", "false");
     script.src =
@@ -160,29 +148,20 @@ function insertRandomNativeAd() {
 
     adWrapper.appendChild(script);
 }
+
 function loadAdsterraScript(containerId, key, width, height, callback) {
     const container = document.getElementById(containerId);
-    const englishA = document.getElementById("english-a");
 
     if (!container) {
         if (callback) callback();
         return;
     }
 
-    fetch("https://consciousdunkvastly.com/", {
-        method: "HEAD",
-        mode: "no-cors",
-        cache: "no-store"
-    }).catch(() => {
-        const ad = document.getElementById("english-a");
-        if (ad) {
-            ad.remove();
-        }
-    });
+    container.innerHTML = "";
 
     window.atOptions = {
         key: key,
-        format: 'iframe',
+        format: "iframe",
         height: height,
         width: width,
         params: {}
@@ -191,23 +170,22 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
     const script = document.createElement("script");
 
     script.src =
-        "https://consciousdunkvastly.com/" +
-        key +
-        "/invoke.js";
+        "https://bauval.org/22/" + key;
 
     script.onload = () => {
         if (callback) callback();
     };
 
     script.onerror = () => {
-        const ad = document.getElementById("english-a");
-        if (ad) {
-            ad.remove();
-        }
+        console.error("Adsterra failed to load:", containerId);
+        removeAd(containerId);
+
+        if (callback) callback();
     };
 
     container.appendChild(script);
-
+}
+englishA = document.getElementById("english-a");
     if (englishA) {
         englishA.addEventListener("click", function () {
             window.open("https://consciousdunkvastly.com/b5pzza3ffi?key=1417633658a30f4b9e00abe5bc757413", "_blank");
@@ -215,4 +193,3 @@ function loadAdsterraScript(containerId, key, width, height, callback) {
         }, { once: true });
         
     }
-}

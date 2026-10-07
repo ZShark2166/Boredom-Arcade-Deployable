@@ -1,21 +1,21 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const container = document.querySelector('.learning-container');
-    if (!container || !window.Lumin) return;
+    if (!container || !window.education) return;
 
     container.replaceChildren();
-    container.classList.add('lumin-learning-container');
+    container.classList.add('education-learning-container');
     container.innerHTML = `
-        <div class="lumin-toolbar">
-            <input class="lumin-search" type="search" placeholder="Search games..." aria-label="Search games">
-            <button class="lumin-random" type="button">Random</button>
+        <div class="education-toolbar">
+            <input class="education-search" type="search" placeholder="Search games..." aria-label="Search games">
+            <button class="education-random" type="button">Random</button>
         </div>
-        <div class="lumin-grid" aria-live="polite"></div>
-        <div class="lumin-pagination"></div>
+        <div class="education-grid" aria-live="polite"></div>
+        <div class="education-pagination"></div>
     `;
 
-    const grid = container.querySelector('.lumin-grid');
-    const pagination = container.querySelector('.lumin-pagination');
-    const search = container.querySelector('.lumin-search');
+    const grid = container.querySelector('.education-grid');
+    const pagination = container.querySelector('.education-pagination');
+    const search = container.querySelector('.education-search');
     const pageSize = 24;
     let currentPage = 1;
     let currentQuery = '';
@@ -23,20 +23,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     let debounce;
 
     const showError = () => {
-        grid.innerHTML = '<p class="lumin-status">Games could not be loaded.</p>';
+        grid.innerHTML = '<p class="education-status">Games could not be loaded.</p>';
         pagination.replaceChildren();
     };
 
     async function loadPage(page) {
-        grid.innerHTML = '<p class="lumin-status">Loading games...</p>';
+        grid.innerHTML = '<p class="education-status">Loading games...</p>';
         try {
-            const result = await Lumin.getGames({
+            const result = await education.getGames({
                 page,
                 limit: pageSize,
                 q: currentQuery,
             });
             const imageUrls = await Promise.all(
-                result.games.map((game) => Lumin.getImageUrl(game.image_token))
+                result.games.map((game) => education.getImageUrl(game.image_token))
             );
 
             currentPage = page;
@@ -44,12 +44,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             grid.replaceChildren();
             result.games.forEach((game, index) => {
                 const card = document.createElement('button');
-                card.className = 'game-card lumin-game-card';
+                card.className = 'game-card education-game-card';
                 card.type = 'button';
                 card.setAttribute('aria-label', `Play ${game.name}`);
 
                 const image = document.createElement('img');
-                image.className = 'game lumin-game-image';
+                image.className = 'game education-game-image';
                 image.src = imageUrls[index];
                 image.alt = game.name;
                 image.loading = 'lazy';
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             renderPagination();
         } catch (error) {
-            console.error('Lumin games error:', error);
+            console.error('education games error:', error);
             showError();
         }
     }
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const addButton = (label, page, disabled = false) => {
             const button = document.createElement('button');
-            button.className = `lumin-page-btn${page === currentPage ? ' active' : ''}`;
+            button.className = `education-page-btn${page === currentPage ? ' active' : ''}`;
             button.type = 'button';
             button.textContent = label;
             button.disabled = disabled;
@@ -101,24 +101,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 300);
     });
 
-    container.querySelector('.lumin-random').addEventListener('click', async () => {
+    container.querySelector('.education-random').addEventListener('click', async () => {
         try {
-            const result = await Lumin.getGames({ page: 1, limit: 100, q: currentQuery });
+            const result = await education.getGames({ page: 1, limit: 100, q: currentQuery });
             if (result.games.length) {
                 const game = result.games[Math.floor(Math.random() * result.games.length)];
                 window.allowPageNavigation?.();
                 window.location.href = `/gameloaders/education.html?id=${encodeURIComponent(game.id)}`;
             }
         } catch (error) {
-            console.error('Lumin random game error:', error);
+            console.error('education random game error:', error);
         }
     });
 
     try {
-        await Lumin.init({ headless: true });
+        await education.init({ headless: true });
         await loadPage(1);
     } catch (error) {
-        console.error('Lumin initialization error:', error);
+        console.error('education initialization error:', error);
         showError();
     }
 });
